@@ -11,10 +11,14 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -29,6 +33,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     TextView tvClientName;
     TextView tvClientEmail;
     DrawerLayout drawer;
+    ImageView redDot;
 
 
     @Override
@@ -82,7 +87,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_main, menu);
+
+
+        final View notifications = menu.findItem(R.id.action_cart).getActionView();
+
+        redDot = (ImageView) notifications.findViewById(R.id.iv_red_notification);
+
         return true;
     }
 
@@ -94,7 +106,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_cart) {
             return true;
         }
 

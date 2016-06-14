@@ -10,7 +10,10 @@
         android:layout_height="match_parent"
         android:text="Vegetables"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:gravity="center"/>
+        android:gravity="center"
+        android:visibility="gone"/>
+
+    <include layout="@layout/recycler_view" />
 
 
 
