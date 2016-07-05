@@ -28,8 +28,7 @@
         android:contentDescription="Notification Icon"
         android:gravity="center"
         android:src="@drawable/notification_dot_24"
-        android:visibility="gone"
-        />
+        android:visibility="gone" />
 
 
 </RelativeLayout>

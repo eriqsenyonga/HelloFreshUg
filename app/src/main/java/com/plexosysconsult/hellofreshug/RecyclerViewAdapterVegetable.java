@@ -28,10 +28,17 @@ public class RecyclerViewAdapterVegetable extends RecyclerView.Adapter<RecyclerV
     Context context;
     List<Item> vegetableList;
     BigDecimalClass bigDecimalClass;
+    MyApplicationClass myApplicationClass = MyApplicationClass.getInstance();
+    MainActivity mainActivity;
+    Cart cart;
 
     public RecyclerViewAdapterVegetable(Context context) {
 
         this.context = context;
+
+        cart = myApplicationClass.getCart();
+
+        mainActivity = (MainActivity) context;
 
         bigDecimalClass = new BigDecimalClass(context);
 
@@ -100,10 +107,10 @@ public class RecyclerViewAdapterVegetable extends RecyclerView.Adapter<RecyclerV
                     @Override
                     public void afterTextChanged(Editable s) {
 
-                        if(tilQuantity.getEditText().getText().toString().isEmpty()){
+                        if (tilQuantity.getEditText().getText().toString().isEmpty()) {
 
                             tvAmount.setText("UGX 0");
-                        }else {
+                        } else {
 
                             tvAmount.setText(bigDecimalClass.convertLongToDisplayCurrencyString((bigDecimalClass.multiplyParameters(vegetableList.get(position).getItemPrice(), tilQuantity.getEditText().getText().toString()))));
                         }
@@ -111,12 +118,40 @@ public class RecyclerViewAdapterVegetable extends RecyclerView.Adapter<RecyclerV
                     }
                 });
 
+
+
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
                 builder.setView(addToCartDialog);
 
-                Dialog d = builder.create();
-                d.show();
+                final Dialog d = builder.create();
 
+
+                fabAddToCart.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        if (tilQuantity.getEditText().getText().toString().isEmpty()) {
+                            tilQuantity.getEditText().setError("Enter Quantity");
+                        } else {
+                            CartItem cartItem = new CartItem(context);
+
+                            cartItem.setItemName(vegetableList.get(position).getItemName());
+                            cartItem.setQuantity(tilQuantity.getEditText().getText().toString());
+                            cartItem.setItemUnitPrice(vegetableList.get(position).getItemPrice());
+
+                            cart.addItemToCart(cartItem);
+
+                            myApplicationClass.updateCart(cart);
+
+                            mainActivity.checkCartForItems();
+
+                            d.dismiss();
+                        }
+
+                    }
+                });
+
+                d.show();
 
             }
         });

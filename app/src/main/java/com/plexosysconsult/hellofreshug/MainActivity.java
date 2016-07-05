@@ -19,7 +19,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 
-
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -34,6 +33,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     TextView tvClientEmail;
     DrawerLayout drawer;
     ImageView redDot;
+    MyApplicationClass myApplicationClass = MyApplicationClass.getInstance();
 
 
     @Override
@@ -145,5 +145,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
         return true;
+    }
+
+    public void checkCartForItems() {
+
+        if (!myApplicationClass.getCart().getCurrentCartItems().isEmpty()) {
+            redDot.setVisibility(View.VISIBLE);
+        } else {
+            redDot.setVisibility(View.GONE);
+        }
+
+
     }
 }
