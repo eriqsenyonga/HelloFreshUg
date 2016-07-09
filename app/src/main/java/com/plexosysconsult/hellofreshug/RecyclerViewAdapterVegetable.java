@@ -32,7 +32,7 @@ public class RecyclerViewAdapterVegetable extends RecyclerView.Adapter<RecyclerV
     MainActivity mainActivity;
     Cart cart;
 
-    public RecyclerViewAdapterVegetable(Context context) {
+    public RecyclerViewAdapterVegetable(Context context, List<Item> veggiesToShow) {
 
         this.context = context;
 
@@ -45,16 +45,8 @@ public class RecyclerViewAdapterVegetable extends RecyclerView.Adapter<RecyclerV
         vegetableList = new ArrayList();
 
 
-        for (int i = 0; i < 30; i++) {
+        vegetableList = veggiesToShow;
 
-            Item veggie = new Item();
-
-            veggie.setItemName("Veggie " + i);
-            veggie.setItemPrice((i + 2) + "000");
-
-            vegetableList.add(veggie);
-
-        }
 
     }
 

@@ -9,6 +9,16 @@ public class Item {
     String itemName;
     String itemPrice;
 
+    public int getItemId() {
+        return itemId;
+    }
+
+    public void setItemId(int itemId) {
+        this.itemId = itemId;
+    }
+
+    int itemId;
+
 
     public String getImageUrl() {
         return imageUrl;
