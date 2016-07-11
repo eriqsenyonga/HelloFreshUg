@@ -8,6 +8,7 @@ public class Item {
     String imageUrl;
     String itemName;
     String itemPrice;
+    int itemId;
 
     public int getItemId() {
         return itemId;
@@ -17,7 +18,7 @@ public class Item {
         this.itemId = itemId;
     }
 
-    int itemId;
+
 
 
     public String getImageUrl() {

@@ -12,10 +12,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.toolbox.ImageLoader;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,12 +66,34 @@ public class RecyclerViewAdapterVegetable extends RecyclerView.Adapter<RecyclerV
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, int position) {
 
         final Item veggie = (Item) this.vegetableList.get(position);
 
         holder.tvItemName.setText(veggie.getItemName());
         holder.tvItemPrice.setText(bigDecimalClass.convertStringToDisplayCurrencyString(veggie.getItemPrice()));
+
+        Glide
+                .with(context)
+                .load(veggie.getImageUrl())
+                .centerCrop()
+                //      .placeholder(R.drawable.placeholder_veggie)
+                .crossFade()
+                .listener(new RequestListener<String, GlideDrawable>() {
+                    @Override
+                    public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
+                        holder.loading.setVisibility(View.GONE);
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
+                        holder.loading.setVisibility(View.GONE);
+                        return false;
+                    }
+                })
+                .into(holder.ivItemImage);
+
 
         holder.setClickListener(new ItemClickListener() {
             @Override
@@ -78,11 +105,15 @@ public class RecyclerViewAdapterVegetable extends RecyclerView.Adapter<RecyclerV
 
                 View addToCartDialog = inflater.inflate(R.layout.dialog_add_item_to_cart_details, null);
 
+
                 TextView tvCartItemName = (TextView) addToCartDialog.findViewById(R.id.tv_item_name);
                 TextView tvCartItemPrice = (TextView) addToCartDialog.findViewById(R.id.tv_item_unit_price);
                 final TextView tvAmount = (TextView) addToCartDialog.findViewById(R.id.tv_amount);
                 final TextInputLayout tilQuantity = (TextInputLayout) addToCartDialog.findViewById(R.id.til_quantity);
                 FloatingActionButton fabAddToCart = (FloatingActionButton) addToCartDialog.findViewById(R.id.fab_add_to_cart);
+
+
+
 
                 tvCartItemName.setText(vegetableList.get(position).getItemName());
                 tvCartItemPrice.setText(vegetableList.get(position).getItemPrice());
@@ -109,7 +140,6 @@ public class RecyclerViewAdapterVegetable extends RecyclerView.Adapter<RecyclerV
 
                     }
                 });
-
 
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
@@ -161,6 +191,7 @@ public class RecyclerViewAdapterVegetable extends RecyclerView.Adapter<RecyclerV
         TextView tvItemName, tvItemPrice;
         ImageView ivItemImage;
         ItemClickListener itemClickListener;
+        ProgressBar loading;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -168,6 +199,7 @@ public class RecyclerViewAdapterVegetable extends RecyclerView.Adapter<RecyclerV
             tvItemName = (TextView) itemView.findViewById(R.id.tv_item_name);
             tvItemPrice = (TextView) itemView.findViewById(R.id.tv_item_price);
             ivItemImage = (ImageView) itemView.findViewById(R.id.iv_item_image);
+            loading = (ProgressBar) itemView.findViewById(R.id.pb_loading);
 
             itemView.setOnClickListener(this);
         }
