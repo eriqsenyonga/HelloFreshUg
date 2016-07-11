@@ -4,6 +4,7 @@ package com.plexosysconsult.hellofreshug;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -38,6 +39,7 @@ public class ShopFruitsFragment extends Fragment {
     String URL_GET_FRUITS = "http://www.hellofreshuganda.com/example/getAllFruits.php";
     MyApplicationClass myApplicationClass = MyApplicationClass.getInstance();
     List<Item> fruitsToShow;
+    SwipeRefreshLayout swipeRefreshLayout;
 
     public ShopFruitsFragment() {
         // Required empty public constructor

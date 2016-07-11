@@ -4,11 +4,12 @@ import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 
 /**
  * Created by senyer on 6/12/2016.
  */
-public class PagerAdapterShop extends FragmentPagerAdapter {
+public class PagerAdapterShop extends FragmentStatePagerAdapter {
 
     Context context;
 
