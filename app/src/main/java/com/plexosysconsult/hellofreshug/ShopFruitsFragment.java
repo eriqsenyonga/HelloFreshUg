@@ -78,9 +78,6 @@ public class ShopFruitsFragment extends Fragment {
 
                         try {
 
-                            Log.d("fruits", "On response");
-                            Log.d("fruits", response);
-
                             JSONObject jsonResponse = new JSONObject(response);
                             putJsonIntoList(jsonResponse);
 
@@ -96,7 +93,7 @@ public class ShopFruitsFragment extends Fragment {
                     public void onErrorResponse(VolleyError error) {
 
                         Toast.makeText(getActivity(), error.toString(), Toast.LENGTH_LONG).show();
-                        Log.d("Fruits Fragment", error.toString());
+
                     }
                 }) {
 
@@ -116,7 +113,6 @@ public class ShopFruitsFragment extends Fragment {
 
     private void putJsonIntoList(JSONObject jsonResponse) {
 
-        Log.d("fruits", "putJsonIntoList");
 
         try {
 
@@ -135,7 +131,6 @@ public class ShopFruitsFragment extends Fragment {
 
                 fruitsToShow.add(fruit);
 
-                Log.d("fruits", "putJsonIntoList - For loop");
 
             }
 
@@ -143,34 +138,11 @@ public class ShopFruitsFragment extends Fragment {
         } catch (JSONException localJSONException) {
             localJSONException.printStackTrace();
 
-            Log.d("fruits", "putJsonIntoList - Errorr");
+
         }
 
-        Log.d("fruits", "putJsonIntoList - setting adapter");
+
         recyclerView.setAdapter(new RecyclerViewAdapterVegetable(getActivity(), fruitsToShow));
-
-        Log.d("fruits", "putJsonIntoList- after adapter set");
-
-    }
-
-    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-
-        if (isVisibleToUser && isResumed()) {
-            onResume();
-        }
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-
-        if (!getUserVisibleHint()) {
-            return;
-        }
-
-        fetchFruitsJson();
 
 
     }
