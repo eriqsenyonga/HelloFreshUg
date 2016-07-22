@@ -22,6 +22,7 @@ public class CartActivity extends AppCompatActivity {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Cart");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         rvCart = (RecyclerView) findViewById(R.id.recycler_view);
         rvCart.hasFixedSize();
