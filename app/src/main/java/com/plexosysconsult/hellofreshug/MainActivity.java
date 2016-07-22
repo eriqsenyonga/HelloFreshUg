@@ -1,5 +1,6 @@
 package com.plexosysconsult.hellofreshug;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -17,6 +18,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -107,6 +109,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_cart) {
+
+            Toast.makeText(this, "open cart", Toast.LENGTH_LONG).show();
+
+            Intent intent = new Intent(MainActivity.this, CartActivity.class);
+            startActivity(intent);
+
+
+
             return true;
         }
 
@@ -154,6 +164,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else {
             redDot.setVisibility(View.GONE);
         }
+
+
+    }
+
+    public void OpenCart(View v){
+
+        Toast.makeText(this, "open cart on click", Toast.LENGTH_LONG).show();
+
+        Intent intent = new Intent(MainActivity.this, CartActivity.class);
+        startActivity(intent);
 
 
     }

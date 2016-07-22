@@ -61,6 +61,9 @@ public class CartItem {
     }
 
     public Long getItemTotalForCalculation(){
+
+        calculateTotal();
+
         return total;
     }
 

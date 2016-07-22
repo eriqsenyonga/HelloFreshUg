@@ -28,9 +28,19 @@ public class Cart {
 
     private void calculateCartTotal() {
 
-        for (int i = 0; i < currentCartItems.size(); i++) {
+        cartTotal = Long.valueOf(0);// reset the total value for recalculation
 
-            cartTotal = bigDecimalClass.addParameters(currentCartItems.get(i).getItemTotalForCalculation(), cartTotal);
+        if (currentCartItems.size() == 1) {
+
+            cartTotal = currentCartItems.get(0).getItemTotalForCalculation();
+
+        } else {
+
+
+            for (int i = 0; i < currentCartItems.size(); i++) {
+
+                cartTotal = bigDecimalClass.addParameters(currentCartItems.get(i).getItemTotalForCalculation(), cartTotal);
+            }
         }
 
     }
