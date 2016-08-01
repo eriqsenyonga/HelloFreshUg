@@ -8,15 +8,16 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:gravity="center"
         android:text="Vegetables"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:gravity="center"
-        android:visibility="gone"/>
+        android:visibility="gone" />
 
-    <include layout="@layout/loading_spinner"/>
+
 
     <include layout="@layout/recycler_view" />
 
+    <include layout="@layout/loading_spinner" />
 
 
 </FrameLayout>

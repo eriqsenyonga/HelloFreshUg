@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -39,6 +40,7 @@ public class ShopVegetablesFragment extends Fragment {
     String URL_GET_VEGETABLES = "http://www.hellofreshuganda.com/example/getAllVegetables.php";
     MyApplicationClass myApplicationClass = MyApplicationClass.getInstance();
     List<Item> veggiesToShow;
+    ProgressBar pbLoading;
 
 
     public ShopVegetablesFragment() {
