@@ -126,6 +126,39 @@ public class ShopSpicesFragment extends Fragment {
                 spice.setItemId(spicesJSON.getInt("id"));
                 spice.setItemPrice(spicesJSON.getString("price"));
 
+                spice.setItemShortDescription(spicesJSON.getString("short_description"));
+
+                JSONArray variationArray = spicesJSON.getJSONArray("variations");
+
+                if (variationArray.length() > 0) {
+
+                    spice.setHasVariations(true);
+
+                    List<Item> variations = new ArrayList<>();
+
+                    for (int j = 0; j < variationArray.length(); j++) {
+
+                        JSONObject variationJSONObject = variationArray.getJSONObject(j);
+
+                        Item variationSpice = new Item();
+                        variationSpice.setItemId(variationJSONObject.getInt("id"));
+                        variationSpice.setItemPrice(variationJSONObject.getString("price"));
+                        variationSpice.setOptionUnit(variationJSONObject.getJSONArray("attributes").getJSONObject(0).getString("option"));
+
+                        variations.add(variationSpice);
+
+                    }
+
+                    spice.setItemVariations(variations);
+
+
+                } else {
+
+                    spice.setHasVariations(false);
+                }
+
+
+
                 spicesToShow.add(spice);
 
             }

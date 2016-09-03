@@ -130,6 +130,38 @@ public class ShopVegetablesFragment extends Fragment {
                 vegetable.setItemId(vegetableJSON.getInt("id"));
                 vegetable.setItemPrice(vegetableJSON.getString("price"));
 
+                vegetable.setItemShortDescription(vegetableJSON.getString("short_description"));
+
+                JSONArray variationArray = vegetableJSON.getJSONArray("variations");
+
+                if (variationArray.length() > 0) {
+
+                    vegetable.setHasVariations(true);
+
+                    List<Item> variations = new ArrayList<>();
+
+                    for (int j = 0; j < variationArray.length(); j++) {
+
+                        JSONObject variationJSONObject = variationArray.getJSONObject(j);
+
+                        Item variationVegetable = new Item();
+                        variationVegetable.setItemId(variationJSONObject.getInt("id"));
+                        variationVegetable.setItemPrice(variationJSONObject.getString("price"));
+                        variationVegetable.setOptionUnit(variationJSONObject.getJSONArray("attributes").getJSONObject(0).getString("option"));
+
+                        variations.add(variationVegetable);
+
+                    }
+
+                    vegetable.setItemVariations(variations);
+
+
+                } else {
+
+                    vegetable.setHasVariations(false);
+                }
+
+
                 veggiesToShow.add(vegetable);
 
             }

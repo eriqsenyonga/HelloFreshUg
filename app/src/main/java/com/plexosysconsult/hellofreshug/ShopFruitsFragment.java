@@ -129,6 +129,37 @@ public class ShopFruitsFragment extends Fragment {
                 fruit.setItemId(fruitJSON.getInt("id"));
                 fruit.setItemPrice(fruitJSON.getString("price"));
 
+                fruit.setItemShortDescription(fruitJSON.getString("short_description"));
+
+                JSONArray variationArray = fruitJSON.getJSONArray("variations");
+
+                if (variationArray.length() > 0) {
+
+                    fruit.setHasVariations(true);
+
+                    List<Item> variations = new ArrayList<>();
+
+                    for (int j = 0; j < variationArray.length(); j++) {
+
+                        JSONObject variationJSONObject = variationArray.getJSONObject(j);
+
+                        Item variationFruit = new Item();
+                        variationFruit.setItemId(variationJSONObject.getInt("id"));
+                        variationFruit.setItemPrice(variationJSONObject.getString("price"));
+                        variationFruit.setOptionUnit(variationJSONObject.getJSONArray("attributes").getJSONObject(0).getString("option"));
+
+                        variations.add(variationFruit);
+
+                    }
+
+                    fruit.setItemVariations(variations);
+
+
+                } else {
+
+                    fruit.setHasVariations(false);
+                }
+
                 fruitsToShow.add(fruit);
 
 
