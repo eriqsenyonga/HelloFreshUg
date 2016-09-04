@@ -158,8 +158,18 @@ public class RecyclerViewAdapterVegetable extends RecyclerView.Adapter<RecyclerV
                             CartItem cartItem = new CartItem(context);
 
                             cartItem.setItemName(vegetableList.get(position).getItemName());
+                            cartItem.setItemId(vegetableList.get(position).getItemId());
+
                             cartItem.setQuantity(tilQuantity.getEditText().getText().toString());
                             cartItem.setItemUnitPrice(vegetableList.get(position).getItemPrice());
+
+                            if(vegetableList.get(position).getHasVariations()){
+
+
+
+
+
+                            }
 
                             cart.addItemToCart(cartItem);
 

@@ -38,6 +38,7 @@ public class ShopSpicesFragment extends Fragment {
     String URL_GET_SPICES = "http://www.hellofreshuganda.com/example/getAllSpices.php";
     MyApplicationClass myApplicationClass = MyApplicationClass.getInstance();
     List<Item> spicesToShow;
+    UsefulFunctions usefulFunctions;
 
     public ShopSpicesFragment() {
         // Required empty public constructor
@@ -58,6 +59,7 @@ public class ShopSpicesFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
 
+        usefulFunctions = new UsefulFunctions();
         recyclerView.hasFixedSize();
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
 
@@ -126,7 +128,7 @@ public class ShopSpicesFragment extends Fragment {
                 spice.setItemId(spicesJSON.getInt("id"));
                 spice.setItemPrice(spicesJSON.getString("price"));
 
-                spice.setItemShortDescription(spicesJSON.getString("short_description"));
+                spice.setItemShortDescription(usefulFunctions.stripHtml(spicesJSON.getString("short_description")));
 
                 JSONArray variationArray = spicesJSON.getJSONArray("variations");
 

@@ -41,6 +41,7 @@ public class ShopVegetablesFragment extends Fragment {
     MyApplicationClass myApplicationClass = MyApplicationClass.getInstance();
     List<Item> veggiesToShow;
     ProgressBar pbLoading;
+    UsefulFunctions usefulFunctions;
 
 
     public ShopVegetablesFragment() {
@@ -61,6 +62,8 @@ public class ShopVegetablesFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+
+        usefulFunctions = new UsefulFunctions();
 
         recyclerView.hasFixedSize();
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
@@ -130,7 +133,9 @@ public class ShopVegetablesFragment extends Fragment {
                 vegetable.setItemId(vegetableJSON.getInt("id"));
                 vegetable.setItemPrice(vegetableJSON.getString("price"));
 
-                vegetable.setItemShortDescription(vegetableJSON.getString("short_description"));
+                vegetable.setItemShortDescription( usefulFunctions.stripHtml(vegetableJSON.getString("short_description")));
+
+
 
                 JSONArray variationArray = vegetableJSON.getJSONArray("variations");
 

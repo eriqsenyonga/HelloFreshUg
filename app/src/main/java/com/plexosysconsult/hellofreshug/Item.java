@@ -47,7 +47,7 @@ public class Item {
     }
 
     public void setItemShortDescription(String itemShortDescription) {
-        this.itemShortDescription = itemShortDescription;
+        this.itemShortDescription = itemShortDescription.trim();
     }
 
     public List<Item> getItemVariations() {
@@ -83,7 +83,7 @@ public class Item {
 
         if(getItemShortDescription().contains("Kilogram")){
 
-            return itemName + "(" + getItemShortDescription() +  ")";
+            return itemName + " (" + getItemShortDescription() +  ")";
 
         }
 

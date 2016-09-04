@@ -8,6 +8,8 @@ import android.content.Context;
 public class CartItem {
 
     String itemName;
+    int itemId;
+    String itemVariationId;
     String itemUnitPrice;
     String quantity;
     Long total;
@@ -17,6 +19,22 @@ public class CartItem {
 
         bigDecimalClass = new BigDecimalClass(context);
 
+    }
+
+    public int getItemId() {
+        return itemId;
+    }
+
+    public void setItemId(int itemId) {
+        this.itemId = itemId;
+    }
+
+    public String getItemVariationId() {
+        return itemVariationId;
+    }
+
+    public void setItemVariationId(String itemVariationId) {
+        this.itemVariationId = itemVariationId;
     }
 
     public String getItemName() {

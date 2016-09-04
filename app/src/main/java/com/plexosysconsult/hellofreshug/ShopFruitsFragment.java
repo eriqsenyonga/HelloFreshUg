@@ -29,6 +29,8 @@ import java.util.List;
 import java.util.Map;
 
 
+
+
 /**
  * A simple {@link Fragment} subclass.
  */
@@ -40,6 +42,7 @@ public class ShopFruitsFragment extends Fragment {
     MyApplicationClass myApplicationClass = MyApplicationClass.getInstance();
     List<Item> fruitsToShow;
     SwipeRefreshLayout swipeRefreshLayout;
+    UsefulFunctions usefulFunctions;
 
     public ShopFruitsFragment() {
         // Required empty public constructor
@@ -58,6 +61,8 @@ public class ShopFruitsFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        usefulFunctions = new UsefulFunctions();
 
 
         recyclerView.hasFixedSize();
@@ -129,7 +134,7 @@ public class ShopFruitsFragment extends Fragment {
                 fruit.setItemId(fruitJSON.getInt("id"));
                 fruit.setItemPrice(fruitJSON.getString("price"));
 
-                fruit.setItemShortDescription(fruitJSON.getString("short_description"));
+                fruit.setItemShortDescription(usefulFunctions.stripHtml(fruitJSON.getString("short_description")));
 
                 JSONArray variationArray = fruitJSON.getJSONArray("variations");
 
