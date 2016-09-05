@@ -9,7 +9,8 @@ public class CartItem {
 
     String itemName;
     int itemId;
-    String itemVariationId;
+    int itemVariationId;
+    boolean isVariation = false;
     String itemUnitPrice;
     String quantity;
     Long total;
@@ -21,6 +22,14 @@ public class CartItem {
 
     }
 
+    public boolean isVariation() {
+        return isVariation;
+    }
+
+    public void setIsVariation(boolean variation) {
+        isVariation = variation;
+    }
+
     public int getItemId() {
         return itemId;
     }
@@ -29,11 +38,11 @@ public class CartItem {
         this.itemId = itemId;
     }
 
-    public String getItemVariationId() {
+    public int getItemVariationId() {
         return itemVariationId;
     }
 
-    public void setItemVariationId(String itemVariationId) {
+    public void setItemVariationId(int itemVariationId) {
         this.itemVariationId = itemVariationId;
     }
 

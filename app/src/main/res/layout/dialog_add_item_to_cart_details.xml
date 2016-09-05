@@ -14,8 +14,22 @@
         android:gravity="center"
         android:text="Bayleaves (Bundle)"
         android:textAppearance="?android:attr/textAppearanceLarge"
-
         android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tv_label_options"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="left"
+        android:text="Options"
+        android:textStyle="bold" />
+
+    <Spinner
+        android:id="@+id/spn_variations"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        />
 
     <TextView
         android:id="@+id/tv_item_unit_price"
@@ -24,8 +38,9 @@
         android:gravity="center"
         android:text="UGX 3,500"
         android:textAppearance="?android:attr/textAppearanceMedium"
-
+        android:layout_marginTop="4dp"
         android:textStyle="bold" />
+
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/til_quantity"
@@ -62,7 +77,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="right"
-            android:text="UGX 7,000"
+
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
 

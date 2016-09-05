@@ -72,5 +72,14 @@ public class Cart {
         currentCartItems.removeAll(currentCartItems);
     }
 
+    public String getCartGrandTotal(){
+
+        calculateCartTotal();
+
+        Long grandTotal =  bigDecimalClass.addParameters(cartTotal, (long) 10000);
+
+        return bigDecimalClass.convertLongToDisplayCurrencyString(grandTotal);
+
+    }
 
 }

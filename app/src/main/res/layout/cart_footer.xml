@@ -10,9 +10,11 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="TOTAL"
+        android:text="Sub Total"
 
         />
+
+
 
     <TextView
         android:id="@+id/tv_total_price"

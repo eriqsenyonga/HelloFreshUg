@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 public class CartActivity extends AppCompatActivity {
 
@@ -15,7 +16,10 @@ public class CartActivity extends AppCompatActivity {
     LinearLayoutManager linearLayoutManager;
     Toolbar toolbar;
     Button bCheckOut;
+    TextView tvGrandTotal;
     RecyclerViewAdapterCart adapter;
+    MyApplicationClass myApplicationClass = MyApplicationClass.getInstance();
+    Cart cart;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +30,9 @@ public class CartActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Cart");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        tvGrandTotal = (TextView) findViewById(R.id.tv_grand_total);
+        cart = myApplicationClass.getCart();
 
         bCheckOut = (Button) findViewById(R.id.b_checkout);
 
@@ -39,6 +46,8 @@ public class CartActivity extends AppCompatActivity {
         adapter = new RecyclerViewAdapterCart(this);
 
         rvCart.setAdapter(adapter);
+
+        tvGrandTotal.setText(cart.getCartGrandTotal());
 
         bCheckOut.setOnClickListener(new View.OnClickListener() {
             @Override
