@@ -79,7 +79,7 @@ public class BillingDetails extends AppCompatActivity implements View.OnClickLis
                 orderObject.put("payment_method", "COD");
                 orderObject.put("payment_method_title", "Cash on Delivery");
                 orderObject.put("set_paid", true);
-                orderObject.put("status", "processing");
+             //   orderObject.put("status", "processing");
                 orderObject.put("shipping_total", 10000);
 
                 //add billing jsonArray
@@ -100,7 +100,7 @@ public class BillingDetails extends AppCompatActivity implements View.OnClickLis
 
                 billingJsonArray.put(billingJson);
 
-                orderObject.put("billing", billingJsonArray);
+                orderObject.put("billing_address", billingJson);
 
                 //add shipping jsonArray
 
@@ -118,7 +118,7 @@ public class BillingDetails extends AppCompatActivity implements View.OnClickLis
 
                 shippingJsonArray.put(shippingJson);
 
-                orderObject.put("shipping", shippingJsonArray);
+                orderObject.put("shipping_address", shippingJson);
 
                 //add line_items json array
                 JSONArray lineItemsJsonArray = new JSONArray();
@@ -200,6 +200,8 @@ public class BillingDetails extends AppCompatActivity implements View.OnClickLis
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
+
+                        Log.d("order response string", response);
 
                         try {
 
