@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -29,8 +30,6 @@ import java.util.List;
 import java.util.Map;
 
 
-
-
 /**
  * A simple {@link Fragment} subclass.
  */
@@ -43,6 +42,7 @@ public class ShopFruitsFragment extends Fragment {
     List<Item> fruitsToShow;
     SwipeRefreshLayout swipeRefreshLayout;
     UsefulFunctions usefulFunctions;
+    ProgressBar pbLoading;
 
     public ShopFruitsFragment() {
         // Required empty public constructor
@@ -55,6 +55,7 @@ public class ShopFruitsFragment extends Fragment {
         // Inflate the layout for this fragment
         v = inflater.inflate(R.layout.fragment_shop_fruits, container, false);
         recyclerView = (RecyclerView) v.findViewById(R.id.recycler_view);
+        pbLoading = (ProgressBar) v.findViewById(R.id.pb_loading);
         return v;
     }
 
@@ -85,6 +86,7 @@ public class ShopFruitsFragment extends Fragment {
 
                             JSONObject jsonResponse = new JSONObject(response);
                             putJsonIntoList(jsonResponse);
+                            pbLoading.setVisibility(View.GONE);
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -98,6 +100,7 @@ public class ShopFruitsFragment extends Fragment {
                     public void onErrorResponse(VolleyError error) {
 
                         Toast.makeText(getActivity(), error.toString(), Toast.LENGTH_LONG).show();
+                        pbLoading.setVisibility(View.GONE);
 
                     }
                 }) {

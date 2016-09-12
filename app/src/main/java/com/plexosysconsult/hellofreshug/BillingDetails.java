@@ -1,5 +1,6 @@
 package com.plexosysconsult.hellofreshug;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -207,6 +208,9 @@ public class BillingDetails extends AppCompatActivity implements View.OnClickLis
 
                             JSONObject jsonResponse = new JSONObject(response);
                             Log.d("return_order", response);
+
+                            Intent i = new Intent(BillingDetails.this, OrderSuccessActivity.class);
+                            startActivity(i);
 
                         } catch (JSONException e) {
                             e.printStackTrace();
