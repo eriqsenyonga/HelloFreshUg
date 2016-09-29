@@ -108,7 +108,7 @@ public class RecyclerViewAdapterVegetable extends RecyclerView.Adapter<RecyclerV
             @Override
             public void onClick(View view, final int position, boolean isLongClick) {
 
-                Toast.makeText(context, vegetableList.get(position).getItemName() + ": " + vegetableList.get(position).getItemPrice(), Toast.LENGTH_LONG).show();
+              //  Toast.makeText(context, vegetableList.get(position).getItemName() + ": " + vegetableList.get(position).getItemPrice(), Toast.LENGTH_LONG).show();
 
                 LayoutInflater inflater = LayoutInflater.from(context);
 

@@ -1,6 +1,8 @@
 package com.plexosysconsult.hellofreshug;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -37,6 +39,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     DrawerLayout drawer;
     ImageView redDot;
     MyApplicationClass myApplicationClass = MyApplicationClass.getInstance();
+    SharedPreferences mPositionSavedPrefs;
+    SharedPreferences.Editor posSavedEditor;
 
 
     @Override
@@ -58,6 +62,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         fm = getSupportFragmentManager();
 
+        mPositionSavedPrefs = getSharedPreferences("mPositionSaved",
+                Context.MODE_PRIVATE);
+        posSavedEditor = mPositionSavedPrefs.edit();
+
 
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -76,17 +84,53 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
-        if(getIntent().hasExtra("beginning")){
+        if (getIntent().hasExtra("beginning")) {
 
             fm.beginTransaction().replace(R.id.contentMain, new ShopFragment()).commit();
             drawer.openDrawer(GravityCompat.START);
+            posSavedEditor.putInt("last_main_position", R.id.nav_shop).apply();
+            getSupportActionBar().setTitle("Shop");
 
-        }else{
+        } else {
 
-            fm.beginTransaction().replace(R.id.contentMain, new ShopFragment()).commit();
+            Fragment fragment = null;
+            CharSequence title = null;
+
+            int id = mPositionSavedPrefs.getInt(
+                    "last_main_position", 1);
+
+            if (id == R.id.nav_my_account) {
+                fragment = new MyAccountFragment();
+                title = "My Account";
+
+            }
+
+            if (id == R.id.nav_shop) {
+                fragment = new ShopFragment();
+                title = "Shop";
+            }
+
+            if (id == R.id.nav_orders) {
+                fragment = new OrdersFragment();
+                title = "Orders";
+            }
+
+            if (id == R.id.nav_recipes) {
+                fragment = new RecipesFragment();
+                title = "Recipes";
+            }
+
+            if (fragment != null) {
+
+                fm.beginTransaction().replace(R.id.contentMain, fragment).commit();
+                getSupportActionBar().setTitle(title);
+
+                drawer.closeDrawer(GravityCompat.START);
+
+            }
         }
 
-       // checkCartForItems();
+        // checkCartForItems();
     }
 
     @Override
@@ -123,11 +167,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_cart) {
 
-            Toast.makeText(this, "open cart", Toast.LENGTH_LONG).show();
+            //     Toast.makeText(this, "open cart", Toast.LENGTH_LONG).show();
+
 
             Intent intent = new Intent(MainActivity.this, CartActivity.class);
             startActivity(intent);
-
 
 
             return true;
@@ -162,6 +206,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             fm.beginTransaction().replace(R.id.contentMain, fragment).commit();
             getSupportActionBar().setTitle(item.getTitle());
+            posSavedEditor.putInt("last_main_position", id).apply();
             drawer.closeDrawer(GravityCompat.START);
             item.setChecked(true);
         }
@@ -181,13 +226,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
-    public void OpenCart(View v){
+    public void OpenCart(View v) {
 
-        Toast.makeText(this, "Open cart on click", Toast.LENGTH_LONG).show();
+        //  Toast.makeText(this, "Open cart on click", Toast.LENGTH_LONG).show();
 
-        Intent intent = new Intent(MainActivity.this, CartActivity.class);
-        startActivity(intent);
+        if (myApplicationClass.getCart().getCurrentCartItems().isEmpty()) {
 
+            Toast.makeText(this, "Cart is empty", Toast.LENGTH_LONG).show();
+
+
+        } else {
+
+            Intent intent = new Intent(MainActivity.this, CartActivity.class);
+            startActivity(intent);
+        }
 
     }
 }

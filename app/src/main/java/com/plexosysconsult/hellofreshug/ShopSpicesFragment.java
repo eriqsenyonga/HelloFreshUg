@@ -92,7 +92,7 @@ public class ShopSpicesFragment extends Fragment {
                     @Override
                     public void onErrorResponse(VolleyError error) {
 
-                        Toast.makeText(getActivity(), error.toString(), Toast.LENGTH_LONG).show();
+           //             Toast.makeText(getActivity(), error.toString(), Toast.LENGTH_LONG).show();
                         Log.d("Spices Fragment", error.toString());
                     }
                 }) {

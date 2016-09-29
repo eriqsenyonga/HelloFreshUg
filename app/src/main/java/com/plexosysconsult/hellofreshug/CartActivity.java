@@ -45,6 +45,13 @@ public class CartActivity extends AppCompatActivity {
 
         adapter = new RecyclerViewAdapterCart(this);
 
+        adapter.setCartDataChangedListener(new CartDataChanged() {
+            @Override
+            public void onCartDataChanged() {
+                tvGrandTotal.setText(cart.getCartGrandTotal());
+            }
+        });
+
         rvCart.setAdapter(adapter);
 
         tvGrandTotal.setText(cart.getCartGrandTotal());
@@ -60,5 +67,9 @@ public class CartActivity extends AppCompatActivity {
         });
 
 
+
+
     }
+
+
 }

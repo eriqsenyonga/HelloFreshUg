@@ -1,10 +1,18 @@
 package com.plexosysconsult.hellofreshug;
 
+import android.app.Dialog;
 import android.content.Context;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.TextInputLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,6 +31,8 @@ public class RecyclerViewAdapterCart extends RecyclerView.Adapter<RecyclerView.V
     Cart cart;
     List<CartItem> cartItemList;
     Context context;
+    BigDecimalClass bigDecimalClass;
+    CartDataChanged cartDataChanged;
 
     public RecyclerViewAdapterCart(Context context) {
 
@@ -34,8 +44,15 @@ public class RecyclerViewAdapterCart extends RecyclerView.Adapter<RecyclerView.V
 
         cartItemList = cart.getCurrentCartItems();
 
+        bigDecimalClass = new BigDecimalClass(context);
+
+        this.cartDataChanged = null;
+
     }
 
+    public void setCartDataChangedListener(CartDataChanged listener) {
+        this.cartDataChanged = listener;
+    }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -67,11 +84,115 @@ public class RecyclerViewAdapterCart extends RecyclerView.Adapter<RecyclerView.V
 
             CartItemViewHolder cartItemViewHolder = (CartItemViewHolder) holder;
 
-            CartItem cartItem = cartItemList.get(position - 1);
+            final CartItem cartItem = cartItemList.get(position - 1);
 
             cartItemViewHolder.tvProduct.setText(cartItem.getItemName());
             cartItemViewHolder.tvQuantity.setText(cartItem.getQuantity());
             cartItemViewHolder.tvPrice.setText(cartItem.getItemTotalForShow());
+
+
+            cartItemViewHolder.setClickListener(new ItemClickListener() {
+                @Override
+                public void onClick(View view, final int position, boolean isLongClick) {
+
+
+                    LayoutInflater inflater = LayoutInflater.from(context);
+
+                    View addToCartDialog = inflater.inflate(R.layout.dialog_cart_item_edit, null);
+
+                    final TextView tvCartItemName = (TextView) addToCartDialog.findViewById(R.id.tv_item_name);
+                    final TextView tvCartItemPrice = (TextView) addToCartDialog.findViewById(R.id.tv_item_unit_price);
+                    final TextView tvAmount = (TextView) addToCartDialog.findViewById(R.id.tv_amount);
+                    final TextInputLayout tilQuantity = (TextInputLayout) addToCartDialog.findViewById(R.id.til_quantity);
+                    final Button bSave = (Button) addToCartDialog.findViewById(R.id.b_save);
+                    final Button bCancel = (Button) addToCartDialog.findViewById(R.id.b_cancel);
+
+
+                    tvCartItemName.setText(cartItem.getItemName());
+                    tvCartItemPrice.setText(cartItem.getItemUnitPrice());
+                    tilQuantity.getEditText().setText(cartItem.getQuantity());
+                    tvAmount.setText(cartItem.getItemTotalForShow());
+
+                    tilQuantity.getEditText().addTextChangedListener(new TextWatcher() {
+                        @Override
+                        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                        }
+
+                        @Override
+                        public void onTextChanged(CharSequence s, int start, int before, int count) {
+                        }
+
+                        @Override
+                        public void afterTextChanged(Editable s) {
+
+                            if (tilQuantity.getEditText().getText().toString().isEmpty()) {
+
+                                tvAmount.setText("UGX 0");
+                            } else {
+
+                                tvAmount.setText(bigDecimalClass.convertLongToDisplayCurrencyString((bigDecimalClass.multiplyParameters(tvCartItemPrice.getText().toString(), tilQuantity.getEditText().getText().toString()))));
+                            }
+
+
+                        }
+
+
+                    });
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    builder.setView(addToCartDialog);
+
+                    final Dialog d = builder.create();
+
+                    bCancel.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            d.dismiss();
+                        }
+                    });
+
+                    bSave.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            if (tilQuantity.getEditText().getText().toString().isEmpty()) {
+                                tilQuantity.getEditText().setError("Enter Quantity");
+                            } else {
+
+                                if (tilQuantity.getEditText().getText().toString().equals("0")) {
+
+                                    cartItemList.remove(cartItem);
+
+                                } else {
+
+                                    CartItem newCartItem = new CartItem(context);
+
+
+                                    newCartItem.setItemName(tvCartItemName.getText().toString());
+                                    newCartItem.setItemId(cartItem.getItemId());
+
+                                    newCartItem.setQuantity(tilQuantity.getEditText().getText().toString());
+                                    newCartItem.setItemUnitPrice(cartItem.getItemUnitPrice());
+
+
+                                    cartItemList.set(position - 1, newCartItem);
+
+                                }
+
+                                d.dismiss();
+
+                                notifyDataSetChanged();
+
+                                cartDataChanged.onCartDataChanged();
+
+                            }
+                        }
+                    });
+
+                    d.show();
+
+
+                }
+            });
 
 
         }
@@ -138,8 +259,9 @@ public class RecyclerViewAdapterCart extends RecyclerView.Adapter<RecyclerView.V
         }
     }
 
-    public static class CartItemViewHolder extends RecyclerView.ViewHolder {
+    public static class CartItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView tvQuantity, tvProduct, tvPrice;
+        ItemClickListener itemClickListener;
 
 
         public CartItemViewHolder(View itemView) {
@@ -148,6 +270,17 @@ public class RecyclerViewAdapterCart extends RecyclerView.Adapter<RecyclerView.V
             tvQuantity = (TextView) itemView.findViewById(R.id.tv_quantity);
             tvProduct = (TextView) itemView.findViewById(R.id.tv_product);
             tvPrice = (TextView) itemView.findViewById(R.id.tv_price);
+
+            itemView.setOnClickListener(this);
+        }
+
+        public void setClickListener(ItemClickListener itemClickListener) {
+            this.itemClickListener = itemClickListener;
+        }
+
+        @Override
+        public void onClick(View v) {
+            this.itemClickListener.onClick(v, getAdapterPosition(), false);
         }
     }
 }

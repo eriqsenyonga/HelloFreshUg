@@ -99,7 +99,7 @@ public class ShopFruitsFragment extends Fragment {
                     @Override
                     public void onErrorResponse(VolleyError error) {
 
-                        Toast.makeText(getActivity(), error.toString(), Toast.LENGTH_LONG).show();
+//                        Toast.makeText(getActivity(), error.toString(), Toast.LENGTH_LONG).show();
                         pbLoading.setVisibility(View.GONE);
 
                     }
