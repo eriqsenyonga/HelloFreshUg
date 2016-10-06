@@ -63,8 +63,8 @@ public class ShopFruitsFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        usefulFunctions = new UsefulFunctions();
 
+usefulFunctions = new UsefulFunctions();
 
         recyclerView.hasFixedSize();
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));

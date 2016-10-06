@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -19,6 +20,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -39,6 +41,7 @@ public class RecipesFragment extends Fragment {
     MyApplicationClass myApplicationClass = MyApplicationClass.getInstance();
     List<Recipe> recipeList;
     ProgressBar pbLoading;
+    UsefulFunctions usefulFunctions;
     View v;
 
 
@@ -65,6 +68,7 @@ public class RecipesFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+        usefulFunctions = new UsefulFunctions();
 
         rvRecipes.hasFixedSize();
         rvRecipes.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -73,7 +77,7 @@ public class RecipesFragment extends Fragment {
         recipeList = new ArrayList();
 
 
-fetchFruitsJson();
+        fetchFruitsJson();
     }
 
     private void fetchFruitsJson() {
@@ -84,9 +88,9 @@ fetchFruitsJson();
                     public void onResponse(String response) {
 
                         try {
-                            Log.d("recipes", response);
+
                             JSONObject jsonResponse = new JSONObject(response);
-                           // putJsonIntoList(jsonResponse);
+                            putJsonIntoList(jsonResponse);
                             pbLoading.setVisibility(View.GONE);
 
                         } catch (JSONException e) {
@@ -117,6 +121,45 @@ fetchFruitsJson();
 
 
         myApplicationClass.add(recipeRequest);
+
+    }
+
+    private void putJsonIntoList(JSONObject jsonResponse) {
+
+
+        try {
+
+            JSONArray recipesJArray = jsonResponse.getJSONArray("posts");
+
+            for (int i = 0; i < recipesJArray.length(); i++) {
+
+                JSONObject recipeJson = recipesJArray.getJSONObject(i);
+
+                Recipe recipe = new Recipe();
+
+                recipe.setTitle(usefulFunctions.stripHtml(recipeJson.getString("title")));
+                recipe.setImageUrl(recipeJson.getJSONObject("thumbnail_images").getJSONObject("full").getString("url"));
+                recipe.setBody(recipeJson.getString("content"));
+
+
+                //     fruit.setItemShortDescription(usefulFunctions.stripHtml(recipeJson.getString("short_description")));
+
+
+                recipeList.add(recipe);
+
+
+            }
+
+
+        } catch (JSONException localJSONException) {
+            localJSONException.printStackTrace();
+
+
+        }
+
+
+        rvRecipes.setAdapter(new RecyclerViewAdapterRecipe(getActivity(), recipeList));
+
 
     }
 }

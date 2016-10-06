@@ -2,7 +2,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.plexosysconsult.hellofreshug.RecipesFragment">
+    tools:context="com.plexosysconsult.hellofreshug.RecipesFragment"
+    android:background="@drawable/bg">
 
     <!-- TODO: Update blank fragment layout -->
 
