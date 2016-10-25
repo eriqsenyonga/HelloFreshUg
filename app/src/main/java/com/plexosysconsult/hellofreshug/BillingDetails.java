@@ -73,6 +73,7 @@ public class BillingDetails extends AppCompatActivity implements View.OnClickLis
 
             //on clicking Place Order, organise the order details to JSON ie the cart and the billing details plus the mode of payment
 
+           bPlaceOrder.setEnabled(false);
 
             try {
                 JSONObject orderObject = new JSONObject();
@@ -211,9 +212,10 @@ public class BillingDetails extends AppCompatActivity implements View.OnClickLis
 
                             Intent i = new Intent(BillingDetails.this, OrderSuccessActivity.class);
                             startActivity(i);
-
+                            bPlaceOrder.setEnabled(true);
                         } catch (JSONException e) {
                             e.printStackTrace();
+                            bPlaceOrder.setEnabled(true);
                         }
 
 
@@ -224,6 +226,8 @@ public class BillingDetails extends AppCompatActivity implements View.OnClickLis
                     public void onErrorResponse(VolleyError error) {
 
                         Toast.makeText(BillingDetails.this, error.toString(), Toast.LENGTH_LONG).show();
+
+                        bPlaceOrder.setEnabled(true);
 
                     }
                 }) {

@@ -1,6 +1,8 @@
 package com.plexosysconsult.hellofreshug;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,15 +26,13 @@ public class RecyclerViewAdapterRecipe extends RecyclerView.Adapter<RecyclerView
     Context context;
     List<Recipe> recipeList;
 
-    public RecyclerViewAdapterRecipe(Context c, List<Recipe> recipes){
+    public RecyclerViewAdapterRecipe(Context c, List<Recipe> recipes) {
 
         this.context = c;
 
         this.recipeList = recipes;
 
     }
-
-
 
 
     @Override
@@ -54,7 +54,7 @@ public class RecyclerViewAdapterRecipe extends RecyclerView.Adapter<RecyclerView
         final Recipe recipe = (Recipe) this.recipeList.get(position);
 
         holder.tvRecipeTitle.setText(recipe.getTitle());
-     //   holder.tvItemPrice.setText(bigDecimalClass.convertStringToDisplayCurrencyString(veggie.getItemPrice()));
+        //   holder.tvItemPrice.setText(bigDecimalClass.convertStringToDisplayCurrencyString(veggie.getItemPrice()));
 
         //  final int selectedVariation = 0;
 
@@ -78,6 +78,25 @@ public class RecyclerViewAdapterRecipe extends RecyclerView.Adapter<RecyclerView
                     }
                 })
                 .into(holder.ivRecipeImage);
+
+
+        holder.setClickListener(new ItemClickListener() {
+            @Override
+            public void onClick(View view, int position, boolean isLongClick) {
+
+
+                Bundle recipeBundle = new Bundle();
+                recipeBundle.putString("title", recipe.getTitle());
+                recipeBundle.putString("body", recipe.getBody());
+                recipeBundle.putString("imageUrl", recipe.getImageUrl());
+
+                Intent i = new Intent(context, RecipeDetails.class);
+                i.putExtra("recipe_details", recipeBundle);
+                context.startActivity(i);
+
+
+            }
+        });
 
 
     }
