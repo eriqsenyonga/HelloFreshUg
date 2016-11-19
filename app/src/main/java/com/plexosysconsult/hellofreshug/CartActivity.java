@@ -17,6 +17,7 @@ public class CartActivity extends AppCompatActivity {
     Toolbar toolbar;
     Button bCheckOut;
     TextView tvGrandTotal;
+    String testVCS;
     RecyclerViewAdapterCart adapter;
     MyApplicationClass myApplicationClass = MyApplicationClass.getInstance();
     Cart cart;
@@ -30,6 +31,7 @@ public class CartActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Cart");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        testVCS = "testVCS";
 
         tvGrandTotal = (TextView) findViewById(R.id.tv_grand_total);
         cart = myApplicationClass.getCart();
