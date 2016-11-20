@@ -202,6 +202,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             fragment = new RecipesFragment();
         }
 
+        if(id == R.id.nav_contact_us){
+
+            Intent i = new Intent(MainActivity.this, SplashScreen.class);
+            startActivity(i);
+        }
+
         if (fragment != null) {
 
             fm.beginTransaction().replace(R.id.contentMain, fragment).commit();

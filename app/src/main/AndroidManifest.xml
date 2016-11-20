@@ -13,7 +13,7 @@
         android:theme="@style/LightGreenTheme">
         <activity
             android:name=".MainActivity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".CartActivity"
             android:parentActivityName=".MainActivity"
@@ -42,6 +42,10 @@
             android:name=".RecipeDetails"
             android:parentActivityName=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".SplashScreen"
+            android:label="@string/title_activity_splash_screen"
+            android:theme="@style/LightGreenTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
