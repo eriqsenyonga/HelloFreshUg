@@ -12,7 +12,7 @@
     tools:showIn="@layout/activity_splash_screen">
 
 
-    <ImageView
+    <com.flaviofaria.kenburnsview.KenBurnsView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
@@ -47,8 +47,10 @@
                 android:text="HELLO FRESH UG"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textColor="#ffffff"
+                android:textSize="@dimen/hello_size"
                 android:textStyle="bold"
-                android:textSize="26sp"/>
+
+                />
 
 
             <android.support.v7.widget.CardView
