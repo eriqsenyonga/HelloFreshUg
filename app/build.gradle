@@ -33,4 +33,5 @@ dependencies {
     compile 'com.github.paolorotolo:appintro:4.0.0'
     compile 'com.flaviofaria:kenburnsview:1.0.7'
 
+
 }

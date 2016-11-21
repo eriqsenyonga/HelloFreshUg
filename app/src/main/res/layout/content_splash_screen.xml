@@ -45,10 +45,10 @@
                 android:paddingBottom="16dp"
                 android:paddingTop="16dp"
                 android:text="HELLO FRESH UG"
-                android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textColor="#ffffff"
                 android:textSize="@dimen/hello_size"
                 android:textStyle="bold"
+                android:typeface="normal"
 
                 />
 
@@ -81,7 +81,7 @@
             android:paddingBottom="16dp"
             android:paddingTop="16dp"
             android:text="CONVENIENCE | DELIVERED | FRESH"
-            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="#ffffff"
             android:textStyle="bold" />
 
