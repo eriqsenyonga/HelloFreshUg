@@ -11,6 +11,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -33,7 +35,7 @@ import java.util.Map;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ShopFruitsFragment extends Fragment {
+public class ShopFruitsFragment extends Fragment implements View.OnClickListener {
 
     RecyclerView recyclerView;
     View v;
@@ -43,6 +45,8 @@ public class ShopFruitsFragment extends Fragment {
     SwipeRefreshLayout swipeRefreshLayout;
     UsefulFunctions usefulFunctions;
     ProgressBar pbLoading;
+    LinearLayout errorLayout;
+    Button bReload;
 
     public ShopFruitsFragment() {
         // Required empty public constructor
@@ -56,6 +60,8 @@ public class ShopFruitsFragment extends Fragment {
         v = inflater.inflate(R.layout.fragment_shop_fruits, container, false);
         recyclerView = (RecyclerView) v.findViewById(R.id.recycler_view);
         pbLoading = (ProgressBar) v.findViewById(R.id.pb_loading);
+        errorLayout = (LinearLayout) v.findViewById(R.id.error_layout);
+        bReload = (Button) v.findViewById(R.id.b_reload);
         return v;
     }
 
@@ -64,7 +70,7 @@ public class ShopFruitsFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
 
-usefulFunctions = new UsefulFunctions();
+        usefulFunctions = new UsefulFunctions();
 
         recyclerView.hasFixedSize();
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
@@ -73,6 +79,8 @@ usefulFunctions = new UsefulFunctions();
         fruitsToShow = new ArrayList();
 
         fetchFruitsJson();
+
+        bReload.setOnClickListener(this);
     }
 
     private void fetchFruitsJson() {
@@ -101,6 +109,7 @@ usefulFunctions = new UsefulFunctions();
 
 //                        Toast.makeText(getActivity(), error.toString(), Toast.LENGTH_LONG).show();
                         pbLoading.setVisibility(View.GONE);
+                        errorLayout.setVisibility(View.VISIBLE);
 
                     }
                 }) {
@@ -187,4 +196,18 @@ usefulFunctions = new UsefulFunctions();
     }
 
 
+    @Override
+    public void onClick(View view) {
+
+        if (view == bReload) {
+
+            errorLayout.setVisibility(View.GONE);
+            pbLoading.setVisibility(View.VISIBLE);
+            fetchFruitsJson();
+
+
+        }
+
+
+    }
 }

@@ -18,5 +18,29 @@
 
     <include layout="@layout/recycler_view" />
 
+    <LinearLayout
+        android:id="@+id/error_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Something went wrong"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:layout_gravity="center"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Reload"
+            android:layout_gravity="center"
+            android:id="@+id/b_reload"/>
+
+
+    </LinearLayout>
+
 
 </FrameLayout>
