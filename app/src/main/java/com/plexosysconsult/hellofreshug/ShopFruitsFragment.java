@@ -14,11 +14,15 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.NoConnectionError;
+import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.Response;
+import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 
@@ -47,6 +51,7 @@ public class ShopFruitsFragment extends Fragment implements View.OnClickListener
     ProgressBar pbLoading;
     LinearLayout errorLayout;
     Button bReload;
+    TextView tvErrorMsg;
 
     public ShopFruitsFragment() {
         // Required empty public constructor
@@ -62,6 +67,7 @@ public class ShopFruitsFragment extends Fragment implements View.OnClickListener
         pbLoading = (ProgressBar) v.findViewById(R.id.pb_loading);
         errorLayout = (LinearLayout) v.findViewById(R.id.error_layout);
         bReload = (Button) v.findViewById(R.id.b_reload);
+        tvErrorMsg = (TextView) v.findViewById(R.id.tv_error_message);
         return v;
     }
 
@@ -107,8 +113,19 @@ public class ShopFruitsFragment extends Fragment implements View.OnClickListener
                     @Override
                     public void onErrorResponse(VolleyError error) {
 
-//                        Toast.makeText(getActivity(), error.toString(), Toast.LENGTH_LONG).show();
+//
                         pbLoading.setVisibility(View.GONE);
+
+                        if(error instanceof TimeoutError || error instanceof NoConnectionError){
+
+                            tvErrorMsg.setText("Connection could not be established");
+
+
+                        }else if(error instanceof ParseError){
+
+                            tvErrorMsg.setText("Oops! Something went wrong. Data unreadable");
+
+                        }
                         errorLayout.setVisibility(View.VISIBLE);
 
                     }

@@ -6,15 +6,8 @@
     android:orientation="vertical"
     tools:context="com.plexosysconsult.hellofreshug.ShopFruitsFragment">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Fruits"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:gravity="center"
-        android:visibility="gone"/>
 
-    <include layout="@layout/loading_spinner"/>
+    <include layout="@layout/loading_spinner" />
 
     <include layout="@layout/recycler_view" />
 
@@ -22,22 +15,27 @@
         android:id="@+id/error_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:gravity="center"
         android:orientation="vertical"
         android:visibility="gone">
 
         <TextView
+            android:id="@+id/tv_error_message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:text="Something went wrong"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:layout_gravity="center"/>
+            android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <Button
+            android:id="@+id/b_reload"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Reload"
             android:layout_gravity="center"
-            android:id="@+id/b_reload"/>
+            android:background="@color/colorPrimaryDark"
+            android:text="Reload"
+            android:layout_marginTop="@dimen/activity_horizontal_margin"
+            android:textColor="#ffffff" />
 
 
     </LinearLayout>

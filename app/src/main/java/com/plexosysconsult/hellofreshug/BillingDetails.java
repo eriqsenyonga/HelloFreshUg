@@ -73,7 +73,7 @@ public class BillingDetails extends AppCompatActivity implements View.OnClickLis
 
             //on clicking Place Order, organise the order details to JSON ie the cart and the billing details plus the mode of payment
 
-           bPlaceOrder.setEnabled(false);
+            bPlaceOrder.setEnabled(false);
 
             try {
                 JSONObject orderObject = new JSONObject();
@@ -81,7 +81,7 @@ public class BillingDetails extends AppCompatActivity implements View.OnClickLis
                 orderObject.put("payment_method", "COD");
                 orderObject.put("payment_method_title", "Cash on Delivery");
                 orderObject.put("set_paid", true);
-             //   orderObject.put("status", "processing");
+                //   orderObject.put("status", "processing");
                 orderObject.put("shipping_total", 10000);
 
                 //add billing jsonArray
@@ -133,11 +133,9 @@ public class BillingDetails extends AppCompatActivity implements View.OnClickLis
 
                     JSONObject lineItem = new JSONObject();
 
-
-
                     if (cartItem.isVariation()) {
                         lineItem.put("product_id", cartItem.getItemVariationId());
-                    }else{
+                    } else {
 
                         lineItem.put("product_id", cartItem.getItemId());
                     }
