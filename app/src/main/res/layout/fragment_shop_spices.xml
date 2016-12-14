@@ -5,16 +5,11 @@
     tools:context="com.plexosysconsult.hellofreshug.ShopSpicesFragment">
 
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Spices"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:gravity="center"
-        android:visibility="gone"/>
 
     <include layout="@layout/loading_spinner"/>
 
     <include layout="@layout/recycler_view" />
+
+    <include layout="@layout/error_layout_view" />
 
 </FrameLayout>

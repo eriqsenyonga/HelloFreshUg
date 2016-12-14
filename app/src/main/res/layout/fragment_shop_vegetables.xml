@@ -4,20 +4,13 @@
     android:layout_height="match_parent"
     tools:context="com.plexosysconsult.hellofreshug.ShopVegetablesFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="Vegetables"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:visibility="gone" />
+
 
     <include layout="@layout/loading_spinner" />
 
     <include layout="@layout/recycler_view" />
 
-
+    <include layout="@layout/error_layout_view" />
 
 
 </FrameLayout>

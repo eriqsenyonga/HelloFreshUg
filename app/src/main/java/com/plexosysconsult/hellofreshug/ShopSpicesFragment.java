@@ -10,11 +10,18 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.NoConnectionError;
+import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.Response;
+import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 
@@ -31,7 +38,7 @@ import java.util.Map;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ShopSpicesFragment extends Fragment {
+public class ShopSpicesFragment extends Fragment implements View.OnClickListener {
 
     RecyclerView recyclerView;
     View v;
@@ -39,6 +46,11 @@ public class ShopSpicesFragment extends Fragment {
     MyApplicationClass myApplicationClass = MyApplicationClass.getInstance();
     List<Item> spicesToShow;
     UsefulFunctions usefulFunctions;
+    ProgressBar pbLoading;
+    LinearLayout errorLayout;
+    Button bReload;
+    TextView tvErrorMsg;
+
 
     public ShopSpicesFragment() {
         // Required empty public constructor
@@ -51,6 +63,10 @@ public class ShopSpicesFragment extends Fragment {
         // Inflate the layout for this fragment
         v = inflater.inflate(R.layout.fragment_shop_spices, container, false);
         recyclerView = (RecyclerView) v.findViewById(R.id.recycler_view);
+        pbLoading = (ProgressBar) v.findViewById(R.id.pb_loading);
+        errorLayout = (LinearLayout) v.findViewById(R.id.error_layout);
+        bReload = (Button) v.findViewById(R.id.b_reload);
+        tvErrorMsg = (TextView) v.findViewById(R.id.tv_error_message);
         return v;
     }
 
@@ -67,6 +83,7 @@ public class ShopSpicesFragment extends Fragment {
         spicesToShow = new ArrayList();
 
         fetchSpicesJson();
+        bReload.setOnClickListener(this);
     }
 
     private void fetchSpicesJson() {
@@ -80,6 +97,7 @@ public class ShopSpicesFragment extends Fragment {
 
                             JSONObject jsonResponse = new JSONObject(response);
                             putJsonIntoList(jsonResponse);
+                            pbLoading.setVisibility(View.GONE);
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -92,8 +110,19 @@ public class ShopSpicesFragment extends Fragment {
                     @Override
                     public void onErrorResponse(VolleyError error) {
 
-           //             Toast.makeText(getActivity(), error.toString(), Toast.LENGTH_LONG).show();
-                        Log.d("Spices Fragment", error.toString());
+                        pbLoading.setVisibility(View.GONE);
+
+                        if (error instanceof TimeoutError || error instanceof NoConnectionError) {
+
+                            tvErrorMsg.setText("Connection could not be established");
+
+
+                        } else if (error instanceof ParseError) {
+
+                            tvErrorMsg.setText("Oops! Something went wrong. Data unreadable");
+
+                        }
+                        errorLayout.setVisibility(View.VISIBLE);
                     }
                 }) {
 
@@ -160,7 +189,6 @@ public class ShopSpicesFragment extends Fragment {
                 }
 
 
-
                 spicesToShow.add(spice);
 
             }
@@ -175,4 +203,17 @@ public class ShopSpicesFragment extends Fragment {
 
     }
 
+    @Override
+    public void onClick(View view) {
+
+        if (view == bReload) {
+
+            errorLayout.setVisibility(View.GONE);
+            pbLoading.setVisibility(View.VISIBLE);
+            fetchSpicesJson();
+
+
+        }
+
+    }
 }

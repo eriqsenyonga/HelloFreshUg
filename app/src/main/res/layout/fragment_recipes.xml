@@ -5,10 +5,12 @@
     tools:context="com.plexosysconsult.hellofreshug.RecipesFragment"
     android:background="@drawable/bg">
 
-    <!-- TODO: Update blank fragment layout -->
+
 
     <include layout="@layout/loading_spinner"/>
 
     <include layout="@layout/recycler_view" />
+
+    <include layout="@layout/error_layout_view" />
 
 </FrameLayout>

@@ -4,19 +4,22 @@ package com.plexosysconsult.hellofreshug;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.NoConnectionError;
+import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.Response;
+import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 
@@ -33,15 +36,18 @@ import java.util.Map;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class RecipesFragment extends Fragment {
+public class RecipesFragment extends Fragment implements View.OnClickListener {
 
 
     RecyclerView rvRecipes;
     String URL_GET_RECIPES = "http://www.hellofreshuganda.com/api/get_posts/?post_type=recipe";
     MyApplicationClass myApplicationClass = MyApplicationClass.getInstance();
     List<Recipe> recipeList;
-    ProgressBar pbLoading;
     UsefulFunctions usefulFunctions;
+    ProgressBar pbLoading;
+    LinearLayout errorLayout;
+    Button bReload;
+    TextView tvErrorMsg;
     View v;
 
 
@@ -58,8 +64,10 @@ public class RecipesFragment extends Fragment {
         v = inflater.inflate(R.layout.fragment_recipes, container, false);
 
         rvRecipes = (RecyclerView) v.findViewById(R.id.recycler_view);
-
         pbLoading = (ProgressBar) v.findViewById(R.id.pb_loading);
+        errorLayout = (LinearLayout) v.findViewById(R.id.error_layout);
+        bReload = (Button) v.findViewById(R.id.b_reload);
+        tvErrorMsg = (TextView) v.findViewById(R.id.tv_error_message);
 
         return v;
     }
@@ -77,10 +85,12 @@ public class RecipesFragment extends Fragment {
         recipeList = new ArrayList();
 
 
-        fetchFruitsJson();
+        fetchRecipesJson();
+
+        bReload.setOnClickListener(this);
     }
 
-    private void fetchFruitsJson() {
+    private void fetchRecipesJson() {
 
         StringRequest recipeRequest = new StringRequest(Request.Method.POST, URL_GET_RECIPES,
                 new Response.Listener<String>() {
@@ -104,8 +114,19 @@ public class RecipesFragment extends Fragment {
                     @Override
                     public void onErrorResponse(VolleyError error) {
 
-//                        Toast.makeText(getActivity(), error.toString(), Toast.LENGTH_LONG).show();
                         pbLoading.setVisibility(View.GONE);
+
+                        if (error instanceof TimeoutError || error instanceof NoConnectionError) {
+
+                            tvErrorMsg.setText("Connection could not be established");
+
+
+                        } else if (error instanceof ParseError) {
+
+                            tvErrorMsg.setText("Oops! Something went wrong. Data unreadable");
+
+                        }
+                        errorLayout.setVisibility(View.VISIBLE);
 
                     }
                 }) {
@@ -161,5 +182,17 @@ public class RecipesFragment extends Fragment {
         rvRecipes.setAdapter(new RecyclerViewAdapterRecipe(getActivity(), recipeList));
 
 
+    }
+
+    @Override
+    public void onClick(View view) {
+        if (view == bReload) {
+
+            errorLayout.setVisibility(View.GONE);
+            pbLoading.setVisibility(View.VISIBLE);
+            fetchRecipesJson();
+
+
+        }
     }
 }

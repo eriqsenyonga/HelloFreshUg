@@ -4,6 +4,7 @@ package com.plexosysconsult.hellofreshug;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,12 +12,18 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.NoConnectionError;
+import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.Response;
+import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 
@@ -33,7 +40,7 @@ import java.util.Map;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ShopVegetablesFragment extends Fragment {
+public class ShopVegetablesFragment extends Fragment implements View.OnClickListener {
 
     RecyclerView recyclerView;
     View v;
@@ -42,6 +49,10 @@ public class ShopVegetablesFragment extends Fragment {
     List<Item> veggiesToShow;
     ProgressBar pbLoading;
     UsefulFunctions usefulFunctions;
+    LinearLayout errorLayout;
+    Button bReload;
+    TextView tvErrorMsg;
+    SwipeRefreshLayout swipeRefreshLayout;
 
 
     public ShopVegetablesFragment() {
@@ -55,6 +66,11 @@ public class ShopVegetablesFragment extends Fragment {
         // Inflate the layout for this fragment
         v = inflater.inflate(R.layout.fragment_shop_vegetables, container, false);
         recyclerView = (RecyclerView) v.findViewById(R.id.recycler_view);
+        pbLoading = (ProgressBar) v.findViewById(R.id.pb_loading);
+        errorLayout = (LinearLayout) v.findViewById(R.id.error_layout);
+        bReload = (Button) v.findViewById(R.id.b_reload);
+        tvErrorMsg = (TextView) v.findViewById(R.id.tv_error_message);
+        swipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.swipe_refresh);
         return v;
     }
 
@@ -72,6 +88,16 @@ public class ShopVegetablesFragment extends Fragment {
         veggiesToShow = new ArrayList();
 
         fetchVegetablesJson();
+
+        bReload.setOnClickListener(this);
+
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+
+
+            }
+        });
     }
 
     private void fetchVegetablesJson() {
@@ -85,6 +111,7 @@ public class ShopVegetablesFragment extends Fragment {
 
                             JSONObject jsonResponse = new JSONObject(response);
                             putJsonIntoList(jsonResponse);
+                            pbLoading.setVisibility(View.GONE);
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -97,8 +124,19 @@ public class ShopVegetablesFragment extends Fragment {
                     @Override
                     public void onErrorResponse(VolleyError error) {
 
-//                        Toast.makeText(getActivity(), error.toString(), Toast.LENGTH_LONG).show();
-  //                      Log.d("Vegetables Fragment", error.toString());
+                        pbLoading.setVisibility(View.GONE);
+
+                        if (error instanceof TimeoutError || error instanceof NoConnectionError) {
+
+                            tvErrorMsg.setText("Connection could not be established");
+
+
+                        } else if (error instanceof ParseError) {
+
+                            tvErrorMsg.setText("Oops! Something went wrong. Data unreadable");
+
+                        }
+                        errorLayout.setVisibility(View.VISIBLE);
                     }
                 }) {
 
@@ -133,8 +171,7 @@ public class ShopVegetablesFragment extends Fragment {
                 vegetable.setItemId(vegetableJSON.getInt("id"));
                 vegetable.setItemPrice(vegetableJSON.getString("price"));
 
-                vegetable.setItemShortDescription( usefulFunctions.stripHtml(vegetableJSON.getString("short_description")));
-
+                vegetable.setItemShortDescription(usefulFunctions.stripHtml(vegetableJSON.getString("short_description")));
 
 
                 JSONArray variationArray = vegetableJSON.getJSONArray("variations");
@@ -178,6 +215,20 @@ public class ShopVegetablesFragment extends Fragment {
 
         recyclerView.setAdapter(new RecyclerViewAdapterVegetable(getActivity(), veggiesToShow));
 
+
+    }
+
+    @Override
+    public void onClick(View view) {
+
+        if (view == bReload) {
+
+            errorLayout.setVisibility(View.GONE);
+            pbLoading.setVisibility(View.VISIBLE);
+            fetchVegetablesJson();
+
+
+        }
 
     }
 }

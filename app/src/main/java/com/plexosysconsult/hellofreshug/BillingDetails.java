@@ -1,5 +1,6 @@
 package com.plexosysconsult.hellofreshug;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -37,6 +38,7 @@ public class BillingDetails extends AppCompatActivity implements View.OnClickLis
     MyApplicationClass myApplicationClass = MyApplicationClass.getInstance();
     Cart cart;
     String URL_PLACE_ORDER = "http://www.hellofreshuganda.com/example/placeOrder.php";
+    ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +61,11 @@ public class BillingDetails extends AppCompatActivity implements View.OnClickLis
         bPlaceOrder = (Button) findViewById(R.id.b_place_order);
         cbCreateAccount = (CheckBox) findViewById(R.id.cb_create_account);
 
+        progressDialog = new ProgressDialog(this);
+
+        progressDialog.setMessage("Placing order");
+        progressDialog.setIndeterminate(true);
+
 
         bPlaceOrder.setOnClickListener(this);
         cbCreateAccount.setOnClickListener(this);
@@ -72,6 +79,8 @@ public class BillingDetails extends AppCompatActivity implements View.OnClickLis
         if (view == bPlaceOrder) {
 
             //on clicking Place Order, organise the order details to JSON ie the cart and the billing details plus the mode of payment
+
+            progressDialog.show();
 
             bPlaceOrder.setEnabled(false);
 
@@ -209,11 +218,13 @@ public class BillingDetails extends AppCompatActivity implements View.OnClickLis
                             Log.d("return_order", response);
 
                             Intent i = new Intent(BillingDetails.this, OrderSuccessActivity.class);
+                            progressDialog.cancel();
                             startActivity(i);
                             bPlaceOrder.setEnabled(true);
                         } catch (JSONException e) {
                             e.printStackTrace();
                             bPlaceOrder.setEnabled(true);
+                            progressDialog.cancel();
                         }
 
 

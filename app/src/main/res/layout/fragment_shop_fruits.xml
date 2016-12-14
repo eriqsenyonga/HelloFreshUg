@@ -11,34 +11,7 @@
 
     <include layout="@layout/recycler_view" />
 
-    <LinearLayout
-        android:id="@+id/error_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:visibility="gone">
-
-        <TextView
-            android:id="@+id/tv_error_message"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="Something went wrong"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
-
-        <Button
-            android:id="@+id/b_reload"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:background="@color/colorPrimaryDark"
-            android:text="Reload"
-            android:layout_marginTop="@dimen/activity_horizontal_margin"
-            android:textColor="#ffffff" />
-
-
-    </LinearLayout>
+    <include layout="@layout/error_layout_view" />
 
 
 </FrameLayout>

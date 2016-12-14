@@ -39,15 +39,15 @@
         android:id="@+id/tv_display_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Eric Senyonga"
+        android:text="Guest"
         android:textStyle="bold"
+        android:layout_marginTop="8dp"
         android:textColor="@android:color/white"/>
 
     <TextView
         android:id="@+id/tv_email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="senyonga@gmail.com"
         android:textColor="@android:color/white" />
 
 

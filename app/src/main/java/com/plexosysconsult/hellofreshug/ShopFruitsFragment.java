@@ -30,6 +30,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -95,6 +99,11 @@ public class ShopFruitsFragment extends Fragment implements View.OnClickListener
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
+
+                        mCreateAndSaveFile("fruits.json", response);
+                        Log.d("1", "1");
+
+                        mReadJsonData("fruits.json");
 
                         try {
 
@@ -226,5 +235,33 @@ public class ShopFruitsFragment extends Fragment implements View.OnClickListener
         }
 
 
+    }
+
+    public void mCreateAndSaveFile(String params, String mJsonResponse) {
+        try {
+            FileWriter file = new FileWriter("/data/data/" + getActivity().getApplicationContext().getPackageName() + "/" + params);
+            file.write(mJsonResponse);
+            file.flush();
+            file.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void mReadJsonData(String params) {
+        try {
+            File f = new File("/data/data/" + getActivity().getApplicationContext().getPackageName() + "/" + params);
+            FileInputStream is = new FileInputStream(f);
+            int size = is.available();
+            byte[] buffer = new byte[size];
+            is.read(buffer);
+            is.close();
+            String mResponse = new String(buffer);
+
+            Log.d("fromFile", mResponse);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 }
