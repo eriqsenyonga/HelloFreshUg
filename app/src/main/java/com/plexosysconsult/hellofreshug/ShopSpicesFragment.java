@@ -50,6 +50,7 @@ public class ShopSpicesFragment extends Fragment implements View.OnClickListener
     LinearLayout errorLayout;
     Button bReload;
     TextView tvErrorMsg;
+    String jsonFileName = "spices.json";
 
 
     public ShopSpicesFragment() {
@@ -75,14 +76,35 @@ public class ShopSpicesFragment extends Fragment implements View.OnClickListener
         super.onActivityCreated(savedInstanceState);
 
 
-        usefulFunctions = new UsefulFunctions();
+        usefulFunctions = new UsefulFunctions(getActivity());
         recyclerView.hasFixedSize();
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
 
 
         spicesToShow = new ArrayList();
 
-        fetchSpicesJson();
+        if (usefulFunctions.checkForJsonFile(jsonFileName)) {
+
+            //if file is available
+
+            Log.d("JSON file available", "true");
+
+            try {
+
+                JSONObject jsonResponse = new JSONObject(usefulFunctions.mReadJsonData(jsonFileName));
+                putJsonIntoList(jsonResponse);
+                pbLoading.setVisibility(View.GONE);
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+
+        } else {
+            //if file is not available
+            Log.d("JSON file available", "true");
+            fetchSpicesJson();
+        }
         bReload.setOnClickListener(this);
     }
 
@@ -93,9 +115,11 @@ public class ShopSpicesFragment extends Fragment implements View.OnClickListener
                     @Override
                     public void onResponse(String response) {
 
+                        usefulFunctions.mCreateAndSaveFile(jsonFileName, response);
+
                         try {
 
-                            JSONObject jsonResponse = new JSONObject(response);
+                            JSONObject jsonResponse = new JSONObject(usefulFunctions.mReadJsonData(jsonFileName));
                             putJsonIntoList(jsonResponse);
                             pbLoading.setVisibility(View.GONE);
 

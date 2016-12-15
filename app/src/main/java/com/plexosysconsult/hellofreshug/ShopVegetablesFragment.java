@@ -53,6 +53,7 @@ public class ShopVegetablesFragment extends Fragment implements View.OnClickList
     Button bReload;
     TextView tvErrorMsg;
     SwipeRefreshLayout swipeRefreshLayout;
+    String jsonFileName = "vegetables.json";
 
 
     public ShopVegetablesFragment() {
@@ -79,7 +80,7 @@ public class ShopVegetablesFragment extends Fragment implements View.OnClickList
         super.onActivityCreated(savedInstanceState);
 
 
-        usefulFunctions = new UsefulFunctions();
+        usefulFunctions = new UsefulFunctions(getActivity());
 
         recyclerView.hasFixedSize();
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
@@ -87,7 +88,28 @@ public class ShopVegetablesFragment extends Fragment implements View.OnClickList
 
         veggiesToShow = new ArrayList();
 
-        fetchVegetablesJson();
+        if (usefulFunctions.checkForJsonFile(jsonFileName)) {
+
+            //if file is available
+
+            Log.d("JSON file available", "true");
+
+            try {
+
+                JSONObject jsonResponse = new JSONObject(usefulFunctions.mReadJsonData(jsonFileName));
+                putJsonIntoList(jsonResponse);
+                pbLoading.setVisibility(View.GONE);
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+
+        } else {
+            //if file is not available
+            Log.d("JSON file available", "true");
+            fetchVegetablesJson();
+        }
 
         bReload.setOnClickListener(this);
 
@@ -107,12 +129,13 @@ public class ShopVegetablesFragment extends Fragment implements View.OnClickList
                     @Override
                     public void onResponse(String response) {
 
+                        usefulFunctions.mCreateAndSaveFile(jsonFileName, response);
+
                         try {
 
-                            JSONObject jsonResponse = new JSONObject(response);
+                            JSONObject jsonResponse = new JSONObject(usefulFunctions.mReadJsonData(jsonFileName));
                             putJsonIntoList(jsonResponse);
                             pbLoading.setVisibility(View.GONE);
-
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }

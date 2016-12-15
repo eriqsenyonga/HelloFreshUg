@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,6 +50,7 @@ public class RecipesFragment extends Fragment implements View.OnClickListener {
     Button bReload;
     TextView tvErrorMsg;
     View v;
+    String jsonFileName = "recipes.json";
 
 
     public RecipesFragment() {
@@ -76,7 +78,7 @@ public class RecipesFragment extends Fragment implements View.OnClickListener {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        usefulFunctions = new UsefulFunctions();
+        usefulFunctions = new UsefulFunctions(getActivity());
 
         rvRecipes.hasFixedSize();
         rvRecipes.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -85,7 +87,28 @@ public class RecipesFragment extends Fragment implements View.OnClickListener {
         recipeList = new ArrayList();
 
 
-        fetchRecipesJson();
+        if (usefulFunctions.checkForJsonFile(jsonFileName)) {
+
+            //if file is available
+
+            Log.d("JSON file available", "true");
+
+            try {
+
+                JSONObject jsonResponse = new JSONObject(usefulFunctions.mReadJsonData(jsonFileName));
+                putJsonIntoList(jsonResponse);
+                pbLoading.setVisibility(View.GONE);
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+
+        } else {
+            //if file is not available
+            Log.d("JSON file available", "true");
+            fetchRecipesJson();
+        }
 
         bReload.setOnClickListener(this);
     }
@@ -96,10 +119,11 @@ public class RecipesFragment extends Fragment implements View.OnClickListener {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
+                        usefulFunctions.mCreateAndSaveFile(jsonFileName, response);
 
                         try {
 
-                            JSONObject jsonResponse = new JSONObject(response);
+                            JSONObject jsonResponse = new JSONObject(usefulFunctions.mReadJsonData(jsonFileName));
                             putJsonIntoList(jsonResponse);
                             pbLoading.setVisibility(View.GONE);
 

@@ -56,6 +56,7 @@ public class ShopFruitsFragment extends Fragment implements View.OnClickListener
     LinearLayout errorLayout;
     Button bReload;
     TextView tvErrorMsg;
+    String jsonFileName = "fruits.json";
 
     public ShopFruitsFragment() {
         // Required empty public constructor
@@ -80,7 +81,7 @@ public class ShopFruitsFragment extends Fragment implements View.OnClickListener
         super.onActivityCreated(savedInstanceState);
 
 
-        usefulFunctions = new UsefulFunctions();
+        usefulFunctions = new UsefulFunctions(getActivity());
 
         recyclerView.hasFixedSize();
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
@@ -88,10 +89,33 @@ public class ShopFruitsFragment extends Fragment implements View.OnClickListener
 
         fruitsToShow = new ArrayList();
 
-        fetchFruitsJson();
+        if (usefulFunctions.checkForJsonFile(jsonFileName)) {
+
+            //if file is available
+
+            Log.d("JSON file available", "true");
+
+            try {
+
+                JSONObject jsonResponse = new JSONObject(usefulFunctions.mReadJsonData(jsonFileName));
+                putJsonIntoList(jsonResponse);
+                pbLoading.setVisibility(View.GONE);
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+
+        } else {
+            //if file is not available
+            Log.d("JSON file available", "true");
+            fetchFruitsJson();
+        }
 
         bReload.setOnClickListener(this);
     }
+
+
 
     private void fetchFruitsJson() {
 
@@ -100,14 +124,11 @@ public class ShopFruitsFragment extends Fragment implements View.OnClickListener
                     @Override
                     public void onResponse(String response) {
 
-                        mCreateAndSaveFile("fruits.json", response);
-                        Log.d("1", "1");
-
-                        mReadJsonData("fruits.json");
+                        usefulFunctions.mCreateAndSaveFile(jsonFileName, response);
 
                         try {
 
-                            JSONObject jsonResponse = new JSONObject(response);
+                            JSONObject jsonResponse = new JSONObject(usefulFunctions.mReadJsonData(jsonFileName));
                             putJsonIntoList(jsonResponse);
                             pbLoading.setVisibility(View.GONE);
 
@@ -125,12 +146,12 @@ public class ShopFruitsFragment extends Fragment implements View.OnClickListener
 //
                         pbLoading.setVisibility(View.GONE);
 
-                        if(error instanceof TimeoutError || error instanceof NoConnectionError){
+                        if (error instanceof TimeoutError || error instanceof NoConnectionError) {
 
                             tvErrorMsg.setText("Connection could not be established");
 
 
-                        }else if(error instanceof ParseError){
+                        } else if (error instanceof ParseError) {
 
                             tvErrorMsg.setText("Oops! Something went wrong. Data unreadable");
 
@@ -205,13 +226,11 @@ public class ShopFruitsFragment extends Fragment implements View.OnClickListener
 
                 fruitsToShow.add(fruit);
 
-
             }
 
 
         } catch (JSONException localJSONException) {
             localJSONException.printStackTrace();
-
 
         }
 
@@ -237,31 +256,5 @@ public class ShopFruitsFragment extends Fragment implements View.OnClickListener
 
     }
 
-    public void mCreateAndSaveFile(String params, String mJsonResponse) {
-        try {
-            FileWriter file = new FileWriter("/data/data/" + getActivity().getApplicationContext().getPackageName() + "/" + params);
-            file.write(mJsonResponse);
-            file.flush();
-            file.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
-    public void mReadJsonData(String params) {
-        try {
-            File f = new File("/data/data/" + getActivity().getApplicationContext().getPackageName() + "/" + params);
-            FileInputStream is = new FileInputStream(f);
-            int size = is.available();
-            byte[] buffer = new byte[size];
-            is.read(buffer);
-            is.close();
-            String mResponse = new String(buffer);
-
-            Log.d("fromFile", mResponse);
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-    }
 }
