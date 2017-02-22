@@ -170,6 +170,8 @@ public class ShopSpicesFragment extends Fragment implements View.OnClickListener
 
             JSONArray spices = jsonResponse.getJSONArray("products");
 
+
+
             for (int i = 0; i < spices.length(); i++) {
 
                 JSONObject spicesJSON = spices.getJSONObject(i);

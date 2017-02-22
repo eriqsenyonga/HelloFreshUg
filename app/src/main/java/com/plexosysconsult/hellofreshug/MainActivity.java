@@ -204,8 +204,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         if(id == R.id.nav_contact_us){
 
-            Intent i = new Intent(MainActivity.this, SplashScreen.class);
-            startActivity(i);
+           fragment = new AboutUsFragment();
         }
 
         if (fragment != null) {

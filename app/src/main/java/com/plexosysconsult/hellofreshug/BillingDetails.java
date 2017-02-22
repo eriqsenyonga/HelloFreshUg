@@ -1,12 +1,15 @@
 package com.plexosysconsult.hellofreshug;
 
+import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -16,8 +19,11 @@ import android.widget.CheckBox;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.NoConnectionError;
+import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.Response;
+import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 
@@ -225,6 +231,17 @@ public class BillingDetails extends AppCompatActivity implements View.OnClickLis
                             e.printStackTrace();
                             bPlaceOrder.setEnabled(true);
                             progressDialog.cancel();
+                            AlertDialog.Builder builder = new AlertDialog.Builder(BillingDetails.this);
+                            builder.setNeutralButton("Ok", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+
+                                }
+                            });
+                            builder.setMessage("Order could not be placed \n \nPlease check your internet connection!");
+
+                            Dialog dialog = builder.create();
+                            dialog.show();
                         }
 
 
@@ -234,9 +251,37 @@ public class BillingDetails extends AppCompatActivity implements View.OnClickLis
                     @Override
                     public void onErrorResponse(VolleyError error) {
 
-                        Toast.makeText(BillingDetails.this, error.toString(), Toast.LENGTH_LONG).show();
+                        //      Toast.makeText(BillingDetails.this, error.toString(), Toast.LENGTH_LONG).show();
+
+                        progressDialog.cancel();
 
                         bPlaceOrder.setEnabled(true);
+
+                        AlertDialog.Builder builder = new AlertDialog.Builder(BillingDetails.this);
+                        builder.setNeutralButton("Ok", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+
+                            }
+                        });
+
+
+                        //  pbLoading.setVisibility(View.GONE);
+
+                        if (error instanceof TimeoutError || error instanceof NoConnectionError) {
+
+                            builder.setMessage("Order could not be placed \n \nPlease check your internet connection!");
+
+
+                        } else if (error instanceof ParseError) {
+
+                            builder.setMessage("Oops! Something went wrong. Data unreadable");
+
+                        }
+                        //       errorLayout.setVisibility(View.VISIBLE);
+
+                        Dialog dialog = builder.create();
+                        dialog.show();
 
                     }
                 }) {
