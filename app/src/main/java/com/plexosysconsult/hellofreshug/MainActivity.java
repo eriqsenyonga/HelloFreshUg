@@ -130,7 +130,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         }
 
-        // checkCartForItems();
+        //checkCartForItems();
     }
 
     @Override
@@ -202,9 +202,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             fragment = new RecipesFragment();
         }
 
-        if(id == R.id.nav_contact_us){
+        if (id == R.id.nav_contact_us) {
 
-           fragment = new AboutUsFragment();
+            fragment = new AboutUsFragment();
         }
 
         if (fragment != null) {

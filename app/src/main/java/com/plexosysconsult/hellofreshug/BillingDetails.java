@@ -5,9 +5,6 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -86,106 +83,114 @@ public class BillingDetails extends AppCompatActivity implements View.OnClickLis
 
             //on clicking Place Order, organise the order details to JSON ie the cart and the billing details plus the mode of payment
 
-            progressDialog.show();
+            if (checkBillingDetailsComplete() == false) {
 
-            bPlaceOrder.setEnabled(false);
+                //if billing details are not complete
 
-            try {
-                JSONObject orderObject = new JSONObject();
+            } else {
 
-                orderObject.put("payment_method", "COD");
-                orderObject.put("payment_method_title", "Cash on Delivery");
-                orderObject.put("set_paid", true);
-                //   orderObject.put("status", "processing");
-                orderObject.put("shipping_total", 10000);
+                progressDialog.show();
 
-                //add billing jsonArray
+                bPlaceOrder.setEnabled(false);
 
-                JSONArray billingJsonArray = new JSONArray();
+                try {
+                    JSONObject orderObject = new JSONObject();
 
-                JSONObject billingJson = new JSONObject();
-                billingJson.put("first_name", tilFirstName.getEditText().getText().toString());
-                billingJson.put("last_name", tilSurName.getEditText().getText().toString());
-                billingJson.put("address_1", tilDeliveryAddress.getEditText().getText().toString());
-                billingJson.put("address_2", "");
-                billingJson.put("email", tilEmail.getEditText().getText().toString());
-                billingJson.put("phone", tilPhoneNumber.getEditText().getText().toString());
-                billingJson.put("city", tilTownCity.getEditText().getText().toString());
-                billingJson.put("country", "UG");
-                billingJson.put("state", "Uganda");
-                billingJson.put("postcode", "256");
+                    orderObject.put("payment_method", "COD");
+                    orderObject.put("payment_method_title", "Cash on Delivery");
+                    orderObject.put("set_paid", true);
+                    //   orderObject.put("status", "processing");
+                    orderObject.put("shipping_total", 10000);
 
-                billingJsonArray.put(billingJson);
+                    //add billing jsonArray
 
-                orderObject.put("billing_address", billingJson);
+                    JSONArray billingJsonArray = new JSONArray();
 
-                //add shipping jsonArray
+                    JSONObject billingJson = new JSONObject();
+                    billingJson.put("first_name", tilFirstName.getEditText().getText().toString());
+                    billingJson.put("last_name", tilSurName.getEditText().getText().toString());
+                    billingJson.put("address_1", tilDeliveryAddress.getEditText().getText().toString());
+                    billingJson.put("address_2", "");
+                    billingJson.put("email", tilEmail.getEditText().getText().toString());
+                    billingJson.put("phone", tilPhoneNumber.getEditText().getText().toString());
+                    billingJson.put("city", tilTownCity.getEditText().getText().toString());
+                    billingJson.put("country", "UG");
+                    billingJson.put("state", "Uganda");
+                    billingJson.put("postcode", "256");
 
-                JSONArray shippingJsonArray = new JSONArray();
+                    billingJsonArray.put(billingJson);
 
-                JSONObject shippingJson = new JSONObject();
-                shippingJson.put("first_name", tilFirstName.getEditText().getText().toString());
-                shippingJson.put("last_name", tilSurName.getEditText().getText().toString());
-                shippingJson.put("address_1", tilDeliveryAddress.getEditText().getText().toString());
-                shippingJson.put("address_2", "");
-                shippingJson.put("city", tilTownCity.getEditText().getText().toString());
-                shippingJson.put("country", "UG");
-                shippingJson.put("state", "Uganda");
-                shippingJson.put("postcode", "256");
+                    orderObject.put("billing_address", billingJson);
 
-                shippingJsonArray.put(shippingJson);
+                    //add shipping jsonArray
 
-                orderObject.put("shipping_address", shippingJson);
+                    JSONArray shippingJsonArray = new JSONArray();
 
-                //add line_items json array
-                JSONArray lineItemsJsonArray = new JSONArray();
+                    JSONObject shippingJson = new JSONObject();
+                    shippingJson.put("first_name", tilFirstName.getEditText().getText().toString());
+                    shippingJson.put("last_name", tilSurName.getEditText().getText().toString());
+                    shippingJson.put("address_1", tilDeliveryAddress.getEditText().getText().toString());
+                    shippingJson.put("address_2", "");
+                    shippingJson.put("city", tilTownCity.getEditText().getText().toString());
+                    shippingJson.put("country", "UG");
+                    shippingJson.put("state", "Uganda");
+                    shippingJson.put("postcode", "256");
 
-                cart = myApplicationClass.getCart();
+                    shippingJsonArray.put(shippingJson);
 
-                List<CartItem> cartItems = cart.getCurrentCartItems();
+                    orderObject.put("shipping_address", shippingJson);
 
-                for (CartItem cartItem : cartItems) {
+                    //add line_items json array
+                    JSONArray lineItemsJsonArray = new JSONArray();
 
-                    JSONObject lineItem = new JSONObject();
+                    cart = myApplicationClass.getCart();
 
-                    if (cartItem.isVariation()) {
-                        lineItem.put("product_id", cartItem.getItemVariationId());
-                    } else {
+                    List<CartItem> cartItems = cart.getCurrentCartItems();
 
-                        lineItem.put("product_id", cartItem.getItemId());
+                    for (CartItem cartItem : cartItems) {
+
+                        JSONObject lineItem = new JSONObject();
+
+                        if (cartItem.isVariation()) {
+                            lineItem.put("product_id", cartItem.getItemVariationId());
+                        } else {
+
+                            lineItem.put("product_id", cartItem.getItemId());
+                        }
+
+                        lineItem.put("quantity", cartItem.getQuantity());
+
+                        lineItemsJsonArray.put(lineItem);
                     }
 
-                    lineItem.put("quantity", cartItem.getQuantity());
+                    orderObject.put("line_items", lineItemsJsonArray);
 
-                    lineItemsJsonArray.put(lineItem);
+
+                    //add shipping_lines object
+
+                    JSONArray shippingLinesJsonArray = new JSONArray();
+
+                    JSONObject shippingLinesObject = new JSONObject();
+
+                    shippingLinesObject.put("method_id", "Flat Rate");
+                    shippingLinesObject.put("method_title", "Delivery Fee");
+                    shippingLinesObject.put("total", 10000);
+
+                    shippingLinesJsonArray.put(shippingLinesObject);
+
+
+                    orderObject.put("shipping_lines", shippingLinesJsonArray);
+
+
+                    Log.d("order", orderObject.toString());
+
+                    placeOrderOnline(orderObject);
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
 
-                orderObject.put("line_items", lineItemsJsonArray);
-
-
-                //add shipping_lines object
-
-                JSONArray shippingLinesJsonArray = new JSONArray();
-
-                JSONObject shippingLinesObject = new JSONObject();
-
-                shippingLinesObject.put("method_id", "Flat Rate");
-                shippingLinesObject.put("method_title", "Delivery Fee");
-                shippingLinesObject.put("total", 10000);
-
-                shippingLinesJsonArray.put(shippingLinesObject);
-
-
-                orderObject.put("shipping_lines", shippingLinesJsonArray);
-
-
-                Log.d("order", orderObject.toString());
-
-                placeOrderOnline(orderObject);
-
-
-            } catch (JSONException e) {
-                e.printStackTrace();
             }
 
         }
@@ -209,6 +214,58 @@ public class BillingDetails extends AppCompatActivity implements View.OnClickLis
         }
     }
 
+    private boolean checkBillingDetailsComplete() {
+
+//double check the entries...if they are all complete then return true
+        if (tilFirstName.getEditText().getText().toString().isEmpty()) {
+
+            tilFirstName.getEditText().setError("Enter First Name");
+
+            return false;
+
+        }
+
+        if (tilSurName.getEditText().getText().toString().isEmpty()) {
+
+            tilSurName.getEditText().setError("Enter surname");
+
+            return false;
+
+        }
+
+        if (tilPhoneNumber.getEditText().getText().toString().isEmpty()) {
+
+            tilPhoneNumber.getEditText().setError("Enter Phone Number");
+
+            return false;
+
+        }
+        if (tilEmail.getEditText().getText().toString().isEmpty()) {
+
+            tilEmail.getEditText().setError("Enter E-mail");
+
+            return false;
+
+        }
+        if (tilDeliveryAddress.getEditText().getText().toString().isEmpty()) {
+
+            tilDeliveryAddress.getEditText().setError("Enter Delivery Address");
+
+            return false;
+
+        }
+        if (tilTownCity.getEditText().getText().toString().isEmpty()) {
+
+            tilTownCity.getEditText().setError("Enter Town or City");
+
+            return false;
+
+        }
+
+
+        return true;
+    }
+
     private void placeOrderOnline(final JSONObject orderObject) {
 
         StringRequest placeOrderOnlineRequest = new StringRequest(Request.Method.POST, URL_PLACE_ORDER,
@@ -217,6 +274,8 @@ public class BillingDetails extends AppCompatActivity implements View.OnClickLis
                     public void onResponse(String response) {
 
                         Log.d("order response string", response);
+
+                        Toast.makeText(BillingDetails.this, response, Toast.LENGTH_LONG).show();
 
                         try {
 

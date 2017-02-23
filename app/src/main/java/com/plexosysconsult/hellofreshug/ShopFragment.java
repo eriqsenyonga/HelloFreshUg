@@ -27,6 +27,7 @@ public class ShopFragment extends Fragment {
     FloatingActionButton fab;
 
 
+
     public ShopFragment() {
         // Required empty public constructor
     }
@@ -64,6 +65,7 @@ public class ShopFragment extends Fragment {
         MainActivity mainActivity = (MainActivity) getActivity();
 
         mainActivity.fab.hide();
+     //   mainActivity.checkCartForItems();
     }
 
     @Override
@@ -84,7 +86,7 @@ public class ShopFragment extends Fragment {
             @Override
             public boolean onQueryTextSubmit(String query) {
 
-                Toast.makeText(getActivity(), query, Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(), "Search coming soon", Toast.LENGTH_LONG).show();
 
              //   ((PapListLocalAdapter) localPapList.getAdapter()).setFilter(query);
 
