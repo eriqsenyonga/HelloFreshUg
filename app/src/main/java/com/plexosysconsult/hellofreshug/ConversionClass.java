@@ -64,17 +64,17 @@ public class ConversionClass {
 
 		BigDecimal bd = new BigDecimal(dbValue);
 
-		Log.d("bdLong", "" + bd);
+	//	Log.d("bdLong", "" + bd);
 		BigDecimal divisor = new BigDecimal(100);
 
 		bd = bd.divide(divisor, 2, RoundingMode.HALF_EVEN);
 
-		Log.d("bdAfterDivide", "" + bd);
+	//	Log.d("bdAfterDivide", "" + bd);
 		String r = bd.toString();
-		Log.d("r", "" + r);
+	//	Log.d("r", "" + r);
 
 		final Double d = bd.doubleValue();
-		Log.d("d", "" + d);
+		//Log.d("d", "" + d);
 
 		mSharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
 		
@@ -92,7 +92,7 @@ public class ConversionClass {
 			dfs.setCurrencySymbol(customCurrencyPrefs.getString("currencyCode",
 					"AED") + " ");
 			
-			Log.d("groupSeparator", customCurrencyPrefs.getString("groupSeparator", ","));
+		//	Log.d("groupSeparator", customCurrencyPrefs.getString("groupSeparator", ","));
 
 			if (customCurrencyPrefs.getString("groupSeparator", ",")
 					.equals(",")) {
@@ -139,7 +139,7 @@ public class ConversionClass {
 
 		String display9 = nf.format(d);
 
-		Log.d(mLocaleCountryString, mLocaleCountryString + "= " + display9);
+	//	Log.d(mLocaleCountryString, mLocaleCountryString + "= " + display9);
 
 		return display9;
 		
@@ -160,9 +160,9 @@ public class ConversionClass {
 			return formatted;
 
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
+
 			e.printStackTrace();
-			Log.d("datePicker", e.toString());
+		//	Log.d("datePicker", e.toString());
 		}
 
 		return formatted;
@@ -182,9 +182,9 @@ public class ConversionClass {
 			return formatted;
 
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
+
 			e.printStackTrace();
-			Log.d("datePicker", e.toString());
+			//Log.d("datePicker", e.toString());
 		}
 
 		return formatted;
@@ -205,7 +205,7 @@ public class ConversionClass {
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			Log.d("datePicker", e.toString());
+			//Log.d("datePicker", e.toString());
 		}
 
 		return formatted;
@@ -224,7 +224,7 @@ public class ConversionClass {
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			Log.d("datePicker", e.toString());
+		//	Log.d("datePicker", e.toString());
 		}
 
 		return formatted;
@@ -282,21 +282,21 @@ public class ConversionClass {
 		Calendar c = Calendar.getInstance();
 
 		try {
-			Log.d("displayDate", displayDate);
+			//Log.d("displayDate", displayDate);
 			Date dt = sdf4Display.parse(displayDate);
-			Log.d("dt", "" + dt);
+			//Log.d("dt", "" + dt);
 
 			c.setTime(dt);
 			c.add(Calendar.DAY_OF_MONTH, numberOfDays);
 
 			String dateNew = dateForDisplayFromCalendarInstance(c.getTime());
-			Log.d("dateNew", dateNew);
+			// Log.d("dateNew", dateNew);
 			String nextDate = dateForDb(dateNew);
-			Log.d("nextDate", nextDate);
+			//Log.d("nextDate", nextDate);
 
 			return nextDate;
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
+
 			e.printStackTrace();
 		}
 
@@ -312,12 +312,12 @@ public class ConversionClass {
 
 		BigDecimal bd = new BigDecimal(dbAmount);
 
-		Log.d("bdLong", "" + bd);
+		//Log.d("bdLong", "" + bd);
 		BigDecimal divisor = new BigDecimal(100);
 
 		bd = bd.divide(divisor, 2, RoundingMode.HALF_EVEN);
 
-		Log.d("bdAfterDivide", "" + bd);
+		//Log.d("bdAfterDivide", "" + bd);
 		String r = bd.toString();
 
 		return r;
@@ -328,17 +328,17 @@ public class ConversionClass {
 
 		BigDecimal bd = new BigDecimal(dbValue);
 
-		Log.d("bdLong", "" + bd);
+		//Log.d("bdLong", "" + bd);
 		BigDecimal divisor = new BigDecimal(100);
 
 		bd = bd.divide(divisor, 2, RoundingMode.HALF_EVEN);
 
-		Log.d("bdAfterDivide", "" + bd);
+		//Log.d("bdAfterDivide", "" + bd);
 		String r = bd.toString();
-		Log.d("r", "" + r);
+		//Log.d("r", "" + r);
 
 		final Double d = bd.doubleValue();
-		Log.d("d", "" + d);
+		//Log.d("d", "" + d);
 		
 		return d;
 		
@@ -346,7 +346,7 @@ public class ConversionClass {
 	}
 	
 	public NumberFormat getNumberFormat() {
-		// TODO Auto-generated method stub
+
 		
 		
 		
@@ -377,12 +377,12 @@ public String returnAmountForCSVString(Long dbAmount) {
 
 		BigDecimal bd = new BigDecimal(dbAmount);
 
-		Log.d("bdLong", "" + bd);
+		//Log.d("bdLong", "" + bd);
 		BigDecimal divisor = new BigDecimal(100);
 
 		bd = bd.divide(divisor, 2, RoundingMode.HALF_EVEN);
 
-		Log.d("bdAfterDivide", "" + bd);
+		//Log.d("bdAfterDivide", "" + bd);
 		String r = bd.toString();
 
 		return r;

@@ -76,7 +76,7 @@ public class RecipeDetails extends AppCompatActivity {
             public void run() {
                 heightPx = findViewById(R.id.app_bar_layout).getHeight();
 
-                Log.d("heightPx", "" + heightPx);
+               // Log.d("heightPx", "" + heightPx);
 
                 setAppBarOffset((heightPx * 3) / 5);
 
@@ -93,7 +93,7 @@ public class RecipeDetails extends AppCompatActivity {
 
     private void setAppBarOffset(int offsetPx) {
 
-        Log.d("offsetPx", "" + offsetPx);
+      //  Log.d("offsetPx", "" + offsetPx);
         CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) mAppBarLayout.getLayoutParams();
         AppBarLayout.Behavior behavior = (AppBarLayout.Behavior) params.getBehavior();
         behavior.onNestedPreScroll(mCoordinatorLayout, mAppBarLayout, null, 0, heightPx - offsetPx, new int[]{0, 0});

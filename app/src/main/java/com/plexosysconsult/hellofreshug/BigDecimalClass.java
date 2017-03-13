@@ -1,7 +1,7 @@
 package com.plexosysconsult.hellofreshug;
 
 import android.content.Context;
-import android.util.Log;
+
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;

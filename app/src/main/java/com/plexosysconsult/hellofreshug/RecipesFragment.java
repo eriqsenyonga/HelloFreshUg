@@ -91,7 +91,7 @@ public class RecipesFragment extends Fragment implements View.OnClickListener {
 
             //if file is available
 
-            Log.d("JSON file available", "true");
+           // Log.d("JSON file available", "true");
 
             try {
 
@@ -106,7 +106,7 @@ public class RecipesFragment extends Fragment implements View.OnClickListener {
 
         } else {
             //if file is not available
-            Log.d("JSON file available", "true");
+           // Log.d("JSON file available", "true");
             fetchRecipesJson();
         }
 

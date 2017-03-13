@@ -184,7 +184,7 @@ public class BillingDetails extends AppCompatActivity implements View.OnClickLis
                     orderObject.put("shipping_lines", shippingLinesJsonArray);
 
 
-                    Log.d("order", orderObject.toString());
+                  //  Log.d("order", orderObject.toString());
 
                     placeOrderOnline(orderObject);
 
@@ -275,14 +275,11 @@ public class BillingDetails extends AppCompatActivity implements View.OnClickLis
                     @Override
                     public void onResponse(String response) {
 
-                       // Log.d("order response string", response);
-
-                      //  Toast.makeText(BillingDetails.this, response, Toast.LENGTH_LONG).show();
 
                         try {
 
                             JSONObject jsonResponse = new JSONObject(response);
-                          //  Log.d("return_order", response);
+
 
                             Intent i = new Intent(BillingDetails.this, OrderSuccessActivity.class);
                             progressDialog.cancel();

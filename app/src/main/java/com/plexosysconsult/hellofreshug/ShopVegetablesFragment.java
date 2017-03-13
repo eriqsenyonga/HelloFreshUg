@@ -52,7 +52,7 @@ public class ShopVegetablesFragment extends Fragment implements View.OnClickList
     LinearLayout errorLayout;
     Button bReload;
     TextView tvErrorMsg;
-    SwipeRefreshLayout swipeRefreshLayout;
+  //  SwipeRefreshLayout swipeRefreshLayout;
     String jsonFileName = "vegetables.json";
 
 
@@ -71,7 +71,7 @@ public class ShopVegetablesFragment extends Fragment implements View.OnClickList
         errorLayout = (LinearLayout) v.findViewById(R.id.error_layout);
         bReload = (Button) v.findViewById(R.id.b_reload);
         tvErrorMsg = (TextView) v.findViewById(R.id.tv_error_message);
-        swipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.swipe_refresh);
+//        swipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.swipe_refresh);
         return v;
     }
 
@@ -92,7 +92,7 @@ public class ShopVegetablesFragment extends Fragment implements View.OnClickList
 
             //if file is available
 
-            Log.d("JSON file available", "true");
+       //     Log.d("JSON file available", "true");
 
             try {
 
@@ -107,19 +107,21 @@ public class ShopVegetablesFragment extends Fragment implements View.OnClickList
 
         } else {
             //if file is not available
-            Log.d("JSON file available", "true");
+          //  Log.d("JSON file available", "true");
             fetchVegetablesJson();
         }
 
         bReload.setOnClickListener(this);
 
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+  /*      swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
 
 
             }
         });
+
+        */
     }
 
     private void fetchVegetablesJson() {
