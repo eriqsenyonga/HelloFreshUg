@@ -37,7 +37,7 @@ public class ShopFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setHasOptionsMenu(true);
+      //  setHasOptionsMenu(true);
     }
 
 
@@ -56,7 +56,7 @@ public class ShopFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        PagerAdapterShop adapterShop = new PagerAdapterShop(getChildFragmentManager(), getActivity());
+        PagerAdapterShop adapterShop = new PagerAdapterShop(getChildFragmentManager(), getActivity(), PagerAdapterShop.SHOPADAPTER);
         viewPager.setAdapter(adapterShop);
         viewPager.setOffscreenPageLimit(2);
 
@@ -73,7 +73,7 @@ public class ShopFragment extends Fragment {
         super.onPrepareOptionsMenu(menu);
 
      //   menu.clear();
-
+/*
        getActivity().getMenuInflater().inflate(R.menu.shop_menu, menu);
 
         // Associate searchable configuration with the SearchView
@@ -119,7 +119,7 @@ public class ShopFragment extends Fragment {
 
         //    searchView.setSearchableInfo(
         //          searchManager.getSearchableInfo(getActivity().getComponentName()));
-
+*/
 
     }
 

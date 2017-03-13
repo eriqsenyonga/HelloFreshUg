@@ -10,7 +10,8 @@
         android:id="@+id/iv_nav_header_background"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/side_nav_bar"
+        android:src="@drawable/nav_header_h"
+        android:scaleType="centerCrop"
        />
 
     <LinearLayout
@@ -30,7 +31,7 @@
         android:id="@+id/iv_client_profile_pic"
         android:layout_width="55dp"
         android:layout_height="55dp"
-        android:src="@drawable/prof_pic_blank"
+        android:src="@drawable/hellofresh"
         app:civ_border_color="#14000000"
         app:civ_border_width="1dp"
        />
@@ -39,7 +40,7 @@
         android:id="@+id/tv_display_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Guest"
+        android:text="Hello Fresh Uganda"
         android:textStyle="bold"
         android:layout_marginTop="8dp"
         android:textColor="@android:color/white"/>

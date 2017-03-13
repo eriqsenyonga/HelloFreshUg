@@ -69,6 +69,8 @@ public class BillingDetails extends AppCompatActivity implements View.OnClickLis
         progressDialog.setMessage("Placing order");
         progressDialog.setIndeterminate(true);
 
+        cbCreateAccount.setVisibility(View.GONE);
+
 
         bPlaceOrder.setOnClickListener(this);
         cbCreateAccount.setOnClickListener(this);
@@ -273,14 +275,14 @@ public class BillingDetails extends AppCompatActivity implements View.OnClickLis
                     @Override
                     public void onResponse(String response) {
 
-                        Log.d("order response string", response);
+                       // Log.d("order response string", response);
 
-                        Toast.makeText(BillingDetails.this, response, Toast.LENGTH_LONG).show();
+                      //  Toast.makeText(BillingDetails.this, response, Toast.LENGTH_LONG).show();
 
                         try {
 
                             JSONObject jsonResponse = new JSONObject(response);
-                            Log.d("return_order", response);
+                          //  Log.d("return_order", response);
 
                             Intent i = new Intent(BillingDetails.this, OrderSuccessActivity.class);
                             progressDialog.cancel();

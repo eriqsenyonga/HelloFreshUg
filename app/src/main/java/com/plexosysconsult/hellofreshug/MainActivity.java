@@ -14,7 +14,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Gravity;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.Menu;
@@ -99,22 +98,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             int id = mPositionSavedPrefs.getInt(
                     "last_main_position", 1);
 
+
+
+            if (id == R.id.nav_shop) {
+                fragment = new ShopFragment();
+                title = "Shop";
+            }
+/*
             if (id == R.id.nav_my_account) {
                 fragment = new MyAccountFragment();
                 title = "My Account";
 
             }
 
-            if (id == R.id.nav_shop) {
-                fragment = new ShopFragment();
-                title = "Shop";
-            }
-
             if (id == R.id.nav_orders) {
                 fragment = new OrdersFragment();
                 title = "Orders";
             }
-
+*/
             if (id == R.id.nav_recipes) {
                 fragment = new RecipesFragment();
                 title = "Recipes";
@@ -186,23 +187,25 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         int id = item.getItemId();
         Fragment fragment = null;
 
-        if (id == R.id.nav_my_account) {
-            fragment = new MyAccountFragment();
-        }
+
 
         if (id == R.id.nav_shop) {
             fragment = new ShopFragment();
+        }
+/*
+        if (id == R.id.nav_my_account) {
+            fragment = new MyAccountFragment();
         }
 
         if (id == R.id.nav_orders) {
             fragment = new OrdersFragment();
         }
-
+*/
         if (id == R.id.nav_recipes) {
             fragment = new RecipesFragment();
         }
 
-        if (id == R.id.nav_contact_us) {
+        if (id == R.id.nav_about) {
 
             fragment = new AboutUsFragment();
         }

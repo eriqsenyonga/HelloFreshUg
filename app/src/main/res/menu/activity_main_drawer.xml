@@ -6,25 +6,26 @@
 
         <item
             android:id="@+id/nav_shop"
-            android:icon="@android:drawable/ic_menu_recent_history"
-            android:title="Shop"
-            android:checked="true"/>
+            android:checked="true"
+            android:icon="@drawable/ic_shopping_basket_black_24dp"
+            android:title="Shop" />
 
+        <!--
+                <item
+                    android:id="@+id/nav_my_account"
+                    android:icon="@android:drawable/ic_menu_compass"
+                    android:title="My Account"
+                   />
 
-        <item
-            android:id="@+id/nav_my_account"
-            android:icon="@android:drawable/ic_menu_compass"
-            android:title="My Account"
-           />
+                <item
+                    android:id="@+id/nav_orders"
+                    android:icon="@android:drawable/ic_menu_agenda"
+                    android:title="Orders" />
 
-        <item
-            android:id="@+id/nav_orders"
-            android:icon="@android:drawable/ic_menu_agenda"
-            android:title="Orders" />
-
+        -->
         <item
             android:id="@+id/nav_recipes"
-            android:icon="@android:drawable/ic_menu_compass"
+            android:icon="@drawable/ic_featured_play_list_black_24dp"
 
             android:title="Recipes" />
 
@@ -46,19 +47,21 @@
 
     <group android:id="@+id/therest">
 
-            <item
-                android:id="@+id/nav_contact_us"
+        <item
+            android:id="@+id/nav_about"
 
-                android:title="Contact Us" />
-            <item
-                android:id="@+id/nav_settings"
+            android:title="About" />
 
-                android:title="Settings" />
 
-            <item
-                android:id="@+id/nav_help"
+        <!--     <item
+                 android:id="@+id/nav_settings"
 
-                android:title="Help" />
+                 android:title="Settings" />
+ -->
+        <item
+            android:id="@+id/nav_help"
+
+            android:title="Help" />
 
     </group>
 

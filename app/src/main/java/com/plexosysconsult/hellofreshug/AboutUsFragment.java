@@ -3,14 +3,13 @@ package com.plexosysconsult.hellofreshug;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-
-import mehdi.sakout.aboutpage.AboutPage;
-import mehdi.sakout.aboutpage.Element;
 
 
 /**
@@ -20,7 +19,9 @@ public class AboutUsFragment extends Fragment {
 
 
     FrameLayout frameLayout;
-    View root;
+    View rootView;
+    TabLayout tabs;
+    ViewPager viewPager;
 
 
     public AboutUsFragment() {
@@ -33,15 +34,24 @@ public class AboutUsFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
-                root = inflater.inflate(R.layout.fragment_about_us, container, false);
-        frameLayout = (FrameLayout) root.findViewById(R.id.fl_about_us);
+        rootView = inflater.inflate(R.layout.fragment_about_us, container, false);
+        //  frameLayout = (FrameLayout) rootView.findViewById(R.id.fl_about_us);
+        tabs = (TabLayout) rootView.findViewById(R.id.tabLayout);
+        viewPager = (ViewPager) rootView.findViewById(R.id.view_pager);
 
-        return root;
+
+        return rootView;
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        PagerAdapterShop adapterShop = new PagerAdapterShop(getChildFragmentManager(), getActivity(), PagerAdapterShop.ABOUTADAPTER);
+        viewPager.setAdapter(adapterShop);
+        viewPager.setOffscreenPageLimit(2);
+
+        tabs.setupWithViewPager(viewPager);
 
 /*
 
