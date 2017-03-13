@@ -76,7 +76,7 @@ public class RecipeDetails extends AppCompatActivity {
             public void run() {
                 heightPx = findViewById(R.id.app_bar_layout).getHeight();
 
-               // Log.d("heightPx", "" + heightPx);
+
 
                 setAppBarOffset((heightPx * 3) / 5);
 
