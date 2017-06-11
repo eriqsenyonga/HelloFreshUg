@@ -104,7 +104,7 @@
                 android:layout_gravity="center"
                 android:layout_weight="2"
                 android:gravity="right"
-                android:text="UGX10,000"
+                android:text="UGX5,000"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textStyle="bold" />
 
