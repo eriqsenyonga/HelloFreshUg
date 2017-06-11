@@ -3,7 +3,6 @@ package com.plexosysconsult.hellofreshug;
 import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 /**
@@ -24,7 +23,7 @@ public class PagerAdapterShop extends FragmentStatePagerAdapter {
         which = whichAdapter;
 
         if (which == SHOPADAPTER) {
-            tabNumber = 3;
+            tabNumber = 6;
         }
 
         if (which == ABOUTADAPTER) {
@@ -45,8 +44,24 @@ public class PagerAdapterShop extends FragmentStatePagerAdapter {
                 return new ShopFruitsFragment();
             }
             if (position == 2) {
-                return new ShopSpicesFragment();
+                return new ShopHerbsFragment();
             }
+
+            if(position == 3){
+
+                return new ShopSeaFoodFragment();
+            }
+
+            if(position == 4){
+
+                return new ShopRedWineFragment();
+            }
+            if (position == 5){
+
+                return new ShopWhiteWineFragment();
+            }
+
+            return new ShopFruitsFragment();
 
         }
 
@@ -82,7 +97,19 @@ public class PagerAdapterShop extends FragmentStatePagerAdapter {
                 return "Fruits";
             }
             if (position == 2) {
-                return "Spices";
+                return "Herbs";
+            }
+
+            if (position == 3) {
+                return "Sea Food";
+            }
+
+            if (position == 4) {
+                return "Red Wine";
+            }
+
+            if (position == 5) {
+                return "White Wine";
             }
         }
 

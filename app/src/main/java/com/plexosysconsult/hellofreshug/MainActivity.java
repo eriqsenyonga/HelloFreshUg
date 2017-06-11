@@ -115,12 +115,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 fragment = new OrdersFragment();
                 title = "Orders";
             }
-*/
+
             if (id == R.id.nav_recipes) {
                 fragment = new RecipesFragment();
                 title = "Recipes";
             }
-
+*/
             if (fragment != null) {
 
                 fm.beginTransaction().replace(R.id.contentMain, fragment).commit();
@@ -200,11 +200,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (id == R.id.nav_orders) {
             fragment = new OrdersFragment();
         }
-*/
+
         if (id == R.id.nav_recipes) {
             fragment = new RecipesFragment();
         }
-
+*/
         if (id == R.id.nav_about) {
 
             fragment = new AboutUsFragment();

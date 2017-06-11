@@ -16,10 +16,12 @@ import android.widget.CheckBox;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NoConnectionError;
 import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
@@ -90,6 +92,8 @@ public class BillingDetails extends AppCompatActivity implements View.OnClickLis
                 //if billing details are not complete
 
             } else {
+
+             //   Log.d("billing", "0");
 
                 progressDialog.show();
 
@@ -275,18 +279,29 @@ public class BillingDetails extends AppCompatActivity implements View.OnClickLis
                     @Override
                     public void onResponse(String response) {
 
+                       // Log.d("billing", "1");
 
                         try {
 
+                          //  Log.d("billing", "2");
+
                             JSONObject jsonResponse = new JSONObject(response);
 
+                          //  Log.d("billing", "3");
 
                             Intent i = new Intent(BillingDetails.this, OrderSuccessActivity.class);
                             progressDialog.cancel();
                             startActivity(i);
+                            finish();
                             bPlaceOrder.setEnabled(true);
                         } catch (JSONException e) {
+
+                         //   Log.d("billing", "4");
+
+                           // Log.d("place_order_error", e.toString());
                             e.printStackTrace();
+
+                         //   Log.d("billing", "5");
                             bPlaceOrder.setEnabled(true);
                             progressDialog.cancel();
                             AlertDialog.Builder builder = new AlertDialog.Builder(BillingDetails.this);
@@ -296,7 +311,7 @@ public class BillingDetails extends AppCompatActivity implements View.OnClickLis
 
                                 }
                             });
-                            builder.setMessage("Order could not be placed \n \nPlease check your internet connection!");
+                            builder.setMessage("JSON error response");
 
                             Dialog dialog = builder.create();
                             dialog.show();
@@ -328,10 +343,18 @@ public class BillingDetails extends AppCompatActivity implements View.OnClickLis
 
                         if (error instanceof TimeoutError || error instanceof NoConnectionError) {
 
-                            builder.setMessage("Order could not be placed \n \nPlease check your internet connection!");
+                            builder.setMessage("Order could not be placed \n \nConnection timed out!");
 
 
-                        } else if (error instanceof ParseError) {
+                        }
+
+                        else if(error instanceof  NoConnectionError){
+
+                            builder.setMessage("Order could not be placed \n \nCheck internet connection!");
+
+                        }
+
+                        else if (error instanceof ParseError) {
 
                             builder.setMessage("Oops! Something went wrong. Data unreadable");
 
@@ -352,6 +375,30 @@ public class BillingDetails extends AppCompatActivity implements View.OnClickLis
                 return map;
             }
         };
+
+     //   placeOrderOnlineRequest.setRetryPolicy(new DefaultRetryPolicy(0, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+
+        placeOrderOnlineRequest.setRetryPolicy(new RetryPolicy() {
+            @Override
+            public int getCurrentTimeout() {
+                return 10000;
+            }
+
+            @Override
+            public int getCurrentRetryCount() {
+                return 10000;
+            }
+
+            @Override
+            public void retry(VolleyError error) throws VolleyError {
+
+            }
+        });
+
+    //    Log.d("billing", "0.5");
+
+   //   Log.d("billing timeout","" + placeOrderOnlineRequest.getTimeoutMs());
 
         myApplicationClass.add(placeOrderOnlineRequest);
 

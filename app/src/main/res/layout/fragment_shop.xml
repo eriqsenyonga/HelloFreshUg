@@ -19,7 +19,7 @@
         android:background="@color/colorPrimary"
         android:theme="@style/ThemeOverlay.AppCompat.Dark"
         app:tabGravity="fill"
-        app:tabMode="fixed" />
+        app:tabMode="scrollable" />
 
     </android.support.design.widget.AppBarLayout>
 
