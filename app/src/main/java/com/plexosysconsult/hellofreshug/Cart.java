@@ -76,7 +76,7 @@ public class Cart {
 
         calculateCartTotal();
 
-        Long grandTotal =  bigDecimalClass.addParameters(cartTotal, (long) 10000);
+        Long grandTotal =  bigDecimalClass.addParameters(cartTotal, (long) 5000);
 
         return bigDecimalClass.convertLongToDisplayCurrencyString(grandTotal);
 

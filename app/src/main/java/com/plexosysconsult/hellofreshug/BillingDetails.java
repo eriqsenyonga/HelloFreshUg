@@ -106,7 +106,7 @@ public class BillingDetails extends AppCompatActivity implements View.OnClickLis
                     orderObject.put("payment_method_title", "Cash on Delivery");
                     orderObject.put("set_paid", true);
                     //   orderObject.put("status", "processing");
-                    orderObject.put("shipping_total", 10000);
+                    orderObject.put("shipping_total", 5000);
 
                     //add billing jsonArray
 
@@ -180,7 +180,7 @@ public class BillingDetails extends AppCompatActivity implements View.OnClickLis
 
                     shippingLinesObject.put("method_id", "Flat Rate");
                     shippingLinesObject.put("method_title", "Delivery Fee");
-                    shippingLinesObject.put("total", 10000);
+                    shippingLinesObject.put("total", 5000);
 
                     shippingLinesJsonArray.put(shippingLinesObject);
 

@@ -64,7 +64,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
                 android:gravity="right"
-                android:text="UGX10,000"
+                android:text="UGX5,000"
                 android:textStyle="bold" />
 
 
