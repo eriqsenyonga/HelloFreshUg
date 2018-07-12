@@ -57,13 +57,13 @@ public class AboutHelloFreshFragment extends Fragment {
 
         Element callElement = new Element();
         callElement.setTitle("Call Us");
-        callElement.setValue("0701885127");
+        callElement.setValue("0703289142");
         callElement.setIconDrawable(R.drawable.ic_call_black_24dp);
         callElement.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Intent.ACTION_DIAL);
-                intent.setData(Uri.parse("tel:0701885127"));
+                intent.setData(Uri.parse("tel:0703289142"));
                 startActivity(intent);
             }
         });
