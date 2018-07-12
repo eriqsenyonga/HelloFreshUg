@@ -34,7 +34,7 @@ public class SplashScreen extends AppCompatActivity {
 
     private void goToMainActivity() {
 
-        Intent i = new Intent(SplashScreen.this, MainActivity.class);
+        Intent i = new Intent(SplashScreen.this, LoginActivity.class);
         i.putExtra("beginning", 1);
         startActivity(i);
         finish();

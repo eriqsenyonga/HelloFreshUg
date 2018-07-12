@@ -42,6 +42,10 @@ public class RecyclerViewAdapterVegetable extends RecyclerView.Adapter<RecyclerV
     MyApplicationClass myApplicationClass = MyApplicationClass.getInstance();
     MainActivity mainActivity;
     Cart cart;
+    boolean isMainActivityContext = false;
+
+    public static int KEY_MAIN_ACTIVITY = 1;
+    public static int KEY_SEARCHABLE_ACTIVITY = 2;
 
 
     public RecyclerViewAdapterVegetable(Context context, List<Item> veggiesToShow) {
@@ -51,6 +55,27 @@ public class RecyclerViewAdapterVegetable extends RecyclerView.Adapter<RecyclerV
         cart = myApplicationClass.getCart();
 
         mainActivity = (MainActivity) context;
+        isMainActivityContext = true;
+
+
+        bigDecimalClass = new BigDecimalClass(context);
+
+        vegetableList = new ArrayList();
+
+
+        vegetableList = veggiesToShow;
+
+
+    }
+
+    public RecyclerViewAdapterVegetable(Context context, List<Item> veggiesToShow, int whichActivity) {
+
+        this.context = context;
+
+        cart = myApplicationClass.getCart();
+
+        //  mainActivity = (MainActivity) context;
+
 
         bigDecimalClass = new BigDecimalClass(context);
 
@@ -80,7 +105,7 @@ public class RecyclerViewAdapterVegetable extends RecyclerView.Adapter<RecyclerV
         holder.tvItemName.setText(veggie.getItemName());
         holder.tvItemPrice.setText(bigDecimalClass.convertStringToDisplayCurrencyString(veggie.getItemPrice()));
 
-      //  final int selectedVariation = 0;
+        //  final int selectedVariation = 0;
 
         Glide
                 .with(context)
@@ -108,7 +133,7 @@ public class RecyclerViewAdapterVegetable extends RecyclerView.Adapter<RecyclerV
             @Override
             public void onClick(View view, final int position, boolean isLongClick) {
 
-              //  Toast.makeText(context, vegetableList.get(position).getItemName() + ": " + vegetableList.get(position).getItemPrice(), Toast.LENGTH_LONG).show();
+                //  Toast.makeText(context, vegetableList.get(position).getItemName() + ": " + vegetableList.get(position).getItemPrice(), Toast.LENGTH_LONG).show();
 
                 LayoutInflater inflater = LayoutInflater.from(context);
 
@@ -129,12 +154,11 @@ public class RecyclerViewAdapterVegetable extends RecyclerView.Adapter<RecyclerV
                 tvCartItemPrice.setText(vegetableList.get(position).getItemPrice());
 
 
-                if(vegetableList.get(position).getItemShortDescription().contains("Kilogram")){
+                if (vegetableList.get(position).getItemShortDescription().contains("Kilogram")) {
 
                     tilQuantity.setHint("Weight");
 
                 }
-
 
 
                 tilQuantity.getEditText().addTextChangedListener(new TextWatcher() {
@@ -158,20 +182,16 @@ public class RecyclerViewAdapterVegetable extends RecyclerView.Adapter<RecyclerV
                         }
 
 
-
                     }
 
 
                 });
 
 
-
-
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
                 builder.setView(addToCartDialog);
 
                 final Dialog d = builder.create();
-
 
 
                 if (vegetableList.get(position).getHasVariations()) {
@@ -192,10 +212,9 @@ public class RecyclerViewAdapterVegetable extends RecyclerView.Adapter<RecyclerV
                         public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
 
-
                             Item item = variationsList.get(i);
 
-                           // tvCartItemPrice.setText(bigDecimalClass.convertStringToDisplayCurrencyString(item.getItemPrice()));
+                            // tvCartItemPrice.setText(bigDecimalClass.convertStringToDisplayCurrencyString(item.getItemPrice()));
                             tvCartItemPrice.setText(item.getItemPrice());
 
                             if (tilQuantity.getEditText().getText().toString().isEmpty()) {
@@ -236,6 +255,7 @@ public class RecyclerViewAdapterVegetable extends RecyclerView.Adapter<RecyclerV
 
                             cartItem.setQuantity(tilQuantity.getEditText().getText().toString());
                             cartItem.setItemUnitPrice(vegetableList.get(position).getItemPrice());
+                            cartItem.setItemImageUrl(vegetableList.get(position).getImageUrl());
 
                             if (vegetableList.get(position).getHasVariations()) {
 
@@ -245,25 +265,22 @@ public class RecyclerViewAdapterVegetable extends RecyclerView.Adapter<RecyclerV
 
 
                                 //this will be used when creating the order request as variation_id
-                                cartItem.setItemVariationId( vegetableList.get(position)
-                                                                    .getItemVariations()
-                                                                    .get(selectedVariationPosition)
-                                                                    .getItemId());
+                                cartItem.setItemVariationId(vegetableList.get(position)
+                                        .getItemVariations()
+                                        .get(selectedVariationPosition)
+                                        .getItemId());
 
                                 //we use the unit price for the variation
-                                cartItem.setItemUnitPrice( vegetableList.get(position)
+                                cartItem.setItemUnitPrice(vegetableList.get(position)
                                         .getItemVariations()
                                         .get(selectedVariationPosition)
                                         .getItemPrice());
 
                                 //name of the item is the parent + the variation item name
-                                cartItem.setItemName(vegetableList.get(position).getItemName() + " ("  + vegetableList.get(position)
+                                cartItem.setItemName(vegetableList.get(position).getItemName() + " (" + vegetableList.get(position)
                                         .getItemVariations()
                                         .get(selectedVariationPosition)
                                         .getOptionUnit() + ")");
-
-
-
 
 
                             }
@@ -271,8 +288,9 @@ public class RecyclerViewAdapterVegetable extends RecyclerView.Adapter<RecyclerV
                             cart.addItemToCart(cartItem);
 
                             myApplicationClass.updateCart(cart);
-
-                            mainActivity.checkCartForItems();
+                            if (isMainActivityContext) {
+                                mainActivity.checkCartForItems();
+                            }
 
                             d.dismiss();
                         }

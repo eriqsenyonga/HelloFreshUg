@@ -6,10 +6,11 @@
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
+        android:id="@+id/tv_orders"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Orders"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:gravity="center"/>
+        android:gravity="center"
+        android:text="Orders coming soon"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
 
 </FrameLayout>

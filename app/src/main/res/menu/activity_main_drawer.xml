@@ -10,19 +10,24 @@
             android:icon="@drawable/ic_shopping_basket_black_24dp"
             android:title="Shop" />
 
+        <item
+            android:id="@+id/nav_cart"
+            android:icon="@drawable/ic_shopping_cart"
+            android:title="Cart"/>
+
         <!--
                 <item
                     android:id="@+id/nav_my_account"
                     android:icon="@android:drawable/ic_menu_compass"
                     android:title="My Account"
                    />
-
+-->
                 <item
                     android:id="@+id/nav_orders"
-                    android:icon="@android:drawable/ic_menu_agenda"
+                    android:icon="@drawable/ic_orders"
                     android:title="Orders" />
 
-
+<!--
         <item
             android:id="@+id/nav_recipes"
             android:icon="@drawable/ic_featured_play_list_black_24dp"
@@ -48,6 +53,11 @@
     </group>
 
     <group android:id="@+id/therest">
+
+        <item
+            android:id="@+id/nav_settings"
+
+            android:title="Settings" />
 
         <item
             android:id="@+id/nav_about"

@@ -2,7 +2,6 @@ package com.plexosysconsult.hellofreshug;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
@@ -12,9 +11,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Spinner;
+import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
+import com.plexosysconsult.hellofreshug.ItemClickListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -64,7 +68,7 @@ public class RecyclerViewAdapterCart extends RecyclerView.Adapter<RecyclerView.V
             View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.cart_footer, parent, false);
             return new FooterViewHolder(v);
         } else if (viewType == TYPE_ITEM) {
-            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.cart_item, parent, false);
+            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.cart_item_new, parent, false);
             return new CartItemViewHolder(v);
         }
         return null;
@@ -84,11 +88,32 @@ public class RecyclerViewAdapterCart extends RecyclerView.Adapter<RecyclerView.V
 
             CartItemViewHolder cartItemViewHolder = (CartItemViewHolder) holder;
 
-            final CartItem cartItem = cartItemList.get(position - 1);
+            final CartItem cartItem = cartItemList.get(position);
 
             cartItemViewHolder.tvProduct.setText(cartItem.getItemName());
             cartItemViewHolder.tvQuantity.setText(cartItem.getQuantity());
             cartItemViewHolder.tvPrice.setText(cartItem.getItemTotalForShow());
+
+            Glide
+                    .with(context)
+                    .load(cartItem.getItemImageUrl())
+                    .centerCrop()
+                    //      .placeholder(R.drawable.placeholder_veggie)
+                    .crossFade()
+                    .listener(new RequestListener<String, GlideDrawable>() {
+                        @Override
+                        public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
+                            //  cartItemViewHolder.loading.setVisibility(View.GONE);
+                            return false;
+                        }
+
+                        @Override
+                        public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
+                            //  itemViewHolder.loading.setVisibility(View.GONE);
+                            return false;
+                        }
+                    })
+                    .into(cartItemViewHolder.ivImage);
 
 
             cartItemViewHolder.setClickListener(new ItemClickListener() {
@@ -174,7 +199,7 @@ public class RecyclerViewAdapterCart extends RecyclerView.Adapter<RecyclerView.V
                                     newCartItem.setItemUnitPrice(cartItem.getItemUnitPrice());
 
 
-                                    cartItemList.set(position - 1, newCartItem);
+                                    cartItemList.set(position, newCartItem);
 
                                 }
 
@@ -200,9 +225,11 @@ public class RecyclerViewAdapterCart extends RecyclerView.Adapter<RecyclerView.V
 
     @Override
     public int getItemViewType(int position) {
-        if (isPositionHeader(position)) {
-            return TYPE_HEADER;
-        } else if (isPositionFooter(position)) {
+        //   if (isPositionHeader(position)) {
+        //     return TYPE_HEADER;
+        //  } else
+
+        if (isPositionFooter(position)) {
             return TYPE_FOOTER;
         } else {
             return TYPE_ITEM;
@@ -224,7 +251,9 @@ public class RecyclerViewAdapterCart extends RecyclerView.Adapter<RecyclerView.V
     private boolean isPositionFooter(int position) {
 
 
-        if (position == cartItemList.size() + 1) {
+        //  return position != getItemCount() + 1;
+
+        if (position == getItemCount() - 1) {
 
             return true;
         } else {
@@ -236,7 +265,7 @@ public class RecyclerViewAdapterCart extends RecyclerView.Adapter<RecyclerView.V
 
     @Override
     public int getItemCount() {
-        return cartItemList.size() + 2;
+        return cartItemList.size() + 1;
     }
 
 
@@ -262,6 +291,7 @@ public class RecyclerViewAdapterCart extends RecyclerView.Adapter<RecyclerView.V
     public static class CartItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView tvQuantity, tvProduct, tvPrice;
         ItemClickListener itemClickListener;
+        ImageView ivImage;
 
 
         public CartItemViewHolder(View itemView) {
@@ -270,6 +300,7 @@ public class RecyclerViewAdapterCart extends RecyclerView.Adapter<RecyclerView.V
             tvQuantity = (TextView) itemView.findViewById(R.id.tv_quantity);
             tvProduct = (TextView) itemView.findViewById(R.id.tv_product);
             tvPrice = (TextView) itemView.findViewById(R.id.tv_price);
+            ivImage = (ImageView) itemView.findViewById(R.id.iv_cart_item_image);
 
             itemView.setOnClickListener(this);
         }

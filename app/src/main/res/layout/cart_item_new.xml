@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="4dp"
+    android:layout_marginBottom="2dp"
+    android:background="#dbffffff">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_margin="2dp">
+
+        <ImageView
+            android:id="@+id/iv_cart_item_image"
+            android:layout_width="96dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/apple"
+            android:padding="2dp"/>
+   </android.support.v7.widget.CardView>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:padding="8dp"
+        android:background="#dbffffff">
+
+        <TextView
+            android:id="@+id/tv_product"
+            style="@style/Base.TextAppearance.AppCompat.Medium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Grapes (Bunch) and some other shi"
+            android:textStyle="bold"
+            android:maxLines="1"
+            android:ellipsize="end"/>
+
+        <TextView
+            android:id="@+id/tv_label_qty"
+            style="@style/Base.TextAppearance.AppCompat.Medium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_product"
+            android:layout_marginTop="4dp"
+            android:gravity="center_horizontal"
+            android:text="Qty. "
+         />
+
+
+        <TextView
+            android:id="@+id/tv_quantity"
+            style="@style/Base.TextAppearance.AppCompat.Medium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_product"
+            android:layout_marginTop="4dp"
+            android:layout_toRightOf="@id/tv_label_qty"
+            android:gravity="center_horizontal"
+            android:text="100" />
+
+
+        <TextView
+            android:id="@+id/tv_price"
+
+            style="@style/Base.TextAppearance.AppCompat.Medium"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_quantity"
+            android:gravity="right"
+
+            android:text="UGX 16,0000"
+            android:textStyle="bold"
+
+            />
+
+    </RelativeLayout>
+</LinearLayout>

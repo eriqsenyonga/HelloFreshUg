@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">Hello Fresh Ug</string>
     <string name="action_settings">Settings</string>
+    <string name="facebook_app_id">1039344856159724</string>
+    <string name="fb_login_protocol_scheme">fb1039344856159724</string>
+
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -12,4 +15,10 @@
     <string name="about_hellofresh">Hello Fresh Uganda is a leading fresh food delivery company in Uganda. Each week we bring you the best of Fresh fruits and vegetables right to your door step. Get only the freshest with ease in the quickest time possible!</string>
 
     <string name="about_dev">Plexosys Consult Ltd is a top I.T and software solutions company in Uganda with a vision to improve and ease lives of people by developing the best quality user friendly I.T. solutions for them and their businesses!</string>
+    <string name="search_items">search items</string>
+    <string name="search_hint">search items</string>
+    <string name="shop">Shop</string>
+    <string name="login">Login</string>
+    <string name="forgot_password">Forgot password?</string>
+    <string name="register">Register</string>
 </resources>

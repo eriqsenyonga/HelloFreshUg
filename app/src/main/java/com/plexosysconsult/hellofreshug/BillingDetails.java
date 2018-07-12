@@ -2,8 +2,10 @@ package com.plexosysconsult.hellofreshug;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AlertDialog;
@@ -45,6 +47,10 @@ public class BillingDetails extends AppCompatActivity implements View.OnClickLis
     String URL_PLACE_ORDER = "http://www.hellofreshuganda.com/example/placeOrder.php";
     ProgressDialog progressDialog;
 
+    SharedPreferences userSharedPrefs;
+    SharedPreferences.Editor editor;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,6 +71,17 @@ public class BillingDetails extends AppCompatActivity implements View.OnClickLis
         tilReenterPassword = (TextInputLayout) findViewById(R.id.til_reenter_password);
         bPlaceOrder = (Button) findViewById(R.id.b_place_order);
         cbCreateAccount = (CheckBox) findViewById(R.id.cb_create_account);
+
+
+        userSharedPrefs = getSharedPreferences("USER_DETAILS",
+                Context.MODE_PRIVATE);
+        // editor = userSharedPrefs.edit();
+
+        if(userSharedPrefs.getBoolean("available", false)){
+
+            populateFields();
+
+        }
 
         progressDialog = new ProgressDialog(this);
 
@@ -93,7 +110,7 @@ public class BillingDetails extends AppCompatActivity implements View.OnClickLis
 
             } else {
 
-             //   Log.d("billing", "0");
+                //   Log.d("billing", "0");
 
                 progressDialog.show();
 
@@ -188,7 +205,7 @@ public class BillingDetails extends AppCompatActivity implements View.OnClickLis
                     orderObject.put("shipping_lines", shippingLinesJsonArray);
 
 
-                  //  Log.d("order", orderObject.toString());
+                    //  Log.d("order", orderObject.toString());
 
                     placeOrderOnline(orderObject);
 
@@ -279,15 +296,15 @@ public class BillingDetails extends AppCompatActivity implements View.OnClickLis
                     @Override
                     public void onResponse(String response) {
 
-                       // Log.d("billing", "1");
+                        // Log.d("billing", "1");
 
                         try {
 
-                          //  Log.d("billing", "2");
+                            //  Log.d("billing", "2");
 
                             JSONObject jsonResponse = new JSONObject(response);
 
-                          //  Log.d("billing", "3");
+                            //  Log.d("billing", "3");
 
                             Intent i = new Intent(BillingDetails.this, OrderSuccessActivity.class);
                             progressDialog.cancel();
@@ -296,12 +313,12 @@ public class BillingDetails extends AppCompatActivity implements View.OnClickLis
                             bPlaceOrder.setEnabled(true);
                         } catch (JSONException e) {
 
-                         //   Log.d("billing", "4");
+                            //   Log.d("billing", "4");
 
-                           // Log.d("place_order_error", e.toString());
+                            // Log.d("place_order_error", e.toString());
                             e.printStackTrace();
 
-                         //   Log.d("billing", "5");
+                            //   Log.d("billing", "5");
                             bPlaceOrder.setEnabled(true);
                             progressDialog.cancel();
                             AlertDialog.Builder builder = new AlertDialog.Builder(BillingDetails.this);
@@ -346,15 +363,11 @@ public class BillingDetails extends AppCompatActivity implements View.OnClickLis
                             builder.setMessage("Order could not be placed \n \nConnection timed out!");
 
 
-                        }
-
-                        else if(error instanceof  NoConnectionError){
+                        } else if (error instanceof NoConnectionError) {
 
                             builder.setMessage("Order could not be placed \n \nCheck internet connection!");
 
-                        }
-
-                        else if (error instanceof ParseError) {
+                        } else if (error instanceof ParseError) {
 
                             builder.setMessage("Oops! Something went wrong. Data unreadable");
 
@@ -376,7 +389,7 @@ public class BillingDetails extends AppCompatActivity implements View.OnClickLis
             }
         };
 
-     //   placeOrderOnlineRequest.setRetryPolicy(new DefaultRetryPolicy(0, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        //   placeOrderOnlineRequest.setRetryPolicy(new DefaultRetryPolicy(0, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
 
         placeOrderOnlineRequest.setRetryPolicy(new RetryPolicy() {
@@ -396,11 +409,25 @@ public class BillingDetails extends AppCompatActivity implements View.OnClickLis
             }
         });
 
-    //    Log.d("billing", "0.5");
+        //    Log.d("billing", "0.5");
 
-   //   Log.d("billing timeout","" + placeOrderOnlineRequest.getTimeoutMs());
+        //   Log.d("billing timeout","" + placeOrderOnlineRequest.getTimeoutMs());
 
         myApplicationClass.add(placeOrderOnlineRequest);
+
+
+    }
+
+
+    public void populateFields(){
+
+        String fname = userSharedPrefs.getString("fname", "");
+        String lname = userSharedPrefs.getString("lname", "");
+        String email = userSharedPrefs.getString("email", "");
+
+        tilFirstName.getEditText().setText(fname);
+        tilSurName.getEditText().setText(lname);
+        tilEmail.getEditText().setText(email);
 
 
     }

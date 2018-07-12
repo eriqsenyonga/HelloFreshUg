@@ -1,8 +1,12 @@
 package com.plexosysconsult.hellofreshug;
 
+import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -13,7 +17,10 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.util.Base64;
+import android.util.Log;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.Menu;
@@ -23,7 +30,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
-import de.hdodenhof.circleimageview.CircleImageView;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -32,7 +41,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     FragmentManager fm;
     public FloatingActionButton fab;
     View navigationHeader;
-    CircleImageView ivClientProfilePic;
     TextView tvClientName;
     TextView tvClientEmail;
     DrawerLayout drawer;
@@ -40,6 +48,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     MyApplicationClass myApplicationClass = MyApplicationClass.getInstance();
     SharedPreferences mPositionSavedPrefs;
     SharedPreferences.Editor posSavedEditor;
+    ImageView ivClientProfilePic;
+    SharedPreferences userSharedPrefs;
 
 
     @Override
@@ -54,10 +64,30 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView.setNavigationItemSelectedListener(this);
 
         navigationHeader = navigationView.getHeaderView(0);
-        ivClientProfilePic = (CircleImageView) navigationHeader.findViewById(R.id.iv_client_profile_pic);
+        ivClientProfilePic = (ImageView) navigationHeader.findViewById(R.id.iv_client_profile_pic);
         tvClientName = (TextView) navigationHeader.findViewById(R.id.tv_display_name);
         tvClientEmail = (TextView) navigationHeader.findViewById(R.id.tv_email);
+        printhashkey();
 
+        userSharedPrefs = getSharedPreferences("USER_DETAILS",
+                Context.MODE_PRIVATE);
+        // editor = userSharedPrefs.edit();
+
+        if (userSharedPrefs.getBoolean("available", false)) {
+
+            String fname = userSharedPrefs.getString("fname", "");
+            String lname = userSharedPrefs.getString("lname", "");
+            String email = userSharedPrefs.getString("email", "");
+
+
+            tvClientName.setText("Welcome " + fname);
+            tvClientEmail.setText(email);
+        } else {
+
+            tvClientName.setText("Welcome Guest");
+            tvClientEmail.setText("hellofreshug@gmail.com");
+
+        }
 
         fm = getSupportFragmentManager();
 
@@ -97,7 +127,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             int id = mPositionSavedPrefs.getInt(
                     "last_main_position", 1);
-
 
 
             if (id == R.id.nav_shop) {
@@ -150,6 +179,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_main, menu);
 
+        // Associate searchable configuration with the SearchView
+        SearchManager searchManager =
+                (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        SearchView searchView =
+                (SearchView) menu.findItem(R.id.action_search).getActionView();
+        searchView.setSearchableInfo(
+                searchManager.getSearchableInfo(getComponentName()));
+
 
         final View notifications = menu.findItem(R.id.action_cart).getActionView();
 
@@ -167,14 +204,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_cart) {
-
-            //     Toast.makeText(this, "open cart", Toast.LENGTH_LONG).show();
-
-
-            Intent intent = new Intent(MainActivity.this, CartActivity.class);
-            startActivity(intent);
-
-
+            openCart();
             return true;
         }
 
@@ -188,23 +218,31 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Fragment fragment = null;
 
 
-
         if (id == R.id.nav_shop) {
             fragment = new ShopFragment();
+        } else if (id == R.id.nav_cart) {
+
+            fragment = new CartFragment();
+
         }
 /*
         if (id == R.id.nav_my_account) {
             fragment = new MyAccountFragment();
         }
-
+*/
         if (id == R.id.nav_orders) {
             fragment = new OrdersFragment();
         }
-
+/*
         if (id == R.id.nav_recipes) {
             fragment = new RecipesFragment();
         }
 */
+        if (id == R.id.nav_settings) {
+            fragment = new SettingsFragment();
+        }
+
+
         if (id == R.id.nav_about) {
 
             fragment = new AboutUsFragment();
@@ -234,6 +272,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
+    public void showShopFragment() {
+
+        fm.beginTransaction().replace(R.id.contentMain, new ShopFragment()).commit();
+        getSupportActionBar().setTitle(R.string.shop);
+        getSupportActionBar().setSubtitle("");
+        setNavigationViewCheckedItem(R.id.nav_shop);
+
+
+    }
+
     public void OpenCart(View v) {
 
         //  Toast.makeText(this, "Open cart on click", Toast.LENGTH_LONG).show();
@@ -245,8 +293,50 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         } else {
 
-            Intent intent = new Intent(MainActivity.this, CartActivity.class);
-            startActivity(intent);
+            openCart();
+        }
+
+    }
+
+
+    public void openCart() {
+
+        fm.beginTransaction().replace(R.id.contentMain, new CartFragment()).addToBackStack(null).commit();
+        setActionBarTitleAndSubtitle("Cart", "");
+        setNavigationViewCheckedItem(R.id.nav_cart);
+
+
+    }
+
+    public void setActionBarTitleAndSubtitle(String title, String subTitle) {
+
+        getSupportActionBar().setTitle(title);
+        getSupportActionBar().setSubtitle(subTitle);
+    }
+
+    public void setNavigationViewCheckedItem(int itemId) {
+
+
+        navigationView.setCheckedItem(itemId);
+        posSavedEditor.putInt("last_main_position", itemId).apply();
+
+    }
+
+    public void printhashkey() {
+
+        try {
+            PackageInfo info = getPackageManager().getPackageInfo(
+                    "com.plexosysconsult.hellofreshug",
+                    PackageManager.GET_SIGNATURES);
+            for (Signature signature : info.signatures) {
+                MessageDigest md = MessageDigest.getInstance("SHA");
+                md.update(signature.toByteArray());
+                Log.d("KeyHash:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
+            }
+        } catch (PackageManager.NameNotFoundException e) {
+
+        } catch (NoSuchAlgorithmException e) {
+
         }
 
     }

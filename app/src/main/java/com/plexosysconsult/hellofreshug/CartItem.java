@@ -15,11 +15,18 @@ public class CartItem {
     String quantity;
     Long total;
     BigDecimalClass bigDecimalClass;
+    String itemImageUrl;
+
+    public String getItemImageUrl() {
+        return itemImageUrl;
+    }
+
+    public void setItemImageUrl(String itemImageUrl) {
+        this.itemImageUrl = itemImageUrl;
+    }
 
     public CartItem(Context context){
-
         bigDecimalClass = new BigDecimalClass(context);
-
     }
 
     public boolean isVariation() {
