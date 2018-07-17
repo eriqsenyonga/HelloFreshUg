@@ -139,12 +139,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 title = "My Account";
 
             }
-
+*/
             if (id == R.id.nav_orders) {
                 fragment = new OrdersFragment();
                 title = "Orders";
             }
-
+/*
             if (id == R.id.nav_recipes) {
                 fragment = new RecipesFragment();
                 title = "Recipes";

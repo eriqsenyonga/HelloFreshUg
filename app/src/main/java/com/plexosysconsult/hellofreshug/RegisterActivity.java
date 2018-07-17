@@ -1,9 +1,11 @@
 package com.plexosysconsult.hellofreshug;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.design.widget.TextInputLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -24,6 +26,7 @@ import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
+import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 
@@ -75,6 +78,8 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
         mCallbackManager = CallbackManager.Factory.create();
 
+        fbLoginButton.setVisibility(View.GONE);
+
         // Set the initial permissions to request from the user while logging in
         fbLoginButton.setReadPermissions(Arrays.asList(EMAIL, PUBLICPROFILE));
 
@@ -95,7 +100,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                                     JSONObject object,
                                     GraphResponse response) {
 
-                               // Log.d("LoginResult", object.toString());
+                                // Log.d("LoginResult", object.toString());
                                 // Application code
 
                               /*
@@ -132,11 +137,10 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                                     registerNewPersonFbVersion(fname, lname, email, username);
 
 
+                                    //  saveUserDetailsInSharedPrefs(fname, lname, email);
 
-                                  //  saveUserDetailsInSharedPrefs(fname, lname, email);
 
-
-                                //    goToMainActivity();
+                                    //    goToMainActivity();
 
                                 } catch (JSONException e) {
                                     e.printStackTrace();
@@ -248,7 +252,10 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                             String status = jsonResponse.getString("status");
                             if (status.equalsIgnoreCase("ok")) {
 
-                                saveUserDetailsInSharedPrefs(fname, lname, email);
+                                int customerId = jsonResponse.getInt("user_id");
+
+                                saveUserDetailsInSharedPrefs(fname, lname, email, customerId);
+
                                 goToMainActivity();
 
 
@@ -282,17 +289,17 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 if (error instanceof TimeoutError || error instanceof NoConnectionError) {
 
                     Toast.makeText(RegisterActivity.this, "Connection could not be established", Toast.LENGTH_LONG).show();
-
+                    showDialogMessage("Connection could not be established. Check your internet connection!");
 
                 } else if (error instanceof ParseError) {
 
                     Toast.makeText(RegisterActivity.this, "Oops! Something went wrong. Data unreadable", Toast.LENGTH_LONG).show();
-
+                    showDialogMessage("Oops! Something went wrong. Try again!");
 
                 } else {
 
                     Toast.makeText(RegisterActivity.this, "Something went wrong. Try Again", Toast.LENGTH_LONG).show();
-
+                    showDialogMessage("Oops! Something went wrong. Try again!");
                 }
 
                 bRegister.setActivated(true);
@@ -315,6 +322,17 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
         myApplicationClass.add(stringRequest);
 
+
+    }
+
+    public void saveUserDetailsInSharedPrefs(String fname, String lname, String email, int customerId) {
+
+        editor.putString("fname", fname);
+        editor.putString("lname", lname);
+        editor.putString("email", email);
+        editor.putBoolean("available", true);
+        editor.putInt("customerId", customerId);
+        editor.apply();
 
     }
 
@@ -343,8 +361,13 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                             String status = jsonResponse.getString("status");
                             if (status.equalsIgnoreCase("ok")) {
 
-                                saveUserDetailsInSharedPrefs(fname, lname, email);
+                                int customerId = jsonResponse.getInt("user_id");
+
+                                saveUserDetailsInSharedPrefs(fname, lname, email, customerId);
                                 editor.putBoolean("facebooklogin", true);
+                                editor.apply();
+
+
                                 goToMainActivity();
 
 
@@ -381,21 +404,23 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 if (error instanceof TimeoutError || error instanceof NoConnectionError) {
 
                     Toast.makeText(RegisterActivity.this, "Connection could not be established", Toast.LENGTH_LONG).show();
-
+                    showDialogMessage("Connection could not be established! Check your internet connection");
 
                 } else if (error instanceof ParseError) {
 
-                    Toast.makeText(RegisterActivity.this, "Oops! Something went wrong. Data unreadable", Toast.LENGTH_LONG).show();
-
+                    Toast.makeText(RegisterActivity.this, "Data unreadable", Toast.LENGTH_LONG).show();
+                    showDialogMessage("Oops! Something went wrong. Try again!");
 
                 } else {
 
                     Toast.makeText(RegisterActivity.this, "Something went wrong. Try Again", Toast.LENGTH_LONG).show();
-
+                    showDialogMessage("Oops! Something went wrong. Try again!");
                 }
+                LoginManager.getInstance().logOut();
 
                 bRegister.setActivated(true);
                 bRegister.setText("Register");
+
                 //  errorLayout.setVisibility(View.VISIBLE);
             }
         }) {
@@ -416,12 +441,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
 
     }
-
-
-
-
-
-
 
 
     private void goToLoginActivity() {
@@ -579,5 +598,23 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         i.putExtra("beginning", 1);
         startActivity(i);
         finish();
+    }
+
+    public void showDialogMessage(String message) {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
+        builder.setMessage(message);
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+
+
     }
 }

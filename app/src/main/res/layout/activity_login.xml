@@ -164,11 +164,20 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginBottom="30dp"
+                android:layout_marginBottom="16dp"
                 android:layout_marginTop="16dp"
                 android:padding="100dp"
                 android:textSize="20sp" />
 
+            <TextView
+                android:id="@+id/tv_continue_guest"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:text="Continue as guest"
+                android:textColor="#FFFFFF"
+                android:textStyle="bold" />
 
         </LinearLayout>
     </ScrollView>

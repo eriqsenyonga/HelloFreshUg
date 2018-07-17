@@ -22,6 +22,7 @@ public class OrderSuccessActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(OrderSuccessActivity.this, MainActivity.class);
+                i.putExtra("beginning", 1);
                 startActivity(i);
                 finish();
             }

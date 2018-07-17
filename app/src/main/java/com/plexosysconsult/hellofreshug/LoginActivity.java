@@ -1,9 +1,12 @@
 package com.plexosysconsult.hellofreshug;
 
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.design.widget.TextInputLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,8 +15,10 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.NoConnectionError;
 import com.android.volley.ParseError;
+import com.android.volley.RetryPolicy;
 import com.android.volley.TimeoutError;
 import com.facebook.CallbackManager;
 import com.facebook.GraphRequest;
@@ -28,6 +33,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 import com.android.volley.DefaultRetryPolicy;
@@ -52,16 +59,18 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private static final String LOGIN_URL = "http://www.hellofreshuganda.com/api/user/generate_auth_cookie/?insecure=cool";
 
     String nonce;
-    private static final String NONCE_URL = "http://www.hellofreshuganda.com/api/get_nonce/?controller=user&method=register";
-    private static final String REGISTER_URL = "http://hellofreshuganda.com/api/user/register/?insecure=cool";
+    private static final String NONCE_URL = "http://www.hellofreshuganda.com/api/get_nonce/?controller=user&method=register&json=get_nonce";
+    // private static final String REGISTER_URL = "http://hellofreshuganda.com/api/user/register/?insecure=cool";
+    private static final String REGISTER_URL = "http://www.hellofreshuganda.com/example/createCustomer.php";
 
     LoginButton fbLoginButton;
-    TextView tvForgotPassword, tvRegister;
+    TextView tvForgotPassword, tvRegister, tvContinueAsGuest;
     private CallbackManager mCallbackManager;
     SharedPreferences userSharedPrefs;
     SharedPreferences.Editor editor;
     Button bLogin;
     TextInputLayout tilEmail, tilPassword;
+    int fbCustomerId = 0;
 
     MyApplicationClass myApplicationClass = MyApplicationClass.getInstance();
 
@@ -79,10 +88,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         tilPassword = (TextInputLayout) findViewById(R.id.til_password);
         tvForgotPassword = (TextView) findViewById(R.id.tv_forgot_password);
         tvRegister = (TextView) findViewById(R.id.tv_register);
+        tvContinueAsGuest = (TextView) findViewById(R.id.tv_continue_guest);
 
 
         mCallbackManager = CallbackManager.Factory.create();
-
 
         userSharedPrefs = getSharedPreferences("USER_DETAILS",
                 Context.MODE_PRIVATE);
@@ -100,6 +109,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         bLogin.setOnClickListener(this);
         tvForgotPassword.setOnClickListener(this);
         tvRegister.setOnClickListener(this);
+        tvContinueAsGuest.setOnClickListener(this);
 
 
         // Set the initial permissions to request from the user while logging in
@@ -154,10 +164,23 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                     String email = object.getString(EMAIL);
                                     String username = email;
 
-                                    getNonce();
 
-                                    //attempt to register the ninja
-                                    registerNewPersonFbVersion(fname, lname, email, username);
+                                    if (customerExists(email)) {
+
+                                        saveUserDetailsInSharedPrefs(fname, lname, email, fbCustomerId);
+                                        editor.putBoolean("facebooklogin", true);
+                                        editor.apply();
+                                        goToMainActivity();
+
+                                    } else {
+
+                                        //   getNonce();
+
+                                        //attempt to register the ninja
+                                        registerNewPersonFbVersion(fname, lname, email, username);
+
+
+                                    }
 
 
                                 } catch (JSONException e) {
@@ -191,6 +214,89 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     }
 
+    private boolean customerExists(final String email) {
+//when signing in using fb, check whether the customer already exists in the system and then proceed
+        // if the customer exists, just proceed with the details received
+        //if not, register the customer and then proceed
+
+        final boolean[] exists = new boolean[1];
+        //  exists[0] = false;
+
+
+        StringRequest checkForCustomerExistanceRequest = new StringRequest(Request.Method.POST, "http://www.hellofreshuganda.com/example/getCustomerByEmail.php",
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+                        //    usefulFunctions.mCreateAndSaveFile(jsonFileName, response);
+
+                        exists[0] = true;
+
+                        try {
+                            JSONObject customerObject = new JSONObject(response);
+
+
+                            fbCustomerId = customerObject.getJSONObject("customer").getInt("id");
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+//
+                        exists[0] = false;
+
+
+                    }
+                }) {
+
+            @Override
+            public Priority getPriority() {
+                return Priority.IMMEDIATE;
+            }
+
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> map = new HashMap<>();
+                map.put("email", email);
+
+                return map;
+            }
+        };
+
+        checkForCustomerExistanceRequest.setRetryPolicy(new RetryPolicy() {
+            @Override
+            public int getCurrentTimeout() {
+                return 10000;
+            }
+
+            @Override
+            public int getCurrentRetryCount() {
+                return 10000;
+            }
+
+            @Override
+            public void retry(VolleyError error) throws VolleyError {
+
+            }
+        });
+
+
+        myApplicationClass.add(checkForCustomerExistanceRequest);
+
+
+        return exists[0];
+
+
+    }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -213,6 +319,18 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         editor.putString("lname", lname);
         editor.putString("email", email);
         editor.putBoolean("available", true);
+        editor.apply();
+
+    }
+
+
+    public void saveUserDetailsInSharedPrefs(String fname, String lname, String email, int customerId) {
+
+        editor.putString("fname", fname);
+        editor.putString("lname", lname);
+        editor.putString("email", email);
+        editor.putBoolean("available", true);
+        editor.putInt("customerId", customerId);
         editor.apply();
 
     }
@@ -267,6 +385,23 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
 
         }
+
+        if(v == tvContinueAsGuest){
+            /*
+            * In shared preferences save the boolean for available as false
+            * Then open main activity
+            *
+            * */
+            editor.putString("fname", "");
+            editor.putString("lname", "");
+            editor.putString("email", "");
+            editor.putBoolean("available", false);
+            editor.putInt("customerId", 0);
+            editor.apply();
+
+            goToMainActivity();
+
+        }
     }
 
     private void validateDetailsWithServer() {
@@ -305,17 +440,18 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 if (error instanceof TimeoutError || error instanceof NoConnectionError) {
 
                     Toast.makeText(LoginActivity.this, "Connection could not be established", Toast.LENGTH_LONG).show();
+                    showDialogMessage("Connection could not be established. Check your internet connection!");
                     bLogin.setActivated(true);
                     bLogin.setText("Login");
 
                 } else if (error instanceof ParseError) {
 
                     Toast.makeText(LoginActivity.this, "Oops! Something went wrong. Data unreadable", Toast.LENGTH_LONG).show();
+                    showDialogMessage("Oops! Something went wrong. Try again!");
                     bLogin.setActivated(true);
                     bLogin.setText("Login");
 
                 } else {
-
                     Toast.makeText(LoginActivity.this, "Email not available", Toast.LENGTH_LONG).show();
                     tilEmail.getEditText().setError("Email not registered");
                     bLogin.setActivated(true);
@@ -380,9 +516,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 String fname = userDetailsJson.getString("firstname");
                 String lname = userDetailsJson.getString("lastname");
                 String email = userDetailsJson.getString("email");
+                int customerId = userDetailsJson.getInt("id");
 
 
-                saveUserDetailsInSharedPrefs(fname, lname, email);
+                saveUserDetailsInSharedPrefs(fname, lname, email, customerId);
                 editor.putBoolean("facebooklogin", false);
                 bLogin.setActivated(true);
                 bLogin.setText("Login");
@@ -461,7 +598,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
                             nonce = jsonResponse.getString("nonce");
 
-                            Toast.makeText(LoginActivity.this, "nonce=" + nonce , Toast.LENGTH_LONG).show();
+                            Toast.makeText(LoginActivity.this, "nonce=" + nonce, Toast.LENGTH_LONG).show();
                             // nonce = nonceValue;
 
                         } catch (JSONException e) {
@@ -520,7 +657,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET,
                 REGISTER_URL
-                        + "&nonce=" + nonce
+                        //  + "&nonce=" + nonce
                         + "&username=" + username
                         + "&display_name=" + fname
                         + "&first_name=" + fname
@@ -535,13 +672,28 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         //Log.d("jsonresponse", response);
 
                         try {
+
+
+                            JSONObject jsonResponse = new JSONObject(response);
+
+                            int customerId = jsonResponse.getJSONObject("customer").getInt("id");
+                            saveUserDetailsInSharedPrefs(fname, lname, email, customerId);
+                            editor.putBoolean("facebooklogin", true);
+                            editor.apply();
+                            goToMainActivity();
+
+
+                            /*
                             JSONObject jsonResponse = new JSONObject(response);
 
                             String status = jsonResponse.getString("status");
                             if (status.equalsIgnoreCase("ok")) {
 
-                                saveUserDetailsInSharedPrefs(fname, lname, email);
+                                int customerId = jsonResponse.getInt("user_id");
+
+                                saveUserDetailsInSharedPrefs(fname, lname, email, customerId);
                                 editor.putBoolean("facebooklogin", true);
+                                editor.apply();
                                 goToMainActivity();
 
 
@@ -560,9 +712,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
                             }
 
+                            */
+
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            Toast.makeText(LoginActivity.this, "Error", Toast.LENGTH_LONG).show();
+                            Toast.makeText(LoginActivity.this, "Account already exists", Toast.LENGTH_LONG).show();
 
                         }
 
@@ -577,16 +731,18 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 if (error instanceof TimeoutError || error instanceof NoConnectionError) {
 
                     Toast.makeText(LoginActivity.this, "Connection could not be established", Toast.LENGTH_LONG).show();
-
+                    showDialogMessage("Connection could not be established. Try again!");
 
                 } else if (error instanceof ParseError) {
 
                     Toast.makeText(LoginActivity.this, "Oops! Something went wrong. Data unreadable", Toast.LENGTH_LONG).show();
+                    showDialogMessage("Oops! Something went wrong. Parse Error. Try again!");
 
 
                 } else {
 
                     Toast.makeText(LoginActivity.this, "Something went wrong. Try Again", Toast.LENGTH_LONG).show();
+                    showDialogMessage("Oops! Something went wrong. Random! Try again!");
 
                 }
                 LoginManager.getInstance().logOut();
@@ -610,6 +766,25 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
         myApplicationClass.add(stringRequest);
+
+
+    }
+
+
+    public void showDialogMessage(String message) {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+        builder.setMessage(message);
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
 
 
     }

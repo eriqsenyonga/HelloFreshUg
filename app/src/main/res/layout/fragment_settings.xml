@@ -4,8 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".SettingsFragment"
-    >
+    tools:context=".SettingsFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
@@ -52,22 +51,21 @@
         android:id="@+id/b_logout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:text="Log out"
-        android:textColor="#FFFFFF"
         android:layout_margin="8dp"
-        android:background="@color/colorAccent"/>
+        android:layout_marginTop="32dp"
+        android:background="@color/colorAccent"
+        android:text="Log out"
+        android:textColor="#FFFFFF" />
 
     <com.facebook.login.widget.LoginButton
         android:id="@+id/fb_login_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
+        android:layout_marginTop="32dp"
         android:padding="120dp"
         android:textSize="20sp"
-        android:layout_marginTop="32dp"
-        android:visibility="gone"/>
-
+        android:visibility="gone" />
 
 
 </LinearLayout>

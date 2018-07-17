@@ -11,10 +11,32 @@ import android.view.View;
 
 public class SplashScreen extends AppCompatActivity {
 
+
+    String jsonFileFruits = "fruits.json";
+    String jsonFileVegetables = "vegetables.json";
+    String jsonFileHerbs = "spices.json";
+    String jsonFileSeaFood  = "seafood.json";
+    String jsonFileRedWine = "redwine.json";
+    String jsonFileWhiteWine  = "whitewine.json";
+
+    UsefulFunctions usefulFunctions;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
+
+        usefulFunctions = new UsefulFunctions(SplashScreen.this);
+
+        usefulFunctions.deleteFile(jsonFileFruits);
+        usefulFunctions.deleteFile(jsonFileVegetables);
+        usefulFunctions.deleteFile(jsonFileHerbs);
+        usefulFunctions.deleteFile(jsonFileSeaFood);
+        usefulFunctions.deleteFile(jsonFileRedWine);
+        usefulFunctions.deleteFile(jsonFileWhiteWine);
+
+
+
 
 
         final Handler handler = new Handler();
@@ -27,7 +49,7 @@ public class SplashScreen extends AppCompatActivity {
 
 
             }
-        }, 3000);
+        }, 2000);
 
 
     }

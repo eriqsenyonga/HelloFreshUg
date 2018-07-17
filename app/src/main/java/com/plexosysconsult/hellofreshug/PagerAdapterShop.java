@@ -13,6 +13,7 @@ public class PagerAdapterShop extends FragmentStatePagerAdapter {
     Context context;
     public static int SHOPADAPTER = 1;
     public static int ABOUTADAPTER = 2;
+    public static int ORDERDETAILSADAPTER = 3;
     int which;
     int tabNumber;
 
@@ -27,6 +28,10 @@ public class PagerAdapterShop extends FragmentStatePagerAdapter {
         }
 
         if (which == ABOUTADAPTER) {
+            tabNumber = 2;
+        }
+        if (which == ORDERDETAILSADAPTER) {
+
             tabNumber = 2;
         }
     }
@@ -47,16 +52,16 @@ public class PagerAdapterShop extends FragmentStatePagerAdapter {
                 return new ShopHerbsFragment();
             }
 
-            if(position == 3){
+            if (position == 3) {
 
                 return new ShopSeaFoodFragment();
             }
 
-            if(position == 4){
+            if (position == 4) {
 
                 return new ShopRedWineFragment();
             }
-            if (position == 5){
+            if (position == 5) {
 
                 return new ShopWhiteWineFragment();
             }
@@ -74,6 +79,17 @@ public class PagerAdapterShop extends FragmentStatePagerAdapter {
             }
             if (position == 1) {
                 return new AboutDevFragment();
+            }
+        }
+
+        if (which == ORDERDETAILSADAPTER) {
+
+
+            if (position == 0) {
+                return new OrderItemsFragment();
+            }
+            if (position == 1) {
+                return new OrderInfoFragment();
             }
         }
 
@@ -120,6 +136,16 @@ public class PagerAdapterShop extends FragmentStatePagerAdapter {
             }
             if (position == 1) {
                 return "Developers";
+            }
+        }
+
+        if (which == ORDERDETAILSADAPTER) {
+
+            if (position == 0) {
+                return "ITEMS";
+            }
+            if (position == 1) {
+                return "INFO";
             }
         }
 

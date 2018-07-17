@@ -15,7 +15,7 @@
         style="?android:attr/borderlessButtonStyle"
         android:layout_width="48dp"
         android:layout_height="wrap_content"
-        android:src="@drawable/cart"
+        android:src="@drawable/ic_shopping_cart_white"
         android:onClick="OpenCart"/>
 
 

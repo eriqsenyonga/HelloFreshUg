@@ -8,8 +8,8 @@ android {
         applicationId "com.plexosysconsult.hellofreshug"
         minSdkVersion 15
         targetSdkVersion 27
-        versionCode 3
-        versionName "2.0.1"
+        versionCode 4
+        versionName "3.0.0"
     }
     buildTypes {
         release {

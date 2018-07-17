@@ -65,8 +65,28 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+
+
+
         userSharedPrefs = getActivity().getSharedPreferences("USER_DETAILS",
                 Context.MODE_PRIVATE);
+
+
+        if (userSharedPrefs.getBoolean("available", false)){
+
+            bLogOut.setText("LOGIN");
+            bLogOut.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent i = new Intent(getActivity(), LoginActivity.class);
+                    startActivity(i);
+                }
+            });
+
+
+        }
+
+
 
         mCallbackManager = CallbackManager.Factory.create();
 
@@ -134,6 +154,9 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
 
 
         bLogOut.setOnClickListener(this);
+
+
+
 
     }
 

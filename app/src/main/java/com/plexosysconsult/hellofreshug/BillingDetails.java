@@ -50,6 +50,8 @@ public class BillingDetails extends AppCompatActivity implements View.OnClickLis
     SharedPreferences userSharedPrefs;
     SharedPreferences.Editor editor;
 
+    int customerId = 0;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,9 +79,11 @@ public class BillingDetails extends AppCompatActivity implements View.OnClickLis
                 Context.MODE_PRIVATE);
         // editor = userSharedPrefs.edit();
 
-        if(userSharedPrefs.getBoolean("available", false)){
+        if (userSharedPrefs.getBoolean("available", false)) {
 
             populateFields();
+            customerId = userSharedPrefs.getInt("customerId", 0);
+
 
         }
 
@@ -384,7 +388,8 @@ public class BillingDetails extends AppCompatActivity implements View.OnClickLis
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> map = new HashMap<>();
                 map.put("order_details_json_string", orderObject.toString());
-
+              //  map.put("email", tilEmail.getEditText().getText().toString().trim());
+                map.put("customer_id", "" + customerId);
                 return map;
             }
         };
@@ -413,13 +418,16 @@ public class BillingDetails extends AppCompatActivity implements View.OnClickLis
 
         //   Log.d("billing timeout","" + placeOrderOnlineRequest.getTimeoutMs());
 
+
+        Log.d("orderObject", orderObject.toString());
+
         myApplicationClass.add(placeOrderOnlineRequest);
 
 
     }
 
 
-    public void populateFields(){
+    public void populateFields() {
 
         String fname = userSharedPrefs.getString("fname", "");
         String lname = userSharedPrefs.getString("lname", "");

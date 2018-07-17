@@ -6,6 +6,9 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by senyer on 6/21/2016.
  */
@@ -16,6 +19,8 @@ public class MyApplicationClass extends Application {
     public static final String TAG = MyApplicationClass.class.getName();
     private String generalUrl = "http://hellofreshuganda.com/";
 
+    List<OrderLineItem> orderLineItems;
+
     Cart cart;
 
 
@@ -25,6 +30,7 @@ public class MyApplicationClass extends Application {
         mInstance = this;
         mRequestQueue = Volley.newRequestQueue(getApplicationContext());
         cart = new Cart(getApplicationContext());
+        orderLineItems = new ArrayList<>();
     }
 
 
@@ -52,6 +58,16 @@ public class MyApplicationClass extends Application {
 
     public void updateCart(Cart updatedCart) {
         cart = updatedCart;
+    }
+
+    public void setSelectedOrderLineItems(List<OrderLineItem> orderLineItems){
+
+       this.orderLineItems = orderLineItems;
+
+    }
+
+    public List<OrderLineItem> getSelectedOrderLineItems(){
+        return orderLineItems;
     }
 
 

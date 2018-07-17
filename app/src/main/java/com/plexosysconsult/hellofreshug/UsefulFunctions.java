@@ -17,7 +17,7 @@ public class UsefulFunctions {
     Context context;
 
 
-    public UsefulFunctions(Context c){
+    public UsefulFunctions(Context c) {
 
         context = c;
     }
@@ -72,6 +72,35 @@ public class UsefulFunctions {
             return true;
         } else {
             return false;
+        }
+
+
+    }
+
+    public void deleteFile(String fileName) {
+
+
+        if (checkForJsonFile(fileName) == true) {
+            //if file exists, delete it
+
+            File f = new File("/data/data/" + context.getApplicationContext().getPackageName() + "/" + fileName);
+
+            f.delete();
+
+            if (f.exists()) {
+                try {
+                    f.getCanonicalFile().delete();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+
+                if (f.exists()) {
+                    context.getApplicationContext().deleteFile(f.getName());
+                }
+            }
+
+
         }
 
 
