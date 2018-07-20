@@ -377,7 +377,6 @@ public class BillingDetails extends AppCompatActivity implements View.OnClickLis
                             builder.setMessage("Oops! Something went wrong. Data unreadable");
 
                         }
-                        //       errorLayout.setVisibility(View.VISIBLE);
 
                         Dialog dialog = builder.create();
                         dialog.show();
