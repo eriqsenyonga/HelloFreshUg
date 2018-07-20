@@ -18,6 +18,7 @@ import com.android.volley.NoConnectionError;
 import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.Response;
+import com.android.volley.ServerError;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
@@ -56,6 +57,8 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
     private static final String NONCE_URL = "http://www.hellofreshuganda.com/api/get_nonce/?controller=user&method=register";
     private static final String REGISTER_URL = "http://hellofreshuganda.com/api/user/register/?insecure=cool";
+    private static final String REGISTER_URL_WOO = "http://www.hellofreshuganda.com/example/createCustomer.php";
+
 
     SharedPreferences userSharedPrefs;
     SharedPreferences.Editor editor;
@@ -215,11 +218,11 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 String username = email;
 
                 //get nonce
-                getNonce();
+                // getNonce();
 
                 //attempt to register the ninja
-                registerNewPerson(fname, lname, email, password, username);
-
+                //    registerNewPerson(fname, lname, email, password, username);
+                registerNewPersonWooCommerceVersion(fname, lname, email, username, password);
 
             }
 
@@ -609,6 +612,139 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             public void onClick(DialogInterface dialog, int which) {
 
 
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+
+
+    }
+
+
+    private void registerNewPersonWooCommerceVersion(final String fname, final String lname, final String email, String username, String password) {
+
+        StringRequest stringRequest = new StringRequest(Request.Method.GET,
+                REGISTER_URL_WOO
+                        //  + "&nonce=" + nonce
+                        + "?username=" + username
+                        + "&display_name=" + fname
+                        + "&first_name=" + fname
+                        + "&last_name=" + lname
+                        + "&email=" + email
+                        + "&password=" + password,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        // Display the first 500 characters of the response string.
+                        // mTextView.setText("Response is: "+ response.substring(0,500));
+
+                        //Log.d("jsonresponse", response);
+
+                        try {
+
+
+                            JSONObject jsonResponse = new JSONObject(response);
+
+                            int customerId = jsonResponse.getJSONObject("customer").getInt("id");
+                            saveUserDetailsInSharedPrefs(fname, lname, email, customerId);
+                            editor.putBoolean("facebooklogin", false);
+                            editor.apply();
+                            goToMainActivity();
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            Toast.makeText(RegisterActivity.this, "Account already exists", Toast.LENGTH_LONG).show();
+
+                        }
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                // mTextView.setText("That didn't work!");
+
+                //   pbLoading.setVisibility(View.GONE);
+
+                if (error instanceof TimeoutError || error instanceof NoConnectionError) {
+
+                    Toast.makeText(RegisterActivity.this, "Connection could not be established", Toast.LENGTH_LONG).show();
+                    showDialogMessage("Connection could not be established. Try again!");
+
+                } else if (error instanceof ParseError) {
+
+                    Toast.makeText(RegisterActivity.this, "Oops! Something went wrong. Data unreadable", Toast.LENGTH_LONG).show();
+                    showDialogMessage("Oops! Something went wrong. Parse Error. Try again!");
+
+
+                } else if (error instanceof ServerError) {
+
+                    //user already exists
+                    Toast.makeText(RegisterActivity.this, "User already exists. Go to login", Toast.LENGTH_LONG).show();
+                    showDialogMessageToGoToLogin("User already exists. Go to login!");
+
+                } else {
+
+                    showDialogMessage("Oops! Something went wrong. Please try again!");
+
+
+                }
+                LoginManager.getInstance().logOut();
+
+                // bRegister.setActivated(true);
+                //  bRegister.setText("Register");
+                //  errorLayout.setVisibility(View.VISIBLE);
+            }
+        }) {
+
+
+            @Override
+            public Priority getPriority() {
+                return Priority.IMMEDIATE;
+            }
+        };
+
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(
+                5000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+        myApplicationClass.add(stringRequest);
+
+
+    }
+
+
+    public void showDialogMessageToGoToLogin(String message) {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
+        builder.setMessage(message);
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                Intent i = new Intent(RegisterActivity.this, LoginActivity.class);
+                startActivity(i);
+                finish();
+            }
+        });
+
+        builder.setCancelable(false);
+        builder.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialog) {
+                Intent i = new Intent(RegisterActivity.this, LoginActivity.class);
+                startActivity(i);
+                finish();
+            }
+        });
+
+        builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                Intent i = new Intent(RegisterActivity.this, LoginActivity.class);
+                startActivity(i);
+                finish();
             }
         });
 

@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
     android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.plexosysconsult.hellofreshug.BillingDetails">
@@ -152,6 +151,25 @@
 
                 </android.support.design.widget.TextInputLayout>
 
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/til_order_notes"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp">
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:hint="Order Notes"
+                        android:inputType="textMultiLine"
+                        android:maxLines="5"
+                        android:minLines="2"
+                        android:scrollbars="vertical" />
+
+
+                </android.support.design.widget.TextInputLayout>
+
                 <CheckBox
                     android:id="@+id/cb_create_account"
                     android:layout_width="wrap_content"
@@ -205,7 +223,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="4dp"
         android:background="@color/colorAccent"
-        android:textColor="#FFFFFF"
-        android:text="Place Order" />
+        android:text="Place Order"
+        android:textColor="#FFFFFF" />
 
 </LinearLayout>

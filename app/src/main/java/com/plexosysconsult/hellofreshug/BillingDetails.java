@@ -39,7 +39,7 @@ import java.util.Map;
 public class BillingDetails extends AppCompatActivity implements View.OnClickListener {
 
     TextInputLayout tilFirstName, tilSurName, tilEmail, tilPhoneNumber,
-            tilPassword, tilReenterPassword, tilDeliveryAddress, tilTownCity;
+            tilPassword, tilReenterPassword, tilDeliveryAddress, tilTownCity, tilOrderNotes;
     Button bPlaceOrder;
     CheckBox cbCreateAccount;
     MyApplicationClass myApplicationClass = MyApplicationClass.getInstance();
@@ -73,6 +73,7 @@ public class BillingDetails extends AppCompatActivity implements View.OnClickLis
         tilReenterPassword = (TextInputLayout) findViewById(R.id.til_reenter_password);
         bPlaceOrder = (Button) findViewById(R.id.b_place_order);
         cbCreateAccount = (CheckBox) findViewById(R.id.cb_create_account);
+        tilOrderNotes = (TextInputLayout) findViewById(R.id.til_order_notes);
 
 
         userSharedPrefs = getSharedPreferences("USER_DETAILS",
@@ -388,8 +389,9 @@ public class BillingDetails extends AppCompatActivity implements View.OnClickLis
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> map = new HashMap<>();
                 map.put("order_details_json_string", orderObject.toString());
-              //  map.put("email", tilEmail.getEditText().getText().toString().trim());
+                //  map.put("email", tilEmail.getEditText().getText().toString().trim());
                 map.put("customer_id", "" + customerId);
+                map.put("order_notes", tilOrderNotes.getEditText().getText().toString().trim());
                 return map;
             }
         };

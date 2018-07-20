@@ -34,10 +34,10 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/tv_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
@@ -46,11 +46,12 @@
                 android:gravity="center_horizontal"
                 android:paddingBottom="16dp"
                 android:paddingTop="16dp"
-                android:text="HELLO FRESH UG"
+                android:text="Hello Fresh Uganda"
                 android:textColor="#ffffff"
-                android:textSize="@dimen/hello_size"
                 android:textStyle="bold"
                 android:typeface="normal"
+                android:textSize="40sp"
+                android:shadowColor="#87949494"
 
                 />
 

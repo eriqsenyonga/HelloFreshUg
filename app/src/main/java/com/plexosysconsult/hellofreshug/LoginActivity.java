@@ -368,7 +368,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             3. tell nigga to reset via his email or some shit
 
              */
-
+//currently using a method that is not very secure. Anyone can reset anyone's password which is not kawa. Will get solution for using email later
+            Intent intent = new Intent(LoginActivity.this, PasswordResetActivity.class);
+            startActivity(intent);
 
         }
 
@@ -658,7 +660,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         StringRequest stringRequest = new StringRequest(Request.Method.GET,
                 REGISTER_URL
                         //  + "&nonce=" + nonce
-                        + "&username=" + username
+                        + "?username=" + username
                         + "&display_name=" + fname
                         + "&first_name=" + fname
                         + "&last_name=" + lname

@@ -95,9 +95,14 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".OrderDetailsActivity"
-            android:theme="@style/AppTheme.NoActionBar"><meta-data
-            android:name="android.support.PARENT_ACTIVITY"
-            android:value="com.plexosysconsult.hellofreshug.MainActivity" /></activity>
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.plexosysconsult.hellofreshug.MainActivity" />
+        </activity>
+        <activity
+            android:name=".PasswordResetActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>
