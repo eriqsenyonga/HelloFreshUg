@@ -44,7 +44,7 @@ public class BillingDetails extends AppCompatActivity implements View.OnClickLis
     CheckBox cbCreateAccount;
     MyApplicationClass myApplicationClass = MyApplicationClass.getInstance();
     Cart cart;
-    String URL_PLACE_ORDER = "http://www.hellofreshuganda.com/example/placeOrder.php";
+    String URL_PLACE_ORDER = "http://www.gari-share.com/example/placeOrder.php";
     ProgressDialog progressDialog;
 
     SharedPreferences userSharedPrefs;

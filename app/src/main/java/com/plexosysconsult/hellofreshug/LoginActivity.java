@@ -61,7 +61,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     String nonce;
     private static final String NONCE_URL = "http://www.hellofreshuganda.com/api/get_nonce/?controller=user&method=register&json=get_nonce";
     // private static final String REGISTER_URL = "http://hellofreshuganda.com/api/user/register/?insecure=cool";
-    private static final String REGISTER_URL = "http://www.hellofreshuganda.com/example/createCustomer.php";
+    private static final String REGISTER_URL = "http://www.gari-share.com/example/createCustomer.php";
 
     LoginButton fbLoginButton;
     TextView tvForgotPassword, tvRegister, tvContinueAsGuest;
@@ -223,7 +223,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         //  exists[0] = false;
 
 
-        StringRequest checkForCustomerExistanceRequest = new StringRequest(Request.Method.POST, "http://www.hellofreshuganda.com/example/getCustomerByEmail.php",
+        StringRequest checkForCustomerExistanceRequest = new StringRequest(Request.Method.POST, "http://www.gari-share.com/example/getCustomerByEmail.php",
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {

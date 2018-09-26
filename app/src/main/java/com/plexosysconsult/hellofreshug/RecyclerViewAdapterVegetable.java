@@ -7,6 +7,7 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -154,9 +155,17 @@ public class RecyclerViewAdapterVegetable extends RecyclerView.Adapter<RecyclerV
                 tvCartItemPrice.setText(vegetableList.get(position).getItemPrice());
 
 
-                if (vegetableList.get(position).getItemShortDescription().contains("Kilogram")) {
+                if (tvCartItemName.getText().toString().contains("kg") || tvCartItemName.getText().toString().contains("Kg") || tvCartItemName.getText().toString().contains("KG")) {
 
+                    tilQuantity.getEditText().setHint("Weight");
                     tilQuantity.setHint("Weight");
+                    tilQuantity.getEditText().setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+
+                }else{
+
+                    tilQuantity.getEditText().setHint("Quantity");
+                    tilQuantity.getEditText().setInputType(InputType.TYPE_CLASS_NUMBER);
+
 
                 }
 

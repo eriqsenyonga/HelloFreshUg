@@ -43,7 +43,7 @@ public class ShopHerbsFragment extends Fragment implements View.OnClickListener 
 
     RecyclerView recyclerView;
     View v;
-    String URL_GET_SPICES = "http://www.hellofreshuganda.com/example/getAllHerbs.php";
+    String URL_GET_SPICES = "http://www.gari-share.com/example/getAllHerbs.php";
     MyApplicationClass myApplicationClass = MyApplicationClass.getInstance();
     List<Item> spicesToShow;
     UsefulFunctions usefulFunctions;

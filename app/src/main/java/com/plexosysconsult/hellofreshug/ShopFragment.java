@@ -58,7 +58,7 @@ public class ShopFragment extends Fragment {
 
         PagerAdapterShop adapterShop = new PagerAdapterShop(getChildFragmentManager(), getActivity(), PagerAdapterShop.SHOPADAPTER);
         viewPager.setAdapter(adapterShop);
-        viewPager.setOffscreenPageLimit(4);
+        viewPager.setOffscreenPageLimit(3);
 
         tabs.setupWithViewPager(viewPager);
 

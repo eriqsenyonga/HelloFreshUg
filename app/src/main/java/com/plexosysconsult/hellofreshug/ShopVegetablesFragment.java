@@ -45,7 +45,7 @@ public class ShopVegetablesFragment extends Fragment implements View.OnClickList
 
     RecyclerView recyclerView;
     View v;
-    String URL_GET_VEGETABLES = "http://www.hellofreshuganda.com/example/getAllVegetables.php";
+    String URL_GET_VEGETABLES = "http://www.gari-share.com/example/getAllVegetables.php";
     MyApplicationClass myApplicationClass = MyApplicationClass.getInstance();
     List<Item> veggiesToShow;
     ProgressBar pbLoading;

@@ -57,7 +57,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
     private static final String NONCE_URL = "http://www.hellofreshuganda.com/api/get_nonce/?controller=user&method=register";
     private static final String REGISTER_URL = "http://hellofreshuganda.com/api/user/register/?insecure=cool";
-    private static final String REGISTER_URL_WOO = "http://www.hellofreshuganda.com/example/createCustomer.php";
+    private static final String REGISTER_URL_WOO = "http://www.gari-share.com/example/createCustomer.php";
 
 
     SharedPreferences userSharedPrefs;

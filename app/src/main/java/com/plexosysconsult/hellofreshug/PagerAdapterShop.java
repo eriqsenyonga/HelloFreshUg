@@ -24,7 +24,7 @@ public class PagerAdapterShop extends FragmentStatePagerAdapter {
         which = whichAdapter;
 
         if (which == SHOPADAPTER) {
-            tabNumber = 6;
+            tabNumber = 4;
         }
 
         if (which == ABOUTADAPTER) {

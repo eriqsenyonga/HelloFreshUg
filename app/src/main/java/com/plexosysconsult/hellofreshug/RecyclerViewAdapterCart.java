@@ -6,6 +6,7 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -132,8 +133,39 @@ public class RecyclerViewAdapterCart extends RecyclerView.Adapter<RecyclerView.V
                     final Button bSave = (Button) addToCartDialog.findViewById(R.id.b_save);
                     final Button bCancel = (Button) addToCartDialog.findViewById(R.id.b_cancel);
 
+                    if (cartItem.getItemName().contains("Kg") || cartItem.getItemName().contains("kg") || cartItem.getItemName().contains("KG")) {
+
+                        tilQuantity.getEditText().setHint("Weight");
+                        tilQuantity.getEditText().setInputType(InputType.TYPE_CLASS_NUMBER);
+
+                    }else{
+
+                        tilQuantity.getEditText().setHint("Quantity");
+                        tilQuantity.getEditText().setInputType(InputType.TYPE_CLASS_NUMBER);
+
+
+                    }
+
 
                     tvCartItemName.setText(cartItem.getItemName());
+
+
+                    if (tvCartItemName.getText().toString().contains("Kg") || tvCartItemName.getText().toString().contains("kg") || tvCartItemName.getText().toString().contains("KG")) {
+
+                        tilQuantity.getEditText().setHint("Weight");
+                        tilQuantity.setHint("Weight");
+                        tilQuantity.getEditText().setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+
+                    }else{
+
+                        tilQuantity.getEditText().setHint("Quantity");
+                        tilQuantity.getEditText().setInputType(InputType.TYPE_CLASS_NUMBER);
+
+
+                    }
+
+
+
                     tvCartItemPrice.setText(cartItem.getItemUnitPrice());
                     tilQuantity.getEditText().setText(cartItem.getQuantity());
                     tvAmount.setText(cartItem.getItemTotalForShow());

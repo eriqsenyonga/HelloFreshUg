@@ -48,7 +48,7 @@ public class ShopWhiteWineFragment extends Fragment implements View.OnClickListe
 
     RecyclerView recyclerView;
     View v;
-    String URL_GET_FRUITS = "http://www.hellofreshuganda.com/example/getAllWhiteWine.php";
+    String URL_GET_FRUITS = "http://www.gari-share.com/example/getAllWhiteWine.php";
     MyApplicationClass myApplicationClass = MyApplicationClass.getInstance();
     List<Item> fruitsToShow;
     SwipeRefreshLayout swipeRefreshLayout;

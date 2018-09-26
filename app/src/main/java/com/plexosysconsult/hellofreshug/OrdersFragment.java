@@ -45,8 +45,9 @@ import java.util.Map;
  */
 public class OrdersFragment extends Fragment {
 
-    private static final String URL_GET_ORDERS = "http://www.hellofreshuganda.com/example/getCustomerOrdersByEmail.php";
-
+    private static final String URL_GET_ORDERS = "http://www.gari-share.com/example/getCustomerOrdersByEmail.php";
+//app files are stored on gari share server for security purposes
+    
 
     MyApplicationClass myApplicationClass = MyApplicationClass.getInstance();
     List<Order> ordersToShow;

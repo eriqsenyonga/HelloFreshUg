@@ -39,7 +39,7 @@ public class SearchableActivity extends AppCompatActivity implements View.OnClic
 
     RecyclerView recyclerView;
 
-    String URL_GET_ITEMS = "http://www.hellofreshuganda.com/example/search.php";
+    String URL_GET_ITEMS = "http://www.gari-share.com/example/search.php";
 
     MyApplicationClass myApplicationClass = MyApplicationClass.getInstance();
     //  List<Item> itemsToShow;

@@ -48,7 +48,7 @@ public class ShopSeaFoodFragment extends Fragment implements View.OnClickListene
 
     RecyclerView recyclerView;
     View v;
-    String URL_GET_FRUITS = "http://www.hellofreshuganda.com/example/getAllSeaFood.php";
+    String URL_GET_FRUITS = "http://www.gari-share.com/example/getAllSeaFood.php";
     MyApplicationClass myApplicationClass = MyApplicationClass.getInstance();
     List<Item> fruitsToShow;
     SwipeRefreshLayout swipeRefreshLayout;
