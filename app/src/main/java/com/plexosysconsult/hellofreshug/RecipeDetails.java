@@ -14,8 +14,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
 
 import org.w3c.dom.Text;
@@ -57,10 +59,8 @@ public class RecipeDetails extends AppCompatActivity {
         Glide
                 .with(this)
                 .load(recipeBundle.getString("imageUrl"))
-                .centerCrop()
-                //      .placeholder(R.drawable.placeholder_veggie)
-                .crossFade()
-
+                .apply(new RequestOptions().centerCrop())                //      .placeholder(R.drawable.placeholder_veggie)
+                .transition(new DrawableTransitionOptions().crossFade())
                 .into(header);
 
     }
@@ -75,7 +75,6 @@ public class RecipeDetails extends AppCompatActivity {
             @Override
             public void run() {
                 heightPx = findViewById(R.id.app_bar_layout).getHeight();
-
 
 
                 setAppBarOffset((heightPx * 3) / 5);
@@ -93,7 +92,7 @@ public class RecipeDetails extends AppCompatActivity {
 
     private void setAppBarOffset(int offsetPx) {
 
-      //  Log.d("offsetPx", "" + offsetPx);
+        //  Log.d("offsetPx", "" + offsetPx);
         CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) mAppBarLayout.getLayoutParams();
         AppBarLayout.Behavior behavior = (AppBarLayout.Behavior) params.getBehavior();
         behavior.onNestedPreScroll(mCoordinatorLayout, mAppBarLayout, null, 0, heightPx - offsetPx, new int[]{0, 0});

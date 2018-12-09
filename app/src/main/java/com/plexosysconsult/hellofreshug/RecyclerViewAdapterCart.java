@@ -2,6 +2,8 @@ package com.plexosysconsult.hellofreshug;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
@@ -16,8 +18,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
+
 import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
 import com.plexosysconsult.hellofreshug.ItemClickListener;
 
@@ -95,24 +101,24 @@ public class RecyclerViewAdapterCart extends RecyclerView.Adapter<RecyclerView.V
             cartItemViewHolder.tvQuantity.setText(cartItem.getQuantity());
             cartItemViewHolder.tvPrice.setText(cartItem.getItemTotalForShow());
 
+
             Glide
                     .with(context)
                     .load(cartItem.getItemImageUrl())
-                    .centerCrop()
-                    //      .placeholder(R.drawable.placeholder_veggie)
-                    .crossFade()
-                    .listener(new RequestListener<String, GlideDrawable>() {
+                    .apply(new RequestOptions().centerCrop())
+                    .transition(new DrawableTransitionOptions().crossFade())
+                    .listener(new RequestListener<Drawable>() {
                         @Override
-                        public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
-                            //  cartItemViewHolder.loading.setVisibility(View.GONE);
+                        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
                             return false;
                         }
 
                         @Override
-                        public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
-                            //  itemViewHolder.loading.setVisibility(View.GONE);
+                        public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
                             return false;
                         }
+
+
                     })
                     .into(cartItemViewHolder.ivImage);
 
@@ -138,7 +144,7 @@ public class RecyclerViewAdapterCart extends RecyclerView.Adapter<RecyclerView.V
                         tilQuantity.getEditText().setHint("Weight");
                         tilQuantity.getEditText().setInputType(InputType.TYPE_CLASS_NUMBER);
 
-                    }else{
+                    } else {
 
                         tilQuantity.getEditText().setHint("Quantity");
                         tilQuantity.getEditText().setInputType(InputType.TYPE_CLASS_NUMBER);
@@ -156,14 +162,13 @@ public class RecyclerViewAdapterCart extends RecyclerView.Adapter<RecyclerView.V
                         tilQuantity.setHint("Weight");
                         tilQuantity.getEditText().setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
 
-                    }else{
+                    } else {
 
                         tilQuantity.getEditText().setHint("Quantity");
                         tilQuantity.getEditText().setInputType(InputType.TYPE_CLASS_NUMBER);
 
 
                     }
-
 
 
                     tvCartItemPrice.setText(cartItem.getItemUnitPrice());

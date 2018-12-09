@@ -43,7 +43,7 @@ public class SplashScreen extends AppCompatActivity {
         usefulFunctions.deleteFile(jsonFileWhiteWine);
 
 
-        beautifulTypeFace = Typeface.createFromAsset(this.getAssets(), "fonts/Beautiful-People.ttf");
+        beautifulTypeFace = Typeface.createFromAsset(this.getAssets(), "fonts/AdobeArabic-Bold.ttf");
         textView.setTypeface(beautifulTypeFace);
 
 
