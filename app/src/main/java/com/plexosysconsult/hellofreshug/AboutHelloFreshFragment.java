@@ -71,7 +71,7 @@ public class AboutHelloFreshFragment extends Fragment {
 
         View aboutPage = new AboutPage(getActivity())
                 .isRTL(false).setDescription(getString(R.string.about_hellofresh))
-                .setImage(R.drawable.hellofreshlogotrans)
+                .setImage(R.drawable.full_logo_actual_half)
                 //       .addItem(versionElement)
                 //      .addItem(adsElement)
                 .addGroup("Connect with us")
