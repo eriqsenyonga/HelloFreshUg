@@ -233,6 +233,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (id == R.id.nav_orders) {
             fragment = new OrdersFragment();
         }
+
+        if (id == R.id.nav_special_offers) {
+            fragment = new SpecialOffersFragment();
+        }
 /*
         if (id == R.id.nav_recipes) {
             fragment = new RecipesFragment();

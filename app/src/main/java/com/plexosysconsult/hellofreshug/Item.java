@@ -16,8 +16,15 @@ public class Item {
     Boolean hasVariations;
     List<Item> itemVariations;
     String optionUnit;
+    String description;
 
+    public String getDescription() {
+        return description;
+    }
 
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
     public Item(){
 

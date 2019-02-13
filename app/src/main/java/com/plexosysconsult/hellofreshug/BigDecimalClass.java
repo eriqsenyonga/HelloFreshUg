@@ -80,6 +80,30 @@ public class BigDecimalClass {
 
     }
 
+    public String convertLongStringToDisplayCurrencyString(String total) {
+
+        BigDecimal bd1 = new BigDecimal(total);
+
+        Long tot = bd1.longValue();
+
+
+        NumberFormat numberFormat = NumberFormat.getCurrencyInstance();
+
+        DecimalFormatSymbols dfs = new DecimalFormatSymbols();
+        dfs.setCurrencySymbol("UGX");
+        dfs.setGroupingSeparator(',');
+        dfs.setMonetaryDecimalSeparator('.');
+
+        numberFormat.setMaximumFractionDigits(0);
+        numberFormat.setRoundingMode(RoundingMode.HALF_EVEN);
+        ((DecimalFormat) numberFormat).setDecimalFormatSymbols(dfs);
+
+        String displayString = numberFormat.format(tot);
+
+        return displayString;
+
+    }
+
     public String convertLongToDisplayCurrencyString(Long total) {
 
         NumberFormat numberFormat = NumberFormat.getCurrencyInstance();

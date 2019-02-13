@@ -13,7 +13,7 @@
         <item
             android:id="@+id/nav_cart"
             android:icon="@drawable/ic_shopping_cart"
-            android:title="Cart"/>
+            android:title="Cart" />
 
         <!--
                 <item
@@ -22,19 +22,24 @@
                     android:title="My Account"
                    />
 -->
-                <item
-                    android:id="@+id/nav_orders"
-                    android:icon="@drawable/ic_orders"
-                    android:title="My Orders" />
-
-<!--
         <item
-            android:id="@+id/nav_recipes"
-            android:icon="@drawable/ic_featured_play_list_black_24dp"
+            android:id="@+id/nav_orders"
+            android:icon="@drawable/ic_orders"
+            android:title="My Orders" />
 
-            android:title="Recipes" />
+        <item
+            android:id="@+id/nav_special_offers"
+            android:icon="@drawable/ic_star"
+            android:title="Special Offers" />
 
-              -->
+        <!--
+                <item
+                    android:id="@+id/nav_recipes"
+                    android:icon="@drawable/ic_featured_play_list_black_24dp"
+
+                    android:title="Recipes" />
+
+                      -->
 
         <!--       <item
                    android:id="@+id/nav_chats"
