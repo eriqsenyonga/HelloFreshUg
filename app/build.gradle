@@ -8,8 +8,8 @@ android {
         applicationId "com.plexosysconsult.hellofreshug"
         minSdkVersion 16
         targetSdkVersion 28
-        versionCode 8
-        versionName "3.2.2"
+        versionCode 10
+        versionName "3.3.1"
     }
     buildTypes {
         release {
@@ -40,7 +40,7 @@ dependencies {
     implementation 'com.github.paolorotolo:appintro:4.0.0'
     implementation 'com.flaviofaria:kenburnsview:1.0.7'
     implementation 'com.github.medyo:android-about-page:1.2.4'
-    implementation 'com.facebook.android:facebook-login:4.36.0'
+    implementation 'com.facebook.android:facebook-login:4.39.0'
 
 
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'

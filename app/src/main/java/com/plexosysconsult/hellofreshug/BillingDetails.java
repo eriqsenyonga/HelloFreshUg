@@ -312,6 +312,7 @@ public class BillingDetails extends AppCompatActivity implements View.OnClickLis
                             //  Log.d("billing", "3");
 
                             Intent i = new Intent(BillingDetails.this, OrderSuccessActivity.class);
+                            i.putExtra("email", tilEmail.getEditText().getText().toString());
                             progressDialog.cancel();
                             startActivity(i);
                             finish();
