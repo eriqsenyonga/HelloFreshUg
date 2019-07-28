@@ -17,7 +17,7 @@ public class MyApplicationClass extends Application {
     private RequestQueue mRequestQueue;
     private static MyApplicationClass mInstance;
     public static final String TAG = MyApplicationClass.class.getName();
-    private String generalUrl = "http://hellofreshuganda.com/";
+    private String generalUrl = "https://hellofreshuganda.com/";
 
     List<OrderLineItem> orderLineItems;
 

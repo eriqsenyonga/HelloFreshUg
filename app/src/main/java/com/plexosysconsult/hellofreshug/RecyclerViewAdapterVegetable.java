@@ -170,7 +170,7 @@ public class RecyclerViewAdapterVegetable extends RecyclerView.Adapter<RecyclerV
                 } else {
 
                     tilQuantity.getEditText().setHint("Quantity");
-                    tilQuantity.getEditText().setInputType(InputType.TYPE_CLASS_NUMBER);
+                    tilQuantity.getEditText().setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
 
 
                 }
