@@ -24,7 +24,7 @@ public class PagerAdapterShop extends FragmentStatePagerAdapter {
         which = whichAdapter;
 
         if (which == SHOPADAPTER) {
-            tabNumber = 4;
+            tabNumber = 5;
         }
 
         if (which == ABOUTADAPTER) {
@@ -51,17 +51,21 @@ public class PagerAdapterShop extends FragmentStatePagerAdapter {
             if (position == 2) {
                 return new ShopHerbsFragment();
             }
-
             if (position == 3) {
 
-                return new ShopSeaFoodFragment();
+                return new ShopSpicesFragment();
             }
 
             if (position == 4) {
 
+                return new ShopSeaFoodFragment();
+            }
+
+            if (position == 5) {
+
                 return new ShopRedWineFragment();
             }
-            if (position == 5) {
+            if (position == 6) {
 
                 return new ShopWhiteWineFragment();
             }
@@ -117,14 +121,17 @@ public class PagerAdapterShop extends FragmentStatePagerAdapter {
             }
 
             if (position == 3) {
+                return "Spices";
+            }
+            if (position == 4) {
                 return "Sea Food";
             }
 
-            if (position == 4) {
+            if (position == 5) {
                 return "Red Wine";
             }
 
-            if (position == 5) {
+            if (position == 6) {
                 return "White Wine";
             }
         }

@@ -39,11 +39,11 @@ import java.util.Map;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ShopHerbsFragment extends Fragment implements View.OnClickListener {
+public class ShopSpicesFragment extends Fragment implements View.OnClickListener {
 
     RecyclerView recyclerView;
     View v;
-    String URL_GET_SPICES = "http://www.gari-share.com/example/getAllHerbs.php";
+    String URL_GET_SPICES = "http://www.gari-share.com/example/getAllSpices.php";
     MyApplicationClass myApplicationClass = MyApplicationClass.getInstance();
     List<Item> spicesToShow;
     UsefulFunctions usefulFunctions;
@@ -51,10 +51,10 @@ public class ShopHerbsFragment extends Fragment implements View.OnClickListener 
     LinearLayout errorLayout;
     Button bReload;
     TextView tvErrorMsg;
-    String jsonFileName = "herbs.json";
+    String jsonFileName = "spices.json";
 
 
-    public ShopHerbsFragment() {
+    public ShopSpicesFragment() {
         // Required empty public constructor
     }
 
@@ -88,7 +88,7 @@ public class ShopHerbsFragment extends Fragment implements View.OnClickListener 
 
             //if file is available
 
-         //   Log.d("JSON file available", "true");
+            //   Log.d("JSON file available", "true");
 
             try {
 
@@ -103,7 +103,7 @@ public class ShopHerbsFragment extends Fragment implements View.OnClickListener 
 
         } else {
             //if file is not available
-        //    Log.d("JSON file available", "true");
+            //    Log.d("JSON file available", "true");
             fetchSpicesJson();
         }
         bReload.setOnClickListener(this);

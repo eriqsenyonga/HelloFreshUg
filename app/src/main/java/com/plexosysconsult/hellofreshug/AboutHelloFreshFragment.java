@@ -76,7 +76,7 @@ public class AboutHelloFreshFragment extends Fragment {
                 //      .addItem(adsElement)
                 .addGroup("Connect with us")
                 .addEmail("hellofreshug@gmail.com")
-                .addWebsite("http://www.hellofreshuganda.com")
+                .addWebsite("https://www.hellofreshuganda.com")
                 .addItem(callElement)
                 .addFacebook("hellofreshug")
                 //        .addTwitter("medyo80")

@@ -19,7 +19,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="@dimen/activity_horizontal_margin"
-        android:src="@drawable/hellofreshlogotrans"
+        android:src="@drawable/full_logo_actual_half"
         android:textColor="#ffffff" />
 
     <Button

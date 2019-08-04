@@ -21,7 +21,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#68000000" />
+        android:background="#FFFFFF" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -67,7 +67,7 @@
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:padding="16dp"
-                android:src="@drawable/full_logo" />
+                android:src="@drawable/full_logo_actual_half" />
 
             <!--         </android.support.v7.widget.CardView>    -->
 
@@ -83,12 +83,45 @@
             android:gravity="center_horizontal"
             android:paddingBottom="16dp"
 
-            android:text="Convenience Delivered Fresh"
+            android:text="Convenience | Delivered | Fresh"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="#ffffff"
+            android:textColor="#007833"
             android:textStyle="bold" />
 
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/activity_horizontal_margin"
+        android:orientation="horizontal"
+        android:layout_gravity="bottom">
+
+        <View
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:background="#0c8abc" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:background="#77bc1f" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:background="#007833" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:background="#F3F1F1" />
+
+
+
+    </LinearLayout>
 
 </FrameLayout>

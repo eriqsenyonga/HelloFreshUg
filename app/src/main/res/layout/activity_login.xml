@@ -41,7 +41,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
                 android:gravity="center"
-                android:text="Convenience Delivered Fresh"
+                android:text="Convenience | Delivered | Fresh"
                 android:textColor="#ffffff"
                 android:textStyle="bold" />
 
@@ -49,7 +49,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="#FFFFFF"
-                app:cardCornerRadius="8dp">
+                app:cardCornerRadius="4dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
