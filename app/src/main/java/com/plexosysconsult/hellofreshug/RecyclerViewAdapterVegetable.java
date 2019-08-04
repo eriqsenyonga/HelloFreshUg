@@ -155,11 +155,29 @@ public class RecyclerViewAdapterVegetable extends RecyclerView.Adapter<RecyclerV
                 final TextView tvAmount = (TextView) addToCartDialog.findViewById(R.id.tv_amount);
                 final TextInputLayout tilQuantity = (TextInputLayout) addToCartDialog.findViewById(R.id.til_quantity);
                 FloatingActionButton fabAddToCart = (FloatingActionButton) addToCartDialog.findViewById(R.id.fab_add_to_cart);
-
+                ImageView ivItemImage = addToCartDialog.findViewById(R.id.iv_item_image);
 
                 tvCartItemName.setText(vegetableList.get(position).getItemName());
                 tvCartItemPrice.setText(vegetableList.get(position).getItemPrice());
+                Glide
+                        .with(context)
+                        .load(vegetableList.get(position).getImageUrl())
+                        .apply(new RequestOptions().centerCrop())
+                        .transition(new DrawableTransitionOptions().crossFade())
+                        .listener(new RequestListener<Drawable>() {
+                            @Override
+                            public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                                return false;
+                            }
 
+                            @Override
+                            public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                                return false;
+                            }
+
+
+                        })
+                        .into(ivItemImage);
 
                 if (tvCartItemName.getText().toString().contains("kg") || tvCartItemName.getText().toString().contains("Kg") || tvCartItemName.getText().toString().contains("KG")) {
 

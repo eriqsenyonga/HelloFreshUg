@@ -5,7 +5,11 @@
     android:orientation="vertical"
     android:padding="16dp">
 
-
+    <ImageView
+        android:id="@+id/iv_item_image"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:scaleType="center" />
 
     <TextView
         android:id="@+id/tv_item_name"
