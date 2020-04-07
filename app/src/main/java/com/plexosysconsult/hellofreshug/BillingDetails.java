@@ -402,7 +402,7 @@ public class BillingDetails extends AppCompatActivity implements View.OnClickLis
         placeOrderOnlineRequest.setRetryPolicy(new RetryPolicy() {
             @Override
             public int getCurrentTimeout() {
-                return 10000;
+                return 30000;
             }
 
             @Override

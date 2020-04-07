@@ -56,12 +56,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private static final String LASTNAME = "last_name";
     private static final String PUBLICPROFILE = "public_profile";
     private static final String AUTH_TYPE = "rerequest";
-    private static final String LOGIN_URL = "http://www.hellofreshuganda.com/api/user/generate_auth_cookie/?insecure=cool";
+    private static final String LOGIN_URL = "https://www.hellofreshuganda.com/api/user/generate_auth_cookie/?insecure=cool";
 
     String nonce;
-    private static final String NONCE_URL = "http://www.hellofreshuganda.com/api/get_nonce/?controller=user&method=register&json=get_nonce";
+    private static final String NONCE_URL = "https://www.hellofreshuganda.com/api/get_nonce/?controller=user&method=register&json=get_nonce";
     // private static final String REGISTER_URL = "http://hellofreshuganda.com/api/user/register/?insecure=cool";
-    private static final String REGISTER_URL = "http://www.gari-share.com/example/createCustomer.php";
+    private static final String REGISTER_URL = "https://www.gari-share.com/example/createCustomer.php";
 
     LoginButton fbLoginButton;
     TextView tvForgotPassword, tvRegister, tvContinueAsGuest;
