@@ -62,7 +62,7 @@
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:padding="16dp"
-                android:src="@drawable/full_logo" />
+                android:src="@drawable/logo_green_back" />
 
             <!--         </android.support.v7.widget.CardView>    -->
 

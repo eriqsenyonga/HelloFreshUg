@@ -280,7 +280,9 @@ public class RecyclerViewAdapterVegetable extends RecyclerView.Adapter<RecyclerV
 
                         if (tilQuantity.getEditText().getText().toString().isEmpty()) {
                             tilQuantity.getEditText().setError("Enter Quantity");
-                        } else {
+                        } else if(Double.parseDouble(tilQuantity.getEditText().getText().toString())%0.5 != 0){
+                            tilQuantity.getEditText().setError("Minimum Decimal Places is 0.5");
+                        }else {
                             CartItem cartItem = new CartItem(context);
 
                             cartItem.setItemName(vegetableList.get(position).getItemName());

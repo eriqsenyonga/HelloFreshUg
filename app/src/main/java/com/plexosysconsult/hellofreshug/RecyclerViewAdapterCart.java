@@ -218,6 +218,8 @@ public class RecyclerViewAdapterCart extends RecyclerView.Adapter<RecyclerView.V
                         public void onClick(View view) {
                             if (tilQuantity.getEditText().getText().toString().isEmpty()) {
                                 tilQuantity.getEditText().setError("Enter Quantity");
+                            }else if(Double.parseDouble(tilQuantity.getEditText().getText().toString())%0.5 != 0){
+                                tilQuantity.getEditText().setError("Minimum Decimal Places is 0.5");
                             } else {
 
                                 if (tilQuantity.getEditText().getText().toString().equals("0")) {
